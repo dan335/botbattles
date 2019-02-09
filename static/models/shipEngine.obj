@@ -1,5 +1,6 @@
 # This file uses centimeters as units for non-parametric coordinates.
 
+mtllib shipEngine.mtl
 v 0.882400 -0.110114 -0.110114
 v 0.882400 -0.110114 0.110114
 v 0.882400 0.110114 -0.110114
@@ -145,6 +146,7 @@ vn 1.000000 0.000000 0.000000
 vn -1.000000 0.000000 0.000000
 vn -1.000000 0.000000 0.000000
 s off
+usemtl phong2SG
 f 1/1/1 2/2/2 4/4/3 3/3/4
 s 1
 f 3/3/5 4/4/6 6/6/7 5/5/8
