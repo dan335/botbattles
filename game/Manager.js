@@ -3,7 +3,11 @@ import {
   WebGLRenderer,
   OrthographicCamera,
   Math as tMath,
+  DirectionalLight,
+  AxesHelper
 } from 'three';
+
+
 
 
 export default class Manager {
@@ -48,16 +52,21 @@ export default class Manager {
       antialias: true
     });
     this.renderer.setSize( window.innerWidth, window.innerHeight );
+    this.renderer.setClearColor( 0x222222, 1 );
 
     this.camera.position.y = 100;
     this.camera.rotation.x = tMath.degToRad(-90);
 
+    // var directionalLight = new DirectionalLight( 0xffffff, 1 );
+    // this.scene.add( directionalLight );
+
     document.getElementById('game').appendChild( this.renderer.domElement );
 
     window.addEventListener( 'resize', this, false );
-    window.addEventListener( 'keydown', this, false );
-    window.addEventListener( 'keyup', this, false );
 
+    this.ui.ws.send(JSON.stringify({t:'joinGame', gameId:this.gameId}));
+  var axesHelper = new AxesHelper( 20 );
+  this.scene.add( axesHelper );
     this.animate();
   }
 
@@ -88,46 +97,6 @@ export default class Manager {
     switch (event.type) {
       case 'resize':
         this.onWindowResize();
-        break;
-      case 'keydown':
-        switch (event.key) {
-          case 'ArrowUp':
-          case  'w':
-            this.ui.ws.send(JSON.stringify({t:'keyDown', key:'up'}));
-            break;
-          case 'ArrowDown':
-          case  's':
-            this.ui.ws.send(JSON.stringify({t:'keyDown', key:'down'}));
-            break;
-          case 'ArrowRight':
-          case  'd':
-            this.ui.ws.send(JSON.stringify({t:'keyDown', key:'right'}));
-            break;
-          case 'ArrowLeft':
-          case  'a':
-            this.ui.ws.send(JSON.stringify({t:'keyDown', key:'left'}));
-            break;
-        }
-        break;
-      case 'keyup':
-        switch (event.key) {
-          case 'ArrowUp':
-          case  'w':
-            this.ui.ws.send(JSON.stringify({t:'keyUp', key:'up'}));
-            break;
-          case 'ArrowDown':
-          case  's':
-            this.ui.ws.send(JSON.stringify({t:'keyUp', key:'down'}));
-            break;
-          case 'ArrowRight':
-          case  'd':
-            this.ui.ws.send(JSON.stringify({t:'keyUp', key:'right'}));
-            break;
-          case 'ArrowLeft':
-          case  'a':
-            this.ui.ws.send(JSON.stringify({t:'keyUp', key:'left'}));
-            break;
-        }
         break;
     }
   }

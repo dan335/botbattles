@@ -13,7 +13,7 @@ export default class Obstacle extends Obj {
     this.radius = radius;
 
     var geometry = new CylinderBufferGeometry( radius, radius, 1, 32 );
-    var material = new MeshBasicMaterial( {color: 0xffffff} );
+    var material = new MeshBasicMaterial( {color: 0x777777} );
     this.mesh = new Mesh( geometry, material );
     this.mesh.position.set(this.position.x, 0, this.position.y);
     this.manager.scene.add(this.mesh);

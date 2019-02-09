@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-unfetch';
-import { onmessage, onclose, onopen } from '../lib/websocket.js';
+import { onmessage, onclose, onopen, onerror } from '../lib/websocket.js';
 import Manager from '../game/Manager.js';
 import MainLayout from '../layouts/MainLayout.js';
 
@@ -31,7 +31,8 @@ export default class Game extends React.Component {
 
     this.state = {
       isConnected: true,
-      ping: null
+      ping: null,
+      isLoading: false
     };
   }
 
@@ -44,6 +45,7 @@ export default class Game extends React.Component {
 
     this.ws.onopen = (event) => {
       onopen(event, this.manager, this.ws, this);
+      this.manager = new Manager(this.props.gameId, this);
     }
 
     this.ws.onmessage = (event) => {
@@ -54,7 +56,7 @@ export default class Game extends React.Component {
       onclose(event, this.manager, this.ws, this);
     }
 
-    this.manager = new Manager(this.props.gameId, this);
+
   }
 
 
@@ -105,6 +107,25 @@ export default class Game extends React.Component {
   }
 
 
+  renderLoading() {
+    if (this.state.isLoading) {
+      return (
+        <div>
+          Loading...
+          <style jsx>{`
+            div {
+              position: fixed;
+              left: 10px;
+              bottom: 30px;
+              color: #fff;
+            }
+          `}</style>
+        </div>
+      )
+    }
+  }
+
+
 
   render() {
     return (
@@ -113,8 +134,13 @@ export default class Game extends React.Component {
           <div id="game"></div>
           {this.renderLostConnection()}
           {this.renderStats()}
+          {this.renderLoading()}
         </MainLayout>
         <style jsx global>{`
+          #game {
+            background-color: #222;
+            color: eee;
+          }
           #game canvas {
             position: fixed;
           }

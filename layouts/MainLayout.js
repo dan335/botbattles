@@ -20,6 +20,7 @@ export default class MainLayout extends React.Component {
         <Head>
           <title>Astro Arena</title>
           <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
+          {/* <script src="/static/OBJLoader.js" /> */}
         </Head>
         <div>
           {children}

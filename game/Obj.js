@@ -1,3 +1,8 @@
+import {
+  Vector3,
+} from 'three';
+
+
 export default class Obj {
 
   constructor(manager, x, y, rotation, id) {
@@ -44,7 +49,7 @@ export default class Obj {
 
     if (this.mesh) {
       this.mesh.position.set(this.position.x, 0, this.position.y);
-      //this.mesh.rotation.set(this.rotation);
+      this.mesh.setRotationFromAxisAngle(new Vector3(0, 1, 0), this.rotation * -1); // why -1?
     }
   }
 
