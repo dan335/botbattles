@@ -19,8 +19,7 @@ export default class MainLayout extends React.Component {
       <div>
         <Head>
           <title>Astro Arena</title>
-          <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
-          {/* <script src="/static/OBJLoader.js" /> */}
+          <link href="https://fonts.googleapis.com/css?family=Audiowide" rel="stylesheet" />
         </Head>
         <div>
           {children}
@@ -31,7 +30,15 @@ export default class MainLayout extends React.Component {
             box-sizing: border-box;
           }
           body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Audiowide', sans-serif;
+            background-color: #222;
+            color: #eee;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
           }
           a {
             color: hsl(0, 75%, 60%);

@@ -2,6 +2,8 @@ import fetch from 'isomorphic-unfetch';
 import { onmessage, onclose, onopen, onerror } from '../lib/websocket.js';
 import Manager from '../game/Manager.js';
 import MainLayout from '../layouts/MainLayout.js';
+const Functions = require('../lib/functions.js');
+import cloneDeep from 'lodash/cloneDeep';
 
 
 
@@ -32,7 +34,8 @@ export default class Game extends React.Component {
     this.state = {
       isConnected: true,
       ping: null,
-      isLoading: false
+      isLoading: false,
+      log: []
     };
   }
 
@@ -55,8 +58,16 @@ export default class Game extends React.Component {
     this.ws.onclose = (event) => {
       onclose(event, this.manager, this.ws, this);
     }
+  }
 
 
+  addToLog(text) {
+    let log = cloneDeep(this.state.log);
+    log.push({
+      text: text,
+      key: Functions.createId() // for react unique key
+    });
+    this.setState({log: log});
   }
 
 
@@ -126,6 +137,29 @@ export default class Game extends React.Component {
   }
 
 
+  renderLog() {
+    return (
+      <div>
+        {this.renderLogs()}
+        <style jsx>{`
+          div {
+            position: absolute;
+            left: 10px;
+            bottom: 40px;
+          }
+        `}</style>
+      </div>
+    )
+  }
+  renderLogs() {
+    return this.state.log.map((data) => {
+      return (
+        <div key={data.key}>{data.text}</div>
+      )
+    })
+  }
+
+
 
   render() {
     return (
@@ -135,11 +169,10 @@ export default class Game extends React.Component {
           {this.renderLostConnection()}
           {this.renderStats()}
           {this.renderLoading()}
+          {this.renderLog()}
         </MainLayout>
         <style jsx global>{`
           #game {
-            background-color: #222;
-            color: eee;
           }
           #game canvas {
             position: fixed;

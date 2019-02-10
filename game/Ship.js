@@ -8,8 +8,11 @@ import {
 } from 'three';
 
 export default class Ship extends Obj {
-  constructor(manager, x, y, rotation, id) {
+  constructor(manager, x, y, rotation, id, name) {
     super(manager, x, y, rotation, id)
+
+    this.name = name;
+    this.manager.ui.addToLog(name + ' joined the game.');
 
     this.loadMesh();
   }

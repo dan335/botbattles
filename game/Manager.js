@@ -7,6 +7,9 @@ import {
   AxesHelper
 } from 'three';
 
+import * as Cookies from 'js-cookie';
+const _s = require('../lib/settings.js');
+
 
 
 
@@ -19,6 +22,7 @@ export default class Manager {
     this.ships = [];
     this.obstacles = [];
     this.boxes = [];
+    this.projectiles = [];
     this.player = null;
     this.ping = 50; // average ping round trip
     this.pings = [];  // raw pings
@@ -64,10 +68,42 @@ export default class Manager {
 
     window.addEventListener( 'resize', this, false );
 
-    this.ui.ws.send(JSON.stringify({t:'joinGame', gameId:this.gameId}));
-  var axesHelper = new AxesHelper( 20 );
-  this.scene.add( axesHelper );
+    this.sendJoinGameMessage();
+
+    // var axesHelper = new AxesHelper( 20 );
+    // this.scene.add( axesHelper );
+
     this.animate();
+  }
+
+
+  sendJoinGameMessage() {
+    // name
+    let name = Cookies.get('name');
+    if (!name) {
+      name = 'Noname';
+    }
+
+    var a = [];
+    for (var i = 0; i < 4; i++) {
+      let name = Cookies.get('abilityType' + i);
+
+      if (!name || !_s.abilityTypeDefaults.includes(name)) {
+        name = 'Blasters';
+      }
+
+      a[i] = name;
+    }
+
+    this.ui.ws.send(JSON.stringify({
+      t:'joinGame',
+      gameId:this.gameId,
+      name:name,
+      abilityType1:a[0],
+      abilityType2:a[1],
+      abilityType3:a[2],
+      abilityType4:a[3]
+    }));
   }
 
 
@@ -86,6 +122,10 @@ export default class Manager {
 
     for (let i = 0; i < this.boxes.length; i++) {
       this.boxes[i].tick();
+    }
+
+    for (let i = 0; i < this.projectiles.length; i++) {
+      this.projectiles[i].tick();
     }
 
     requestAnimationFrame( this.animate.bind(this) );

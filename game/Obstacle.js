@@ -20,21 +20,11 @@ export default class Obstacle extends Obj {
   }
 
 
-  tick() {
-    super.tick();
-  }
-
-
   destroy() {
     super.destroy();
     const index = this.manager.obstacles.indexOf(this);
     if (index != -1) {
       this.manager.obstacles.splice(index, 1);
     }
-  }
-
-
-  updateAttributes(json) {
-    super.updateAttributes(json);
   }
 }
