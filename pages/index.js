@@ -16,7 +16,6 @@ export default class Index extends React.Component {
       const servers = await serverResult.json();
       return {servers:servers};
     } else {
-      console.log(serverResult);
       return {servers:[]};
     }
   }
@@ -30,7 +29,11 @@ export default class Index extends React.Component {
 
     this.state = {
       isWsOpen: false,
-      server: null
+      server: null,
+      abilityType1: null,
+      abilityType2: null,
+      abilityType3: null,
+      abilityType4: null,
     }
 
     this.playButton = this.playButton.bind(this);
@@ -39,6 +42,23 @@ export default class Index extends React.Component {
 
   componentDidMount() {
     this.findServer();
+
+    // set ability type dropdowns
+    for (let i = 1; i <= 4; i++) {
+      let type = Cookies.get('abilityType'+i);
+
+      const info = _s.abilityTypes.find((t) => {
+        return t.id == type;
+      })
+
+      if (!info) {
+        type = 'Blasters';
+      }
+
+      let obj = {};
+      obj['abilityType'+i] = type;
+      this.setState(obj);
+    }
   }
 
 
@@ -145,21 +165,51 @@ export default class Index extends React.Component {
   }
 
 
-  renderAbilityOptions(slotNum) {
-    var defaultValue = {};
-
-    for (let i = 0; i < 4; i++) {
-      defaultValue['slot'+i] = Cookies.get('abilityType'+i);
-
-      if (!_s.abilityTypeDefaults.includes(defaultValue['slot'+i])) {
-        defaultValue['slot'+i] = 'Blasters';
-      }
+  renderAbilityTypes(slotNum) {
+    let value = this.state['abilityType' + slotNum];
+    if (!value) {
+      value = 'Blasters';
     }
 
     return (
-      <select defaultValue={defaultValue['slot'+slotNum]} id={'abilityType' + slotNum}>
-        <option key="Blasters" value="Blasters">Blasters</option>
+      <select value={value} id={'abilityType' + slotNum} onChange={(event) => {this.abilityOptionsChanged(event, slotNum)}}>
+        {this.renderAbilityOptions()}
       </select>
+
+    )
+  }
+
+  renderAbilityOptions() {
+    return _s.abilityTypes.map((t) => {
+      return (
+        <option key={t.id} value={t.id}>{t.name}</option>
+      )
+    })
+  }
+
+  abilityOptionsChanged(event, slotNum) {
+    const type = document.getElementById('abilityType' + slotNum).value;
+    let obj = {};
+    obj['abilityType'+slotNum] = type;
+    this.setState(obj);
+  }
+
+
+  renderAbilityDescription(slotNum) {
+    let description = '';
+
+    const type = this.state['abilityType' + slotNum];
+
+    const info = _s.abilityTypes.find((a) => {
+      return a.id == type;
+    });
+
+    if (info) {
+      description = info.description;
+    }
+
+    return (
+      <div>{description}</div>
     )
   }
 
@@ -178,40 +228,67 @@ export default class Index extends React.Component {
             <div id="tagline">Multiplayer Online Spaceship Battle Arena</div>
             <br/><br/>
             {this.renderPlayButton()}
-            <br/><br/><br/><br/>
+            <br/><br/><br/>
             <div id="inputContainer">
               <label>Name</label>
               <input type="text" defaultValue={name} id="nameInput"></input>
-
-              <br/><br/>
-              <label>Ability 1</label>
-              {this.renderKeyOptions(1)}
-              {this.renderAbilityOptions(1)}
-
-              <label>Ability 2</label>
-              {this.renderKeyOptions(2)}
-              {this.renderAbilityOptions(2)}
-
-              <label>Ability 3</label>
-              {this.renderKeyOptions(3)}
-              {this.renderAbilityOptions(3)}
-
-              <label>Ability 4</label>
-              {this.renderKeyOptions(4)}
-              {this.renderAbilityOptions(4)}
             </div>
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <label>Ability 1</label>
+                    {this.renderKeyOptions(1)}
+                    {this.renderAbilityTypes(1)}
+                    <br/><br/>
+                    {this.renderAbilityDescription(1)}
+
+                    <label>Ability 2</label>
+                    {this.renderKeyOptions(2)}
+                    {this.renderAbilityTypes(2)}
+                    <br/><br/>
+                    {this.renderAbilityDescription(2)}
+                  </td>
+                  <td>
+                    <label>Ability 3</label>
+                    {this.renderKeyOptions(3)}
+                    {this.renderAbilityTypes(3)}
+                    <br/><br/>
+                    {this.renderAbilityDescription(3)}
+
+                    <label>Ability 4</label>
+                    {this.renderKeyOptions(4)}
+                    {this.renderAbilityTypes(4)}
+                    <br/><br/>
+                    {this.renderAbilityDescription(4)}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
 
           </div>
           <div id="bottomRight">
             <a href="/replays"><button>Replays</button></a>
-            <a href="https://discord.gg/6R3jYyH"><button>Discord</button></a>
+            {/* <a href="https://discord.gg/6R3jYyH"><button>Discord</button></a> */}
           </div>
-          <div id="bottomLeft">
+          {/* <div id="bottomLeft">
             <a href="http://bongo.games"><button>More io Games</button></a>
-          </div>
+          </div> */}
         </MainLayout>
 
         <style jsx>{`
+          table {
+            width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 30px;
+          }
+          td {
+            text-align: left;
+            padding: 0;
+            margin: 0;
+            vertical-align: top;
+          }
           #center {
             text-align: center;
           }
@@ -242,7 +319,8 @@ export default class Index extends React.Component {
           }
           label {
             display: block;
-            margin-top: 20px;
+            margin-top: 40px;
+            margin-bottom: 5px;
           }
         `}</style>
       </div>

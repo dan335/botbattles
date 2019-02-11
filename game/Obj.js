@@ -32,16 +32,16 @@ export default class Obj {
       count++;
     }
     if (!count) return;
-    const timeBetweenSyncs = sum / count;
+    this.manager.timeBetweenSyncs = sum / count;
 
     const from = this.lastSyncPositions[1];
     const to = this.lastSyncPositions[0];
-    const percentage = Math.max(0, Math.min(1, (Date.now() - to.recieved) / timeBetweenSyncs));
+    const percentage = Math.max(0, Math.min(1, (Date.now() - to.recieved) / this.manager.timeBetweenSyncs));
 
-    this.position = {
-      x: from.x + percentage * (to.x - from.x),
-      y: from.y + percentage * (to.y - from.y)
-    };
+    this.setPosition(
+      from.x + percentage * (to.x - from.x),
+      from.y + percentage * (to.y - from.y)
+    );
 
     // rotation
     var diff = Math.atan2(Math.sin(to.r-from.r), Math.cos(to.r-from.r));
@@ -54,6 +54,12 @@ export default class Obj {
   }
 
 
+  setPosition(x, y) {
+    this.position.x = x;
+    this.position.y = y;
+  }
+
+
   updateAttributes(json) {
     this.lastSyncPositions.unshift({
       x: Number(json.x),
@@ -62,6 +68,13 @@ export default class Obj {
       r: Number(json.rotation),
       recieved: Date.now()
     });
+
+    if (Boolean(json.teleport)) {
+      for (let i = 0; i < this.lastSyncPositions.length; i++) {
+        this.lastSyncPositions[i].x = Number(json.x);
+        this.lastSyncPositions[i].y = Number(json.y);
+      }
+    }
 
     if (this.lastSyncPositions.length > 4) {
       this.lastSyncPositions.pop();

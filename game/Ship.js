@@ -6,6 +6,9 @@ import {
   Vector3,
   TextureLoader
 } from 'three';
+import HealthBars from './HealthBars.js';
+
+
 
 export default class Ship extends Obj {
   constructor(manager, x, y, rotation, id, name) {
@@ -13,8 +16,11 @@ export default class Ship extends Obj {
 
     this.name = name;
     this.manager.ui.addToLog(name + ' joined the game.');
+    this.health = 100;
+    this.shield = 100;
 
     this.loadMesh();
+    this.healthBars = new HealthBars(x, y, 0, 1, -45, manager.scene);
   }
 
 
@@ -24,6 +30,26 @@ export default class Ship extends Obj {
     this.mesh = new Mesh( geometry, material );
     this.mesh.position.set(this.position.x, 0, this.position.y);
     this.manager.scene.add(this.mesh);
+  }
+
+
+  updateAttributes(json) {
+    super.updateAttributes(json);
+    const h = Number(json.health);
+    const s = Number(json.shield);
+
+    if (h != this.health || s != this.shield) {
+      this.health = h;
+      this.shield = s;
+      this.healthBars.updateHealth(h);
+      this.healthBars.updateShields(s);
+    }
+  }
+
+
+  setPosition(x, y) {
+    super.setPosition(x, y);
+    this.healthBars.updatePosition(x, y);
   }
 
 
@@ -43,6 +69,7 @@ export default class Ship extends Obj {
     if (index != -1) {
       this.manager.ships.splice(index, 1);
     }
-    this.manager.ui.addToLog(this.name + ' left.');
+    this.manager.ui.addToLog(this.name + ' was destroyed.');
+    this.healthBars.destroy();
   }
 }

@@ -31,9 +31,12 @@ export default class Game extends React.Component {
 
     this.state = {
       isConnected: true,
+      hasAShip: false,
       ping: null,
       isLoading: false,
-      log: []
+      log: [],
+      health: 100,
+      shield: 100
     };
   }
 
@@ -144,6 +147,7 @@ export default class Game extends React.Component {
             position: absolute;
             left: 10px;
             bottom: 40px;
+            line-height: 150%;
           }
         `}</style>
       </div>
@@ -158,6 +162,54 @@ export default class Game extends React.Component {
   }
 
 
+  renderHealthBars() {
+    const health = this.state.health + '%';
+    const shield = this.state.shield + '%';
+
+    return (
+      <div id="healthContainer">
+        <div id="shieldContainer" className="barContainer">
+          <div id="shield" className="bar" style={{width:shield}}></div>
+        </div>
+        <div id="healthContainer" className="barContainer">
+          <div id="health" className="bar" style={{width:health}}></div>
+        </div>
+        <style jsx>{`
+          #healthContainer {
+
+          }
+
+          .barContainer {
+            background-color: hsl(0, 0%, 40%);
+            width: 200px;
+            height: 30px;
+            position: absolute;
+          }
+          #healthContainer {
+            right: 20px;
+            bottom: 20px;
+          }
+
+          #shieldContainer {
+            right: 20px;
+            bottom: 60px;
+          }
+
+          .bar {
+            height: 100%;
+          }
+          #health {
+            background-color: hsl(90, 60%, 60%);
+          }
+          #shield {
+            background-color: hsl(215, 60%, 60%);
+          }
+        `}</style>
+      </div>
+    )
+  }
+
+
 
   render() {
     return (
@@ -168,6 +220,7 @@ export default class Game extends React.Component {
           {this.renderStats()}
           {this.renderLoading()}
           {this.renderLog()}
+          {this.renderHealthBars()}
         </MainLayout>
         <style jsx global>{`
           #game {

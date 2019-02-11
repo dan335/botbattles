@@ -23,9 +23,9 @@ export default class BlasterBullet extends Obj {
 
   destroy() {
     super.destroy();
-    const index = this.manager.projectiles.indexOf(this);
+    const index = this.manager.abilityObjects.indexOf(this);
     if (index != -1) {
-      this.manager.projectiles.splice(index, 1);
+      this.manager.abilityObjects.splice(index, 1);
     }
   }
 }

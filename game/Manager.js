@@ -24,11 +24,12 @@ export default class Manager {
     this.ships = [];
     this.obstacles = [];
     this.boxes = [];
-    this.projectiles = [];
+    this.abilityObjects = [];
     this.player = null;
     this.ping = 50; // average ping round trip
     this.pings = [];  // raw pings
     this.lastPingCheck = null;
+    this.timeBetweenSyncs = 0;
     this.setup();
   }
 
@@ -119,10 +120,14 @@ export default class Manager {
     }
 
     var a = [];
-    for (var i = 0; i < 4; i++) {
+    for (var i = 1; i <= 4; i++) {
       let name = Cookies.get('abilityType' + i);
 
-      if (!name || !_s.abilityTypeDefaults.includes(name)) {
+      const info = _s.abilityTypes.find((t) => {
+        return t.name == name;
+      })
+
+      if (!info) {
         name = 'Blasters';
       }
 
@@ -133,10 +138,10 @@ export default class Manager {
       t:'joinGame',
       gameId:this.gameId,
       name:name,
-      abilityType1:a[0],
-      abilityType2:a[1],
-      abilityType3:a[2],
-      abilityType4:a[3]
+      abilityType1:a[1],
+      abilityType2:a[2],
+      abilityType3:a[3],
+      abilityType4:a[4]
     }));
   }
 
@@ -158,8 +163,8 @@ export default class Manager {
       this.boxes[i].tick();
     }
 
-    for (let i = 0; i < this.projectiles.length; i++) {
-      this.projectiles[i].tick();
+    for (let i = 0; i < this.abilityObjects.length; i++) {
+      this.abilityObjects[i].tick();
     }
 
     requestAnimationFrame( this.animate.bind(this) );
