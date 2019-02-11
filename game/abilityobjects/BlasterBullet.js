@@ -1,4 +1,4 @@
-import Obj from './Obj.js';
+import Obj from '../Obj.js';
 import {
   BoxBufferGeometry,
   MeshBasicMaterial,
@@ -9,10 +9,10 @@ import {
 
 
 export default class BlasterBullet extends Obj {
-  constructor(manager, x, y, rotation, id) {
-    super(manager, x, y, rotation, id);
+  constructor(manager, x, y, rotation, radius, id) {
+    super(manager, x, y, rotation, radius, id);
 
-    var geometry = new BoxBufferGeometry( 15, 0.1, 15 );
+    var geometry = new BoxBufferGeometry( this.radius, 0.1, this.radius );
     var material = new MeshBasicMaterial( {color: 0xff4444} );
     this.mesh = new Mesh( geometry, material );
     this.mesh.position.set(this.position.x, -0.5, this.position.y);

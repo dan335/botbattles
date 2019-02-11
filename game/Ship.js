@@ -11,8 +11,8 @@ import HealthBars from './HealthBars.js';
 
 
 export default class Ship extends Obj {
-  constructor(manager, x, y, rotation, id, name) {
-    super(manager, x, y, rotation, id)
+  constructor(manager, x, y, rotation, radius, id, name) {
+    super(manager, x, y, rotation, radius, id)
 
     this.name = name;
     this.manager.ui.addToLog(name + ' joined the game.');
@@ -25,7 +25,7 @@ export default class Ship extends Obj {
 
 
   loadMesh() {
-    var geometry = new CylinderBufferGeometry( 25, 25, 1, 32 );
+    var geometry = new CylinderBufferGeometry( this.radius, this.radius, 1, 32 );
     var material = this.material();
     this.mesh = new Mesh( geometry, material );
     this.mesh.position.set(this.position.x, 0, this.position.y);

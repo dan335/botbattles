@@ -9,7 +9,7 @@ import {
 
 export default class Box extends Obj {
   constructor(manager, x, y, id, scaleX, scaleY) {
-    super(manager, x, y, 0, id);
+    super(manager, x, y, 0, 0, id);
     this.scale = {x:scaleX, y:scaleY};
 
     var geometry = new BoxBufferGeometry( 1, 1, 1 );

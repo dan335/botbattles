@@ -16,8 +16,8 @@ import * as Cookies from 'js-cookie';
 
 
 export default class Player extends Ship {
-  constructor(manager, x, y, rotation, id, name) {
-    super(manager, x, y, rotation, id, name);
+  constructor(manager, x, y, rotation, radius, id, name) {
+    super(manager, x, y, rotation, radius, id, name);
 
     this.isUpKeyDown = false;
     this.isDownKeyDown = false;

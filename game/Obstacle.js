@@ -8,9 +8,8 @@ import {
 
 
 export default class Obstacle extends Obj {
-  constructor(manager, x, y, rotation, id, radius) {
-    super(manager, x, y, rotation, id);
-    this.radius = radius;
+  constructor(manager, x, y, rotation, radius, id) {
+    super(manager, x, y, rotation, radius, id);
 
     var geometry = new CylinderBufferGeometry( radius, radius, 1, 32 );
     var material = new MeshBasicMaterial( {color: 0x777777} );

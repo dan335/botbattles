@@ -1,26 +1,15 @@
 import {
   Vector3,
 } from 'three';
+import Base from './Base.js';
 
+// Obj is a Base that smoothly syncs attributes
 
-export default class Obj {
+export default class Obj extends Base {
 
-  constructor(manager, x, y, rotation, id) {
-    this.manager = manager;
-    this.position = {x:x, y:y};
-    this.rotation = rotation;
-    this.id = id;
+  constructor(manager, x, y, rotation, radius, id) {
+    super(manager, x, y, rotation, radius, id);
     this.lastSyncPositions = [];
-  }
-
-
-  destroy() {
-    if (this.mesh) {
-      this.manager.scene.remove(this.mesh);
-      this.mesh.geometry.dispose();
-      this.mesh.material.dispose();
-      this.mesh = undefined;
-    }
   }
 
 
@@ -51,12 +40,6 @@ export default class Obj {
       this.mesh.position.set(this.position.x, 0, this.position.y);
       this.mesh.setRotationFromAxisAngle(new Vector3(0, 1, 0), this.rotation * -1); // why -1?
     }
-  }
-
-
-  setPosition(x, y) {
-    this.position.x = x;
-    this.position.y = y;
   }
 
 
