@@ -38,7 +38,9 @@ export default class Player extends Ship {
     this.lastMousePosition = {x:null, y:null};
 
     this.throttledMouseUpdate = throttle((x, y) => {
-      this.manager.ui.ws.send(JSON.stringify({t:'mousemove', x:x, y:y}));
+      if (!this.manager.replay) {
+        this.manager.ui.ws.send(JSON.stringify({t:'mousemove', x:x, y:y}));
+      }
     }, 100);
 
     window.addEventListener( 'keydown', this, false );

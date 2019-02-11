@@ -1,29 +1,24 @@
 import fetch from 'isomorphic-unfetch';
-import { onmessage, onclose, onopen, onerror } from '../lib/websocket.js';
 import Manager from '../game/Manager.js';
 import MainLayout from '../layouts/MainLayout.js';
 const Functions = require('../lib/functions.js');
 import cloneDeep from 'lodash/cloneDeep';
 
 
-
-export default class Game extends React.Component {
+export default class Replay extends React.Component {
 
   static async getInitialProps({req, query}) {
-    const serverResult = await fetch(process.env.API_URL + '/api/server', {
+    const serverResult = await fetch(process.env.API_URL + '/api/replay', {
       method: 'post',
       headers: { 'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json' },
-      body: JSON.stringify({serverId:query.serverId})
+      body: JSON.stringify({replayId:query.replayId})
     });
 
-    let server = null;
     if (serverResult.status == 200) {
-      server = await serverResult.json();
+      const replay = await serverResult.json();
+      return {replay:replay};
     }
-
-    return {gameId:query.gameId, server:server};
   }
-
 
 
   constructor(props) {
@@ -31,31 +26,16 @@ export default class Game extends React.Component {
 
     this.state = {
       isConnected: true,
-      ping: null,
       isLoading: false,
       log: []
     };
   }
 
 
-
   componentDidMount() {
-    if (!this.props.server || !this.props.gameId) return;
+    if (!this.props.replay) return;
 
-    this.ws = new WebSocket(this.props.server.address);
-
-    this.ws.onopen = (event) => {
-      onopen(event, this.manager, this.ws, this);
-      this.manager = new Manager(this.props.gameId, this, null);
-    }
-
-    this.ws.onmessage = (event) => {
-      onmessage(event, this.manager, this.ws, this);
-    };
-
-    this.ws.onclose = (event) => {
-      onclose(event, this.manager, this.ws, this);
-    }
+    this.manager = new Manager(this.props.gameId, this, this.props.replay);
   }
 
 
@@ -66,11 +46,6 @@ export default class Game extends React.Component {
       key: Functions.createId() // for react unique key
     });
     this.setState({log: log});
-  }
-
-
-  componentWillUnmount() {
-    this.ws.close();
   }
 
 
@@ -90,29 +65,6 @@ export default class Game extends React.Component {
         </div>
       )
     }
-  }
-
-
-  renderStats() {
-    let ping = '-';
-    if (this.state.ping) {
-      ping = Math.round(this.state.ping);
-    }
-
-    return (
-      <div>
-        Ping: {ping}
-        <style jsx>{`
-          div {
-            position: fixed;
-            left: 10px;
-            bottom: 10px;
-            color: #fff;
-            font-size: 50%;
-          }
-        `}</style>
-      </div>
-    )
   }
 
 
@@ -158,14 +110,12 @@ export default class Game extends React.Component {
   }
 
 
-
   render() {
     return (
       <div>
         <MainLayout>
           <div id="game"></div>
           {this.renderLostConnection()}
-          {this.renderStats()}
           {this.renderLoading()}
           {this.renderLog()}
         </MainLayout>

@@ -9,15 +9,17 @@ import {
 
 import * as Cookies from 'js-cookie';
 const _s = require('../lib/settings.js');
+import messageFunctions from '../lib/messageFunctions.js';
 
 
 
 
 export default class Manager {
 
-  constructor(gameId, ui) {
+  constructor(gameId, ui, replay) {
     this.gameId = gameId;
     this.ui = ui;
+    this.replay = replay;
     this.map = null;
     this.ships = [];
     this.obstacles = [];
@@ -68,7 +70,11 @@ export default class Manager {
 
     window.addEventListener( 'resize', this, false );
 
-    this.sendJoinGameMessage();
+    if (this.replay) {
+      this.startReplay();
+    } else {
+      this.sendJoinGameMessage();
+    }
 
     // var axesHelper = new AxesHelper( 20 );
     // this.scene.add( axesHelper );
@@ -77,7 +83,35 @@ export default class Manager {
   }
 
 
+  startReplay() {
+    this.replayStart = Date.now();
+    this.replayJson = JSON.parse(this.replay.json);
+    if (this.replayJson) {
+      this.replayTime = this.replay.createdAt;
+      this.replayNextEvent();
+    }
+  }
+
+
+  replayNextEvent() {
+    if (this.replayJson && this.replayJson.length) {
+      var event = this.replayJson.shift();
+      const timeTilEvent = Math.max(0, new Date(event.t).getTime() - Date.now() - this.replayStart);
+      this.replayTimeoutHandle = setTimeout(() => {
+
+        messageFunctions[event.j.t](event.j, this, null, this.ui);
+        this.replayTime = event.t;
+        this.replayNextEvent();
+
+      }, timeTilEvent);
+    } else {
+      this.ui.addToLog('Replay ended.');
+    }
+  }
+
+
   sendJoinGameMessage() {
+
     // name
     let name = Cookies.get('name');
     if (!name) {

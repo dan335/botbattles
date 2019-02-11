@@ -21,6 +21,11 @@ nextApp.prepare().then(() => {
   expressApp.use(bodyParser.urlencoded({limit: '20mb', extended: true}));
 
   require('../routes/servers.js')(expressApp);
+  require('../routes/replays.js')(expressApp);
+
+  expressApp.get('/replay/:replayId', (req, res) => {
+    nextApp.render(req, res, '/replay', { replayId: req.params.replayId })
+  })
 
   expressApp.get('/game/:serverId/:gameId', (req, res) => {
     nextApp.render(req, res, '/game', { serverId: req.params.serverId, gameId: req.params.gameId })

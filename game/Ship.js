@@ -43,5 +43,6 @@ export default class Ship extends Obj {
     if (index != -1) {
       this.manager.ships.splice(index, 1);
     }
+    this.manager.ui.addToLog(this.name + ' left.');
   }
 }

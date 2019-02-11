@@ -4,10 +4,7 @@ import fetch from 'isomorphic-unfetch';
 export default class Control extends React.Component {
 
   static async getInitialProps({req, query}) {
-    const baseUrl = req ? `${req.protocol}://${req.get('Host')}` : '';
-
-    // get game
-    const serverResult = await fetch(baseUrl + '/api/servers', {
+    const serverResult = await fetch(process.env.API_URL + '/api/servers', {
       method: 'get',
       headers: { 'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json' }
     });
@@ -16,7 +13,6 @@ export default class Control extends React.Component {
       const servers = await serverResult.json();
       return {servers:servers};
     } else {
-      console.log(serverResult);
       return {servers:[]};
     }
   }
