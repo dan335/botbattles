@@ -4,6 +4,7 @@ import Manager from '../game/Manager.js';
 import MainLayout from '../layouts/MainLayout.js';
 const Functions = require('../lib/functions.js');
 import cloneDeep from 'lodash/cloneDeep';
+const _s = require('../lib/settings.js');
 
 
 
@@ -36,7 +37,13 @@ export default class Game extends React.Component {
       isLoading: false,
       log: [],
       health: 100,
-      shield: 100
+      shield: 100,
+      abilityTypes: null,
+      cooldown1: null,
+      cooldown2: null,
+      cooldown3: null,
+      cooldown4: null,
+      cooldownWidths: [null, '100%', '100%', '100%', '100%']
     };
   }
 
@@ -59,6 +66,10 @@ export default class Game extends React.Component {
     this.ws.onclose = (event) => {
       onclose(event, this.manager, this.ws, this);
     }
+
+    this.updateCooldownsTimerHandle = setInterval(() => {
+      this.updateCooldowns();
+    }, 90);
   }
 
 
@@ -162,6 +173,81 @@ export default class Game extends React.Component {
   }
 
 
+  updateCooldowns() {
+    let widths = [];
+    let hasChanged = false;
+
+    for (let i = 1; i <= 4; i++) {
+      if (this.state['cooldown'+i]) {
+        widths[i] = Math.min(1, (Date.now() - this.state['cooldown'+i].lastFired) / this.state['cooldown'+i].interval) * 100 + '%';
+        if (widths[i] != this.state.cooldownWidths[i]) {
+          hasChanged = true;
+        }
+      } else {
+        widths[i] = '100%';
+        if (widths[i] != this.state.cooldownWidths[i]) {
+          hasChanged = true;
+        }
+      }
+    }
+
+    if (hasChanged) {
+      this.setState({cooldownWidths:widths});
+    }
+  }
+
+
+  renderCooldowns() {
+    if (!this.state.abilityTypes) return null;
+
+    let data = [];
+
+    for (let i = 1; i <= 4; i++) {
+      data[i] = _s.abilityTypes.find((t) => {
+        return t.id == this.state.abilityTypes[i];
+      })
+    }
+
+    let i = 0;
+
+    return (
+      <div id="cooldownContainer">
+        {data.map((d) => {
+          i++
+          return (
+            <div key={i}>
+              <label>{d.name}</label>
+              <div className="bg">
+                <div className="bar" style={{width:this.state.cooldownWidths[i]}}></div>
+              </div>
+            </div>
+          )
+        })}
+        <style jsx>{`
+          #cooldownContainer {
+            position: absolute;
+            right: 10px;
+            bottom: 100px;
+            width: 200px;
+          }
+          .bg {
+            background-color: hsl(0, 0%, 40%);
+            height: 20px;
+            margin-bottom: 10px;
+          }
+          .bar {
+            height: 20px;
+            background-color: hsl(0, 0%, 70%);
+          }
+          label {
+            margin-bottom: 8px;
+          }
+        `}</style>
+      </div>
+    )
+  }
+
+
   renderHealthBars() {
     const health = this.state.health + '%';
     const shield = this.state.shield + '%';
@@ -186,12 +272,12 @@ export default class Game extends React.Component {
             position: absolute;
           }
           #healthContainer {
-            right: 20px;
+            right: 10px;
             bottom: 20px;
           }
 
           #shieldContainer {
-            right: 20px;
+            right: 10px;
             bottom: 60px;
           }
 
@@ -221,6 +307,7 @@ export default class Game extends React.Component {
           {this.renderLoading()}
           {this.renderLog()}
           {this.renderHealthBars()}
+          {this.renderCooldowns()}
         </MainLayout>
         <style jsx global>{`
           #game {

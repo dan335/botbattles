@@ -119,12 +119,14 @@ export default class Manager {
       name = 'Noname';
     }
 
+    let uiState = [];
+
     var a = [];
     for (var i = 1; i <= 4; i++) {
       let name = Cookies.get('abilityType' + i);
 
       const info = _s.abilityTypes.find((t) => {
-        return t.name == name;
+        return t.id == name;
       })
 
       if (!info) {
@@ -132,7 +134,10 @@ export default class Manager {
       }
 
       a[i] = name;
+      uiState[i] = name;
     }
+
+    this.ui.setState({abilityTypes:uiState});
 
     this.ui.ws.send(JSON.stringify({
       t:'joinGame',

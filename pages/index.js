@@ -278,7 +278,7 @@ export default class Index extends React.Component {
 
         <style jsx>{`
           table {
-            width: 800px;
+            width: 900px;
             margin-left: auto;
             margin-right: auto;
             margin-top: 30px;
@@ -288,6 +288,8 @@ export default class Index extends React.Component {
             padding: 0;
             margin: 0;
             vertical-align: top;
+            width: 50%;
+            padding: 8px;
           }
           #center {
             text-align: center;

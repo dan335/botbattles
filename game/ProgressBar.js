@@ -33,7 +33,7 @@ export default class ProgressBar {
 
   updateValue(value) {
     const width = value / this.max * this.width;
-    this.bar.scale.set(width, 1, this.height);
+    this.bar.scale.set(width || 0.0001, 1, this.height);  // three.js bug, don't se scale to 0
   }
 
   updatePosition(x, z) {
