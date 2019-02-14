@@ -2,21 +2,37 @@ import fetch from 'isomorphic-unfetch';
 import MainLayout from '../layouts/MainLayout.js';
 import * as Cookies from 'js-cookie';
 const _s = require('../lib/settings.js');
+import TopMenu from '../components/TopMenu.js';
 
 
 export default class Index extends React.Component {
 
   static async getInitialProps({req, query}) {
+    const userId = req && req.session ? req.session.userId : null;
+
     const serverResult = await fetch(process.env.API_URL + '/api/servers', {
       method: 'get',
       headers: { 'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json' }
     });
 
+    let user = null;
+    if (userId) {
+      const userResult = await fetch(process.env.API_URL + '/api/user', {
+        method: 'post',
+        headers: { 'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json' },
+        body: JSON.stringify({userId:userId})
+      })
+
+      if (userResult.status == 200) {
+        user = await userResult.json();
+      }
+    }
+
     if (serverResult.status == 200) {
       const servers = await serverResult.json();
-      return {servers:servers};
+      return {servers:servers, userId:userId, user:user};
     } else {
-      return {servers:[]};
+      return {servers:[], userId:userId, user:user};
     }
   }
 
@@ -37,6 +53,7 @@ export default class Index extends React.Component {
     }
 
     this.playButton = this.playButton.bind(this);
+    this.connectToServer = this.connectToServer.bind(this);
   }
 
 
@@ -52,7 +69,7 @@ export default class Index extends React.Component {
       })
 
       if (!info) {
-        type = 'Blasters';
+        type = _s.abilityTypeDefaults[i];
       }
 
       let obj = {};
@@ -67,19 +84,28 @@ export default class Index extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     // if we now have a server connect to it
     if (prevState.server != this.state.server) {
-      if (this.state.server) {
-        this.ws = new WebSocket(this.state.server.address);
+      this.connectToServer();
+    }
+  }
 
-        this.ws.onopen = (event) => {
-          this.setState({isWsOpen: true});
+
+  connectToServer() {
+    if (this.state.server) {
+      this.ws = new WebSocket(this.state.server.address);
+
+      this.ws.onopen = (event) => {
+        this.setState({isWsOpen: true});
+      }
+
+      this.ws.onmessage = (event) => {
+        const json = JSON.parse(event.data);
+        if (json && json.t == 'gameId') {
+          window.location.href = '/game/' + this.state.server._id + '/' + json.gameId;
         }
+      };
 
-        this.ws.onmessage = (event) => {
-          const json = JSON.parse(event.data);
-          if (json && json.t == 'gameId') {
-            window.location.href = '/game/' + this.state.server._id + '/' + json.gameId;
-          }
-        };
+      this.ws.onclose = (event) => {
+        this.setState({isWsOpen:false});
       }
     }
   }
@@ -118,6 +144,7 @@ export default class Index extends React.Component {
   }
 
 
+
   renderPlayButton() {
     if (!this.state.server) {
       return (
@@ -127,7 +154,11 @@ export default class Index extends React.Component {
 
     if (!this.state.isWsOpen) {
       return (
-        <div>Connecting to server...</div>
+        <div>
+          <div>Connecting to server...</div>
+          <br/>
+          <div><button onClick={this.connectToServer}>Retry</button></div>
+        </div>
       )
     }
 
@@ -168,7 +199,7 @@ export default class Index extends React.Component {
   renderAbilityTypes(slotNum) {
     let value = this.state['abilityType' + slotNum];
     if (!value) {
-      value = 'Blasters';
+      value = _s.abilityTypeDefaults[slotNum];
     }
 
     return (
@@ -212,6 +243,7 @@ export default class Index extends React.Component {
       <div>{description}</div>
     )
   }
+
 
 
   render() {
@@ -268,12 +300,12 @@ export default class Index extends React.Component {
 
           </div>
           <div id="bottomRight">
-            <a href="/replays"><button>Replays</button></a>
             {/* <a href="https://discord.gg/6R3jYyH"><button>Discord</button></a> */}
           </div>
-          {/* <div id="bottomLeft">
+          <div id="bottomLeft">
             <a href="http://bongo.games"><button>More io Games</button></a>
-          </div> */}
+          </div>
+          <TopMenu user={this.props.user} />
         </MainLayout>
 
         <style jsx>{`

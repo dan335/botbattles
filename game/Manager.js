@@ -16,8 +16,9 @@ import messageFunctions from '../lib/messageFunctions.js';
 
 export default class Manager {
 
-  constructor(gameId, ui, replay) {
+  constructor(gameId, ui, replay, userId) {
     this.gameId = gameId;
+    this.userId = userId;
     this.ui = ui;
     this.replay = replay;
     this.map = null;
@@ -30,6 +31,8 @@ export default class Manager {
     this.pings = [];  // raw pings
     this.lastPingCheck = null;
     this.timeBetweenSyncs = 0;
+    this.clientTickSum = 0;
+    this.clientTickNum = 0;
     this.setup();
   }
 
@@ -85,10 +88,18 @@ export default class Manager {
 
 
   startReplay() {
-    this.replayStart = Date.now();
+    this.ui.setState({isLoadingReplay:true});
     this.replayJson = JSON.parse(this.replay.json);
+
     if (this.replayJson) {
-      this.replayTime = this.replay.createdAt;
+      // sort json just in case
+      this.replayJson.sort((a, b) => {
+        return new Date(a.t) - new Date(b.t);
+      })
+
+      this.ui.setState({isLoadingReplay:false});
+      this.playStart = Date.now();
+      this.replayStart = new Date(this.replay.createdAt).getTime();
       this.replayNextEvent();
     }
   }
@@ -97,14 +108,24 @@ export default class Manager {
   replayNextEvent() {
     if (this.replayJson && this.replayJson.length) {
       var event = this.replayJson.shift();
-      const timeTilEvent = Math.max(0, new Date(event.t).getTime() - Date.now() - this.replayStart);
-      this.replayTimeoutHandle = setTimeout(() => {
 
+      const timeElapsed = Date.now() - this.playStart;
+      const eventTimeFromStart = new Date(event.t).getTime() - this.replayStart;
+
+      const timeTilEvent = Math.max(0, eventTimeFromStart - timeElapsed);
+
+      if (timeTilEvent) {
+        this.replayTimeoutHandle = setTimeout(() => {
+
+          messageFunctions[event.j.t](event.j, this, null, this.ui);
+          this.replayNextEvent();
+
+        }, timeTilEvent);
+      } else {
         messageFunctions[event.j.t](event.j, this, null, this.ui);
-        this.replayTime = event.t;
         this.replayNextEvent();
+      }
 
-      }, timeTilEvent);
     } else {
       this.ui.addToLog('Replay ended.');
     }
@@ -130,7 +151,7 @@ export default class Manager {
       })
 
       if (!info) {
-        name = 'Blasters';
+        name = _s.abilityTypeDefaults[i];
       }
 
       a[i] = name;
@@ -143,6 +164,7 @@ export default class Manager {
       t:'joinGame',
       gameId:this.gameId,
       name:name,
+      userId:this.userId,
       abilityType1:a[1],
       abilityType2:a[2],
       abilityType3:a[3],
@@ -153,6 +175,8 @@ export default class Manager {
 
   animate() {
     this.checkPing();
+
+    const tickStartTime = performance.now();
 
     if (this.map) this.map.tick();
 
@@ -174,6 +198,15 @@ export default class Manager {
 
     requestAnimationFrame( this.animate.bind(this) );
 	   this.renderer.render( this.scene, this.camera );
+
+     this.clientTickSum += performance.now() - tickStartTime;
+     this.clientTickNum++;
+
+     if (this.clientTickNum > 100) {
+       this.ui.setState({clientTickTime: this.clientTickSum / this.clientTickNum});
+       this.clientTickSum = 0;
+       this.clientTickNum = 0;
+     }
   }
 
 

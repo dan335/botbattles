@@ -11,6 +11,8 @@ const _s = require('../lib/settings.js');
 export default class Game extends React.Component {
 
   static async getInitialProps({req, query}) {
+    const userId = req && req.session ? req.session.userId : null;
+
     const serverResult = await fetch(process.env.API_URL + '/api/server', {
       method: 'post',
       headers: { 'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json' },
@@ -22,7 +24,7 @@ export default class Game extends React.Component {
       server = await serverResult.json();
     }
 
-    return {gameId:query.gameId, server:server};
+    return {userId:userId, gameId:query.gameId, server:server};
   }
 
 
@@ -32,6 +34,7 @@ export default class Game extends React.Component {
 
     this.state = {
       isConnected: true,
+      isLoadingReplay: false,
       hasAShip: false,
       ping: null,
       isLoading: false,
@@ -43,7 +46,9 @@ export default class Game extends React.Component {
       cooldown2: null,
       cooldown3: null,
       cooldown4: null,
-      cooldownWidths: [null, '100%', '100%', '100%', '100%']
+      cooldownWidths: [null, '100%', '100%', '100%', '100%'],
+      serverTickTime: null,
+      clientTickTime: null
     };
   }
 
@@ -56,7 +61,7 @@ export default class Game extends React.Component {
 
     this.ws.onopen = (event) => {
       onopen(event, this.manager, this.ws, this);
-      this.manager = new Manager(this.props.gameId, this, null);
+      this.manager = new Manager(this.props.gameId, this, null, this.props.userId);
     }
 
     this.ws.onmessage = (event) => {
@@ -115,7 +120,9 @@ export default class Game extends React.Component {
 
     return (
       <div>
-        Ping: {ping}
+        Ping: {ping} &nbsp;&nbsp;
+        Server Tick: {Math.round(this.state.serverTickTime * 100) / 100} &nbsp;&nbsp;
+        Client Tick: {Math.round(this.state.clientTickTime * 100) / 100} &nbsp;&nbsp;
         <style jsx>{`
           div {
             position: fixed;
@@ -135,6 +142,25 @@ export default class Game extends React.Component {
       return (
         <div>
           Loading...
+          <style jsx>{`
+            div {
+              position: fixed;
+              left: 10px;
+              bottom: 30px;
+              color: #fff;
+            }
+          `}</style>
+        </div>
+      )
+    }
+  }
+
+
+  renderLoadingReplay() {
+    if (this.state.isLoadingReplay) {
+      return (
+        <div>
+          Loading Replay...
           <style jsx>{`
             div {
               position: fixed;
@@ -305,6 +331,7 @@ export default class Game extends React.Component {
           {this.renderLostConnection()}
           {this.renderStats()}
           {this.renderLoading()}
+          {this.renderLoadingReplay()}
           {this.renderLog()}
           {this.renderHealthBars()}
           {this.renderCooldowns()}

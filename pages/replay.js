@@ -3,6 +3,8 @@ import Manager from '../game/Manager.js';
 import MainLayout from '../layouts/MainLayout.js';
 const Functions = require('../lib/functions.js');
 import cloneDeep from 'lodash/cloneDeep';
+import TopMenu from '../components/TopMenu.js';
+
 
 
 export default class Replay extends React.Component {
@@ -14,10 +16,9 @@ export default class Replay extends React.Component {
       body: JSON.stringify({replayId:query.replayId})
     });
 
-    if (serverResult.status == 200) {
-      const replay = await serverResult.json();
-      return {replay:replay};
-    }
+    const replay = await serverResult.json();
+
+    return {replay:replay};
   }
 
 
