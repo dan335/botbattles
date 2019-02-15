@@ -54,4 +54,14 @@ export default class ProgressBar {
     this.bar.material.dispose();
     this.bar = undefined;
   }
+
+  goInvisible() {
+    this.bg.visible = false;
+    this.bar.visible = false;
+  }
+
+  goVisible() {
+    this.bg.visible = true;
+    this.bar.visible = true;
+  }
 }

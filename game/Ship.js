@@ -26,8 +26,8 @@ export default class Ship extends Obj {
 
   loadMesh() {
     var geometry = new CylinderBufferGeometry( this.radius, this.radius, 1, 32 );
-    var material = this.material();
-    this.mesh = new Mesh( geometry, material );
+    this.material = this.material();
+    this.mesh = new Mesh( geometry, this.material );
     this.mesh.position.set(this.position.x, 0, this.position.y);
     this.manager.scene.add(this.mesh);
   }
@@ -54,7 +54,11 @@ export default class Ship extends Obj {
 
 
   material() {
-    return new MeshBasicMaterial( { map: new TextureLoader().load( '/static/textures/shipColor.jpg' ) } );
+    return new MeshBasicMaterial( {
+      map: new TextureLoader().load( '/static/textures/shipColor.jpg' ),
+      alphaMap: new TextureLoader().load( '/static/textures/shipInvisibleAlpha.jpg' ),
+      transparent: false
+    });
   }
 
 
@@ -71,5 +75,17 @@ export default class Ship extends Obj {
     }
     this.manager.ui.addToLog(this.name + ' was destroyed.');
     this.healthBars.destroy();
+  }
+
+
+  goInvisible() {
+    this.mesh.visible = false;
+    this.healthBars.goInvisible();
+  }
+
+
+  goVisible() {
+    this.mesh.visible = true;
+    this.healthBars.goVisible();
   }
 }

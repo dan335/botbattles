@@ -20,6 +20,7 @@ export default class MainLayout extends React.Component {
         <Head>
           <title>Astro Arena</title>
           <link href="https://fonts.googleapis.com/css?family=Audiowide" rel="stylesheet" />
+          <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
         </Head>
         <div>
           {children}
@@ -31,8 +32,8 @@ export default class MainLayout extends React.Component {
           }
           body {
             font-family: 'Audiowide', sans-serif;
-            background-color: #222;
-            color: #eee;
+            background-color: hsl(203, 20%, 15%);
+            color: hsl(203, 0%, 80%);
             -webkit-touch-callout: none;
             -webkit-user-select: none;
             -khtml-user-select: none;
@@ -45,7 +46,7 @@ export default class MainLayout extends React.Component {
             text-decoration: none;
           }
           a:hover {
-            color: hsl(0, 75%, 70%);
+            color: hsl(89, 40%, 40%);
             text-decoration: none;
           }
           textarea:focus, input:focus, select:focus {
@@ -56,21 +57,28 @@ export default class MainLayout extends React.Component {
             padding: 8px;
             border-radius: 2px;
             width: 100%;
+            font-family: 'Roboto', sans-serif;
+            background-color: hsl(203, 0%, 80%);
+          }
+          select {
+            font-family: 'Roboto', sans-serif;
+            background-color: hsl(203, 0%, 80%);
           }
           button,.btn {
             border: 0;
             padding: 6px 10px 6px 10px;
             border-radius: 2px;
-            background-color: hsl(213, 60%, 65%);
-            color: #fff;
+            background-color: hsl(203, 40%, 40%);
+            color: hsl(89, 5%, 92%);
             display: inline-block;
             margin-right: 4px;
+            font-size: 90%;
           }
           button:focus,.btn:focus {
             outline:0;
           }
           button:hover,.btn:hover {
-            background-color: hsl(213, 60%, 75%);
+            background-color: hsl(89, 40%, 40%);
             cursor: pointer;
           }
           button.selected,.btn.selected {

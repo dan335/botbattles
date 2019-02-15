@@ -79,17 +79,32 @@ export default class Replays extends React.Component {
         })
 
         if (a) {
-          return (
-            <div>
-              {a.name}
-              <style jsx>{`
-                div {
-                  font-size: 70%;
-                  margin-left: 20px;
-                }
-              `}</style>
-            </div>
-          )
+          if (a.userId) {
+            const url = '/player/' + a.userId;
+            return (
+              <div key={Math.random()}>
+                <a href={url}>{a.name}</a>
+                <style jsx>{`
+                  div {
+                    font-size: 70%;
+                    margin-left: 20px;
+                  }
+                `}</style>
+              </div>
+            )
+          } else {
+            return (
+              <div key={Math.random()}>
+                {a.name}
+                <style jsx>{`
+                  div {
+                    font-size: 70%;
+                    margin-left: 20px;
+                  }
+                `}</style>
+              </div>
+            )
+          }
         }
       })
     }
@@ -101,47 +116,80 @@ export default class Replays extends React.Component {
     return (
       <div>
         <MainLayout>
-          <div id="page">
-            Replays exist until the server restarts.  Only the first 5 minutes are recorded.
-            <br/><br/>
-            <h1>Games</h1>
-            {this.props.games.map((game) => {
-              return (
-                <div key={game._id} className="gameInfo">
-                  <div>
-                    Ended: {moment(game.endedAt).format('lll')} &nbsp;&nbsp;
-                    Lasted: {Math.round(game.length / 1000)} sec &nbsp;&nbsp;
-                    {this.renderReplay(game)}
-                  </div>
-                  {
-                    game.players.map((player) => {
-                      const playerUrl = '/player/' + player.userId;
-                      return (
-                        <div className="playerInfo" key={Math.random()}>
-                          <div>
-                            {player.userId ? (<a href={playerUrl}>{player.name}</a>) : player.name} &nbsp;&nbsp;
-                            {player.isWinner ? 'Winner' : ''}
+          <div className="constrain">
+            <div id="content">
+              <h1>Game History</h1>
+              {this.props.games.map((game) => {
+                return (
+                  <div key={game._id} className="gameInfo">
+                    <div className="name">{game._id.substring(game._id.length - 5)}</div>
+                    <div className="info">
+                      Ended: {moment(game.endedAt).format('lll')} &nbsp;&nbsp;
+                      Lasted: {Math.round(game.length / 1000)} sec &nbsp;&nbsp;
+                      {this.renderReplay(game)}
+                    </div>
+                    {
+                      game.players.map((player) => {
+                        const playerUrl = '/player/' + player.userId;
+                        return (
+                          <div className="playerInfo" key={Math.random()}>
+                            <div className="playerName">
+                              {player.userId ? (<a href={playerUrl}>{player.name}</a>) : player.name} &nbsp;&nbsp;
+                              <span className="winner">{player.isWinner ? 'Winner' : ''}</span>
+                            </div>
+                            <div className="abilities">
+                              {this.renderAbilities(player)}
+                            </div>
                           </div>
-                          {this.renderAbilities(player)}
-                        </div>
-                      )
-                    })
-                  }
-                </div>
-              )
-            })}
+                        )
+                      })
+                    }
+                  </div>
+                )
+              })}
+            </div>
           </div>
           <TopMenu user={this.props.user} />
         </MainLayout>
         <style jsx>{`
-          #page {
-            padding: 20px;
+          #content {
+            padding: 10px;
+          }
+          .constrain {
+            max-width: 900px;
+            margin-right: auto;
+            margin-left: auto;
+          }
+          .name {
+            font-size: 175%;
+            margin-bottom: 10px;
+            color: #91df3e;
           }
           .gameInfo {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            background-color: hsl(203, 20%, 10%);
+            padding: 20px;
+            border-radius: 3px;
           }
           .playerInfo {
             margin-left: 20px;
+            font-family: 'Roboto', sans-serif;
+            margin-bottom: 10px;
+          }
+          .info {
+            color: #aaa;
+            margin-bottom: 10px;
+            font-family: 'Roboto', sans-serif;
+          }
+          .playerName {
+            font-size: 120%;
+            margin-bottom: 4px;
+          }
+          .winner {
+            color: #91df3e;
+          }
+          .abilities {
+            color: #aaa;
           }
         `}</style>
       </div>

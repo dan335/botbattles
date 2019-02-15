@@ -128,7 +128,7 @@ export default class Game extends React.Component {
             position: fixed;
             left: 10px;
             bottom: 10px;
-            color: #fff;
+            color: #ccc;
             font-size: 50%;
           }
         `}</style>

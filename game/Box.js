@@ -13,7 +13,7 @@ export default class Box extends Obj {
     this.scale = {x:scaleX, y:scaleY};
 
     var geometry = new BoxBufferGeometry( 1, 1, 1 );
-    var material = new MeshBasicMaterial( {color: 0x555555} );
+    var material = new MeshBasicMaterial( {color: 0x6a6f73} );
     this.mesh = new Mesh( geometry, material );
     this.mesh.position.set(this.position.x, 0, this.position.y);
     this.mesh.scale.set(scaleX, 1, scaleY);

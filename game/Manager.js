@@ -62,7 +62,7 @@ export default class Manager {
       antialias: true
     });
     this.renderer.setSize( window.innerWidth, window.innerHeight );
-    this.renderer.setClearColor( 0x222222, 1 );
+    this.renderer.setClearColor( 0x1f282d, 1 );
 
     this.camera.position.y = 100;
     this.camera.rotation.x = tMath.degToRad(-90);
@@ -99,7 +99,7 @@ export default class Manager {
 
       this.ui.setState({isLoadingReplay:false});
       this.playStart = Date.now();
-      this.replayStart = new Date(this.replay.createdAt).getTime();
+      this.replayStart = this.replayJson[0].t;
       this.replayNextEvent();
     }
   }

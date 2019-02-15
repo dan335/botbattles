@@ -58,6 +58,8 @@ export default class Index extends React.Component {
 
 
   componentDidMount() {
+    //document.getElementById('mainTable').style.height = window.innerHeight + 'px';
+
     this.findServer();
 
     // set ability type dropdowns
@@ -167,7 +169,8 @@ export default class Index extends React.Component {
         Play
         <style jsx>{`
           button {
-            font-size: 150%;
+            font-size: 200%;
+            padding: 10px 20px;
           }
         `}</style>
       </button>
@@ -240,13 +243,143 @@ export default class Index extends React.Component {
     }
 
     return (
-      <div>{description}</div>
+      <div>
+        {description}
+        <style jsx>{`
+          div {
+            font-family: 'Roboto', sans-serif;
+          }
+        `}</style>
+      </div>
+    )
+  }
+
+
+  render() {
+    let name = Cookies.get("name");
+    if (!name) {
+      name = 'Noname';
+    }
+
+    return (
+      <div>
+        <MainLayout>
+          <table id="mainTable">
+            <tbody>
+              <tr colSpan="2" id="topBox">
+                <td colSpan="2">
+                  <h1 id="logo">Astro Arena</h1>
+                  <h2 id="tagline">Multiplayer Online Spaceship Battle Arena</h2>
+                </td>
+              </tr>
+              <tr>
+                <td id="left">
+                  <div id="inputContainer">
+                    <label>Name</label>
+                    <input type="text" defaultValue={name} id="nameInput"></input>
+                  </div>
+                  {this.renderPlayButton()}
+                </td>
+                <td id="right">
+                  <div className="ability">
+                    <label>Ability 1</label>
+                    {this.renderKeyOptions(1)}
+                    {this.renderAbilityTypes(1)}
+                    <br/><br/>
+                    {this.renderAbilityDescription(1)}
+                  </div>
+
+                  <div className="ability">
+                    <label>Ability 2</label>
+                    {this.renderKeyOptions(2)}
+                    {this.renderAbilityTypes(2)}
+                    <br/><br/>
+                    {this.renderAbilityDescription(2)}
+                  </div>
+
+                  <div className="ability">
+                    <label>Ability 3</label>
+                    {this.renderKeyOptions(3)}
+                    {this.renderAbilityTypes(3)}
+                    <br/><br/>
+                    {this.renderAbilityDescription(3)}
+                  </div>
+
+                  <div className="ability">
+                    <label>Ability 4</label>
+                    {this.renderKeyOptions(4)}
+                    {this.renderAbilityTypes(4)}
+                    <br/><br/>
+                    {this.renderAbilityDescription(4)}
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div id="bottomLeft">
+            <a href="http://bongo.games"><button>More io Games</button></a>
+          </div>
+          <TopMenu user={this.props.user} />
+        </MainLayout>
+        <style jsx>{`
+          table {
+            width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+          }
+          #topBox {
+            text-align: center;
+            width: 100%;
+          }
+          td {
+            vertical-align: top;
+          }
+          td#left {
+            text-align:center;
+            padding: 20px;
+            width: 50%;
+          }
+          td#right {
+            padding: 20px;
+            width: 50%;
+          }
+          #logo {
+            color: #91df3e;
+            font-size: 400%;
+            margin-bottom: 5px;
+            margin-top: 40px;
+          }
+          #tagline {
+            font-size: 100%;
+            margin-top: 0;
+          }
+          label {
+            display: block;
+            margin-bottom: 10px;
+            color: #91df3e;
+          }
+          #bottomLeft {
+            position: absolute;
+            left: 20px;
+            bottom: 20px;
+          }
+          #inputContainer {
+            text-align: left;
+            margin-bottom: 40px;
+          }
+          .ability {
+            background-color: hsl(203, 20%, 10%);
+            padding: 20px;
+            margin-bottom: 5px;
+          }
+        `}</style>
+      </div>
     )
   }
 
 
 
-  render() {
+  renderOld() {
     let name = Cookies.get("name");
     if (!name) {
       name = 'Noname';

@@ -51,15 +51,17 @@ export default class Abilities extends React.Component {
           <div>
             <div className="constrain">
               <div id="content">
-                <h1>Abilities</h1>
+                <h1>{this.props.abilities.length} Abilities</h1>
                 {this.props.abilities.map((ability) => {
+                  const winPercent = ability.wins / ability.uses;
                   return (
                     <div className="ability" key={ability._id}>
                       <div className="name">{ability.name}</div>
                       <div className="description">{ability.description}</div>
                       <div className="info">
                         Uses: {ability.uses} ({Math.round(ability.uses / this.props.maxUses * 10000) / 100}%) &nbsp;&nbsp;&nbsp;
-                        Wins: {ability.wins} ({Math.round(ability.wins / this.props.maxUses * 10000) / 100}%)
+                        Wins: {ability.wins} ({Math.round(ability.wins / this.props.maxUses * 10000) / 100}%) &nbsp;&nbsp;&nbsp;
+                        Win percentage when used: {winPercent ? Math.round(winPercent * 10000) / 100 : 0}%
                       </div>
                     </div>
                   )
@@ -79,18 +81,24 @@ export default class Abilities extends React.Component {
             margin-left: auto;
           }
           .ability {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            background-color: hsl(203, 20%, 10%);
+            padding: 20px;
+            border-radius: 3px;
           }
           .name {
             font-size: 175%;
             margin-bottom: 10px;
+            color: #91df3e;
           }
           .description {
             color: #aaa;
             margin-bottom: 10px;
+            font-family: 'Roboto', sans-serif;
           }
           .info {
             color: #aaa;
+            font-family: 'Roboto', sans-serif;
           }
         `}</style>
       </div>

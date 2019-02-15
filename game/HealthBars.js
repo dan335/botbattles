@@ -27,4 +27,14 @@ export default class HealthBars {
     this.healthBar.destroy();
     this.shieldBar.destroy();
   }
+
+  goInvisible() {
+    this.healthBar.goInvisible();
+    this.shieldBar.goInvisible();
+  }
+
+  goVisible() {
+    this.healthBar.goVisible();
+    this.shieldBar.goVisible();
+  }
 }

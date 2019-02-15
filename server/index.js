@@ -68,5 +68,5 @@ nextApp.prepare().then(() => {
 
   setInterval(() => {
     AbilityUpdater.Update();
-  }, 1000 * 60 * 60);
+  }, 1000 * 60 * 30);
 })

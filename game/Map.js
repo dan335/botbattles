@@ -4,6 +4,7 @@ import {
   Vector3,
   Line
 } from 'three';
+import Bg from './Bg.js';
 
 
 export default class Map {
@@ -11,6 +12,7 @@ export default class Map {
   constructor(manager, json) {
     this.manager = manager;
     this.size = Number(json.size);
+    this.bg = new Bg(manager, this.size);
   }
 
 
@@ -19,6 +21,7 @@ export default class Map {
     if (size) {
       if (this.size != size) {
         this.size = size;
+        this.bg.updateScale(size);
       }
     }
   }
