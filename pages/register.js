@@ -97,9 +97,6 @@ export default class Register extends React.Component {
                 <p>
                   Already have an account? <a href="/login">Login here.</a>
                 </p>
-                <p>
-                  <a href="/">Back to game.</a>
-                </p>
               </div>
 
             </div>

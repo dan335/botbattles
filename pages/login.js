@@ -99,9 +99,6 @@ export default class Login extends React.Component {
                 <p>
                   Don't have an account? <a href="/register">Register here.</a>
                 </p>
-                <p>
-                  <a href="/">Back to game.</a>
-                </p>
               </div>
             </div>
           </div>

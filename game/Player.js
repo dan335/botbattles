@@ -41,7 +41,7 @@ export default class Player extends Ship {
       if (!this.manager.replay) {
         this.manager.ui.ws.send(JSON.stringify({t:'mousemove', x:x, y:y}));
       }
-    }, 100);
+    }, 60);
 
     window.addEventListener( 'keydown', this, false );
     window.addEventListener( 'keyup', this, false );

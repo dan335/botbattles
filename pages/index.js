@@ -269,7 +269,7 @@ export default class Index extends React.Component {
               <tr colSpan="2" id="topBox">
                 <td colSpan="2">
                   <h1 id="logo">Astro Arena</h1>
-                  <h2 id="tagline">Multiplayer Online Spaceship Battle Arena</h2>
+                  <h2 id="tagline">Multiplayer Online Battle Arena</h2>
                 </td>
               </tr>
               <tr>
