@@ -79,6 +79,7 @@ export default class Ship extends Obj {
 
 
   goInvisible() {
+
     this.mesh.visible = false;
     this.healthBars.goInvisible();
   }

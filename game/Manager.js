@@ -191,7 +191,7 @@ export default class Manager {
     let uiState = [];
 
     var a = [];
-    for (var i = 1; i <= 4; i++) {
+    for (var i = 0; i <= _s.numAbilities; i++) {
       let name = Cookies.get('abilityType' + i);
 
       const info = _s.abilityTypes.find((t) => {
@@ -208,16 +208,19 @@ export default class Manager {
 
     this.ui.setState({abilityTypes:uiState});
 
-    this.sendToServer({
+    let msg = {
       t:'joinGame',
       gameId:this.gameId,
       name:name,
       userId:this.userId,
-      abilityType1:a[1],
-      abilityType2:a[2],
-      abilityType3:a[3],
-      abilityType4:a[4]
-    });
+      abilityTypes:[]
+    };
+
+    for (let i = 0; i < _s.numAbilities; i++) {
+      msg.abilityTypes[i] = a[i];
+    }
+
+    this.sendToServer(msg);
 
     this.ui.setState({isLoading: false});
   }

@@ -23,17 +23,13 @@ export default class Player extends Ship {
     this.isDownKeyDown = false;
     this.isRightKeyDown = false;
     this.isLeftKeyDown = false;
-    this.isAbilityKey1Down = false;
-    this.isAbilityKey2Down = false;
-    this.isAbilityKey3Down = false;
-    this.isAbilityKey4Down = false;
+    this.isAbilityDown = [];
+    this.abilityKeys = [];
 
-    this.abilityKeys = [
-      Cookies.get('abilityKey1') || _s.abilityKeyDefaults[0],
-      Cookies.get('abilityKey2') || _s.abilityKeyDefaults[1],
-      Cookies.get('abilityKey3') || _s.abilityKeyDefaults[2],
-      Cookies.get('abilityKey4') || _s.abilityKeyDefaults[3]
-    ];
+    for (let i = 0; i < _s.numAbilities; i++) {
+      this.isAbilityDown[i] = false;
+      this.abilityKeys[i] = Cookies.get('abilityKey' + i) || _s.abilityKeyDefaults[i];
+    }
 
     this.lastMousePosition = {x:null, y:null};
 
@@ -105,9 +101,9 @@ export default class Player extends Ship {
         }
 
         if (ability != null) {
-          if (!this['isAbilityKey'+ability+'Down']) {
+          if (!this.isAbilityDown[ability]) {
             this.manager.ui.ws.send(JSON.stringify({t:'abilityKeyDown', num:ability}));
-            this['isAbilityKey'+ability+'Down'] = true;
+            this.isAbilityDown[ability] = true;
           }
         }
         break;
@@ -125,9 +121,9 @@ export default class Player extends Ship {
         }
 
         if (ability != null) {
-          if (this['isAbilityKey'+ability+'Down']) {
+          if (this.isAbilityDown[ability]) {
             this.manager.ui.ws.send(JSON.stringify({t:'abilityKeyUp', num:ability}));
-            this['isAbilityKey'+ability+'Down'] = false;
+            this.isAbilityDown[ability] = false;
           }
         }
         break;
@@ -176,9 +172,9 @@ export default class Player extends Ship {
           default:
             for (let i = 0; i < this.abilityKeys.length; i++) {
               if (event.code == this.abilityKeys[i]) {
-                if (!this['isAbilityKey'+i+'Down']) {
+                if (!this.isAbilityDown[i]) {
                   this.manager.ui.ws.send(JSON.stringify({t:'abilityKeyDown', num:i}));
-                  this['isAbilityKey'+i+'Down'] = true;
+                  this.isAbilityDown[i] = true;
                 }
               }
             }
@@ -217,9 +213,9 @@ export default class Player extends Ship {
           default:
             for (let i = 0; i < this.abilityKeys.length; i++) {
               if (event.code == this.abilityKeys[i]) {
-                if (this['isAbilityKey'+i+'Down']) {
+                if (this.isAbilityDown[i]) {
                   this.manager.ui.ws.send(JSON.stringify({t:'abilityKeyUp', num:i}));
-                  this['isAbilityKey'+i+'Down'] = false;
+                  this.isAbilityDown[i] = false;
                 }
               }
             }

@@ -42,11 +42,8 @@ export default class Game extends React.Component {
       health: 100,
       shield: 100,
       abilityTypes: null,
-      cooldown1: null,
-      cooldown2: null,
-      cooldown3: null,
-      cooldown4: null,
-      cooldownWidths: [null, '100%', '100%', '100%', '100%'],
+      cooldowns: [],
+      cooldownWidths: ['100%', '100%', '100%', '100%'],
       serverTickTime: null,
       clientTickTime: null
     };
@@ -203,9 +200,9 @@ export default class Game extends React.Component {
     let widths = [];
     let hasChanged = false;
 
-    for (let i = 1; i <= 4; i++) {
-      if (this.state['cooldown'+i]) {
-        widths[i] = Math.min(1, (Date.now() - this.state['cooldown'+i].lastFired) / this.state['cooldown'+i].interval) * 100 + '%';
+    for (let i = 0; i <= _s.numAbilities; i++) {
+      if (this.state.cooldowns[i]) {
+        widths[i] = Math.min(1, (Date.now() - this.state.cooldowns[i].lastFired) / this.state.cooldowns[i].interval) * 100 + '%';
         if (widths[i] != this.state.cooldownWidths[i]) {
           hasChanged = true;
         }
@@ -228,13 +225,13 @@ export default class Game extends React.Component {
 
     let data = [];
 
-    for (let i = 1; i <= 4; i++) {
+    for (let i = 0; i < _s.numAbilities; i++) {
       data[i] = _s.abilityTypes.find((t) => {
         return t.id == this.state.abilityTypes[i];
       })
     }
 
-    let i = 0;
+    let i = -1;
 
     return (
       <div id="cooldownContainer">

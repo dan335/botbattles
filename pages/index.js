@@ -46,10 +46,7 @@ export default class Index extends React.Component {
     this.state = {
       isWsOpen: false,
       server: null,
-      abilityType1: null,
-      abilityType2: null,
-      abilityType3: null,
-      abilityType4: null,
+      abilityTypes: []
     }
 
     this.playButton = this.playButton.bind(this);
@@ -63,7 +60,7 @@ export default class Index extends React.Component {
     this.findServer();
 
     // set ability type dropdowns
-    for (let i = 1; i <= 4; i++) {
+    for (let i = 0; i <= _s.numAbilities; i++) {
       let type = Cookies.get('abilityType'+i);
 
       const info = _s.abilityTypes.find((t) => {
@@ -86,7 +83,6 @@ export default class Index extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     // if we now have a server connect to it
     if (prevState.server != this.state.server) {
-      console.log('connecting to server')
       this.connectToServer();
     }
   }
@@ -103,10 +99,7 @@ export default class Index extends React.Component {
       this.ws.onmessage = (event) => {
         const json = JSON.parse(event.data);
         if (json && json.t == 'gameId') {
-          console.log('got game', json.gameId, 'sending to', '/game/' + this.state.server._id + '/' + json.gameId);
-          console.log(window)
           window.location.href = '/game/' + this.state.server._id + '/' + json.gameId;
-          console.log('done?')
         }
       };
 
@@ -136,18 +129,12 @@ export default class Index extends React.Component {
     Cookies.set('name', name);
 
     // abilities
-    Cookies.set('abilityKey1', document.getElementById('abilityKey1').value);
-    Cookies.set('abilityKey2', document.getElementById('abilityKey2').value);
-    Cookies.set('abilityKey3', document.getElementById('abilityKey3').value);
-    Cookies.set('abilityKey4', document.getElementById('abilityKey4').value);
-
-    Cookies.set('abilityType1', document.getElementById('abilityType1').value);
-    Cookies.set('abilityType2', document.getElementById('abilityType2').value);
-    Cookies.set('abilityType3', document.getElementById('abilityType3').value);
-    Cookies.set('abilityType4', document.getElementById('abilityType4').value);
+    for (let i = 0; i < _s.numAbilities; i++) {
+      Cookies.set('abilityKey' + i, document.getElementById('abilityKey' + i).value);
+      Cookies.set('abilityType' + i, document.getElementById('abilityType' + i).value);
+    }
 
     this.ws.send(JSON.stringify({t:'requestGame'}));
-    console.log('requestGame');
   }
 
 
@@ -184,11 +171,10 @@ export default class Index extends React.Component {
 
 
   renderKeyOptions(slotNum) {
-    var defaultValue = {
-      slot1: Cookies.get('abilityKey1') || _s.abilityKeyDefaults[0],
-      slot2: Cookies.get('abilityKey2') || _s.abilityKeyDefaults[1],
-      slot3: Cookies.get('abilityKey3') || _s.abilityKeyDefaults[2],
-      slot4: Cookies.get('abilityKey4') || _s.abilityKeyDefaults[3]
+    let defaultValue = {};
+
+    for (let i = 0; i < _s.numAbilities; i++) {
+      defaultValue['slot' + i] = Cookies.get('abilityKey' + i) || _s.abilityKeyDefaults[i];
     }
 
     return (
@@ -260,6 +246,37 @@ export default class Index extends React.Component {
   }
 
 
+  renderAbilities() {
+    let html = [];
+
+    for (let i = 0; i < _s.numAbilities; i++) {
+      html.push(
+        <div className="ability" key={i}>
+          <label>Ability {i+1}</label>
+          {this.renderKeyOptions(i)}
+          {this.renderAbilityTypes(i)}
+          <br/><br/>
+          {this.renderAbilityDescription(i)}
+          <style jsx>{`
+            .ability {
+              background-color: hsl(203, 20%, 10%);
+              padding: 20px;
+              margin-bottom: 5px;
+            }
+            label {
+              display: block;
+              margin-bottom: 10px;
+              color: #91df3e;
+            }
+          `}</style>
+        </div>
+      )
+    }
+
+    return html;
+  }
+
+
   render() {
     let name = Cookies.get("name");
     if (!name) {
@@ -286,37 +303,7 @@ export default class Index extends React.Component {
                   {this.renderPlayButton()}
                 </td>
                 <td id="right">
-                  <div className="ability">
-                    <label>Ability 1</label>
-                    {this.renderKeyOptions(1)}
-                    {this.renderAbilityTypes(1)}
-                    <br/><br/>
-                    {this.renderAbilityDescription(1)}
-                  </div>
-
-                  <div className="ability">
-                    <label>Ability 2</label>
-                    {this.renderKeyOptions(2)}
-                    {this.renderAbilityTypes(2)}
-                    <br/><br/>
-                    {this.renderAbilityDescription(2)}
-                  </div>
-
-                  <div className="ability">
-                    <label>Ability 3</label>
-                    {this.renderKeyOptions(3)}
-                    {this.renderAbilityTypes(3)}
-                    <br/><br/>
-                    {this.renderAbilityDescription(3)}
-                  </div>
-
-                  <div className="ability">
-                    <label>Ability 4</label>
-                    {this.renderKeyOptions(4)}
-                    {this.renderAbilityTypes(4)}
-                    <br/><br/>
-                    {this.renderAbilityDescription(4)}
-                  </div>
+                  {this.renderAbilities()}
                 </td>
               </tr>
             </tbody>
@@ -371,128 +358,6 @@ export default class Index extends React.Component {
           #inputContainer {
             text-align: left;
             margin-bottom: 40px;
-          }
-          .ability {
-            background-color: hsl(203, 20%, 10%);
-            padding: 20px;
-            margin-bottom: 5px;
-          }
-        `}</style>
-      </div>
-    )
-  }
-
-
-
-  renderOld() {
-    let name = Cookies.get("name");
-    if (!name) {
-      name = 'Noname';
-    }
-
-    return (
-      <div>
-        <MainLayout>
-          <div id="center">
-            <h1 id="logo">Astro Arena</h1>
-            <div id="tagline">Multiplayer Online Spaceship Battle Arena</div>
-            <br/><br/>
-            {this.renderPlayButton()}
-            <br/><br/><br/>
-            <div id="inputContainer">
-              <label>Name</label>
-              <input type="text" defaultValue={name} id="nameInput"></input>
-            </div>
-            <table>
-              <tbody>
-                <tr>
-                  <td>
-                    <label>Ability 1</label>
-                    {this.renderKeyOptions(1)}
-                    {this.renderAbilityTypes(1)}
-                    <br/><br/>
-                    {this.renderAbilityDescription(1)}
-
-                    <label>Ability 2</label>
-                    {this.renderKeyOptions(2)}
-                    {this.renderAbilityTypes(2)}
-                    <br/><br/>
-                    {this.renderAbilityDescription(2)}
-                  </td>
-                  <td>
-                    <label>Ability 3</label>
-                    {this.renderKeyOptions(3)}
-                    {this.renderAbilityTypes(3)}
-                    <br/><br/>
-                    {this.renderAbilityDescription(3)}
-
-                    <label>Ability 4</label>
-                    {this.renderKeyOptions(4)}
-                    {this.renderAbilityTypes(4)}
-                    <br/><br/>
-                    {this.renderAbilityDescription(4)}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-
-          </div>
-          <div id="bottomRight">
-            {/* <a href="https://discord.gg/6R3jYyH"><button>Discord</button></a> */}
-          </div>
-          <div id="bottomLeft">
-            <a href="http://bongo.games"><button>More io Games</button></a>
-          </div>
-          <TopMenu user={this.props.user} />
-        </MainLayout>
-
-        <style jsx>{`
-          table {
-            width: 900px;
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: 30px;
-          }
-          td {
-            text-align: left;
-            padding: 0;
-            margin: 0;
-            vertical-align: top;
-            width: 50%;
-            padding: 8px;
-          }
-          #center {
-            text-align: center;
-          }
-
-          #bottomRight {
-            position: absolute;
-            right: 20px;
-            bottom: 20px;
-          }
-          #bottomLeft {
-            position: absolute;
-            left: 20px;
-            bottom: 20px;
-          }
-
-          #logo {
-            font-size: 300%;
-            margin-bottom: 5px;
-          }
-          #tagline {
-            color: #bbb;
-          }
-          #inputContainer {
-            width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: left;
-          }
-          label {
-            display: block;
-            margin-top: 40px;
-            margin-bottom: 5px;
           }
         `}</style>
       </div>
