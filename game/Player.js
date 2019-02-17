@@ -39,7 +39,7 @@ export default class Player extends Ship {
 
     this.throttledMouseUpdate = throttle((x, y) => {
       if (!this.manager.replay) {
-        this.manager.ui.ws.send(JSON.stringify({t:'mousemove', x:x, y:y}));
+        this.manager.sendToServer({t:'mousemove', x:x, y:y});
       }
     }, 60);
 

@@ -37,7 +37,7 @@ export default class Game extends React.Component {
       isLoadingReplay: false,
       hasAShip: false,
       ping: null,
-      isLoading: false,
+      isLoading: true,
       log: [],
       health: 100,
       shield: 100,

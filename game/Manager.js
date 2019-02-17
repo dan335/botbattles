@@ -33,7 +33,38 @@ export default class Manager {
     this.timeBetweenSyncs = 0;
     this.clientTickSum = 0;
     this.clientTickNum = 0;
+    this.gameStartTime = null;
+
     this.setup();
+  }
+
+
+  sendToServer(str) {
+    if (this.ui.ws.readyState === this.ui.ws.OPEN) {
+      this.ui.ws.send(JSON.stringify(str));
+    }
+  }
+
+
+  startCountdown(startTime) {
+    this.gameStartTime = startTime;
+
+    const msLeft = startTime - Date.now();
+    const seconds = Math.floor(msLeft / 1000);
+    const delay = msLeft - seconds * 1000;
+    setTimeout(() => {
+      this.displayCountdown();
+    }, delay);
+  }
+
+  displayCountdown() {
+    this.ui.addToLog(Math.round((this.gameStartTime - Date.now()) / 1000));
+
+    if (this.gameStartTime - Date.now() >= 1000) {
+      setTimeout(() => {
+        this.displayCountdown();
+      }, 1000);
+    }
   }
 
 
@@ -109,10 +140,27 @@ export default class Manager {
     if (this.replayJson && this.replayJson.length) {
       var event = this.replayJson.shift();
 
-      const timeElapsed = Date.now() - this.playStart;
-      const eventTimeFromStart = new Date(event.t).getTime() - this.replayStart;
+      let skipAhead = false;
+      if (this.skipReplayToGameStart && this.gameStartTime) {
+        skipAhead = true;
+        if (event.t >= this.gameStartTime) {
+          this.skipReplayToGameStart = false;
+          skipAhead = false;
+        }
+      }
 
-      const timeTilEvent = Math.max(0, eventTimeFromStart - timeElapsed);
+      if (event.t >= this.gameStartTime) {
+        this.ui.setState({hasPassedGameStart:true});
+      }
+
+      const timeElapsed = Date.now() - this.playStart;
+      const eventTimeFromStart = event.t - this.replayStart;
+
+      let timeTilEvent = Math.max(0, eventTimeFromStart - timeElapsed);
+
+      if (skipAhead) {
+        timeTilEvent = 0;
+      }
 
       if (timeTilEvent) {
         this.replayTimeoutHandle = setTimeout(() => {
@@ -160,7 +208,7 @@ export default class Manager {
 
     this.ui.setState({abilityTypes:uiState});
 
-    this.ui.ws.send(JSON.stringify({
+    this.sendToServer({
       t:'joinGame',
       gameId:this.gameId,
       name:name,
@@ -169,7 +217,9 @@ export default class Manager {
       abilityType2:a[2],
       abilityType3:a[3],
       abilityType4:a[4]
-    }));
+    });
+
+    this.ui.setState({isLoading: false});
   }
 
 

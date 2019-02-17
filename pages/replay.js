@@ -28,7 +28,7 @@ export default class Replay extends React.Component {
     this.state = {
       isConnected: true,
       isLoading: false,
-      log: []
+      log: [],
     };
   }
 
@@ -36,7 +36,7 @@ export default class Replay extends React.Component {
   componentDidMount() {
     if (!this.props.replay) return;
 
-    this.manager = new Manager(this.props.gameId, this, this.props.replay);
+    this.manager = new Manager(this.props.gameId, this, this.props.replay, null);
   }
 
 
@@ -86,6 +86,8 @@ export default class Replay extends React.Component {
       )
     }
   }
+
+
 
 
   renderLog() {

@@ -86,6 +86,7 @@ export default class Index extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     // if we now have a server connect to it
     if (prevState.server != this.state.server) {
+      console.log('connecting to server')
       this.connectToServer();
     }
   }
@@ -102,7 +103,10 @@ export default class Index extends React.Component {
       this.ws.onmessage = (event) => {
         const json = JSON.parse(event.data);
         if (json && json.t == 'gameId') {
+          console.log('got game', json.gameId, 'sending to', '/game/' + this.state.server._id + '/' + json.gameId);
+          console.log(window)
           window.location.href = '/game/' + this.state.server._id + '/' + json.gameId;
+          console.log('done?')
         }
       };
 
@@ -143,6 +147,7 @@ export default class Index extends React.Component {
     Cookies.set('abilityType4', document.getElementById('abilityType4').value);
 
     this.ws.send(JSON.stringify({t:'requestGame'}));
+    console.log('requestGame');
   }
 
 
