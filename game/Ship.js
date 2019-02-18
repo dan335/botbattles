@@ -7,6 +7,7 @@ import {
   TextureLoader
 } from 'three';
 import HealthBars from './HealthBars.js';
+const _s = require('../lib/settings.js');
 
 
 
@@ -16,8 +17,8 @@ export default class Ship extends Obj {
 
     this.name = name;
     this.manager.ui.addToLog(name + ' joined the game.');
-    this.health = 100;
-    this.shield = 100;
+    this.health = _s.maxHealth;
+    this.shield = _s.maxShield;
 
     this.loadMesh();
     this.healthBars = new HealthBars(x, y, 0, 1, -45, manager.scene);

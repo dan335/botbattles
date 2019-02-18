@@ -5,6 +5,7 @@ const _s = require('../lib/settings.js');
 import TopMenu from '../components/TopMenu.js';
 
 
+
 export default class Index extends React.Component {
 
   static async getInitialProps({req, query}) {
@@ -46,7 +47,8 @@ export default class Index extends React.Component {
     this.state = {
       isWsOpen: false,
       server: null,
-      abilityTypes: []
+      abilityTypes: [],
+      abilityKeys: []
     }
 
     this.playButton = this.playButton.bind(this);
@@ -60,7 +62,8 @@ export default class Index extends React.Component {
     this.findServer();
 
     // set ability type dropdowns
-    for (let i = 0; i <= _s.numAbilities; i++) {
+    let abilityTypes = [];
+    for (let i = 0; i < _s.numAbilities; i++) {
       let type = Cookies.get('abilityType'+i);
 
       const info = _s.abilityTypes.find((t) => {
@@ -71,10 +74,18 @@ export default class Index extends React.Component {
         type = _s.abilityTypeDefaults[i];
       }
 
-      let obj = {};
-      obj['abilityType'+i] = type;
-      this.setState(obj);
+      abilityTypes[i] = type;
     }
+
+    this.setState({abilityTypes:abilityTypes});
+
+    // ability keys
+    let abilityKeys = [];
+    for (let i = 0; i < _s.numAbilities; i++) {
+      abilityKeys[i] = Cookies.get('abilityKey' + i) || _s.abilityKeyDefaults[i];
+    }
+
+    this.setState({abilityKeys:abilityKeys});
   }
 
 
@@ -171,14 +182,8 @@ export default class Index extends React.Component {
 
 
   renderKeyOptions(slotNum) {
-    let defaultValue = {};
-
-    for (let i = 0; i < _s.numAbilities; i++) {
-      defaultValue['slot' + i] = Cookies.get('abilityKey' + i) || _s.abilityKeyDefaults[i];
-    }
-
     return (
-      <select defaultValue={defaultValue['slot'+slotNum]} id={'abilityKey' + slotNum}>
+      <select value={this.state.abilityKeys[slotNum]} id={'abilityKey' + slotNum} onChange={(event) => {this.changeAbilityKey(event, slotNum)}}>
         <option key="lmb" value="lmb">Left Mouse Button</option>
         <option key="mmb" value="mmb">Middle Mouse Button</option>
         <option key="rmb" value="rmb">Right Mouse Button</option>
@@ -190,8 +195,16 @@ export default class Index extends React.Component {
   }
 
 
+  changeAbilityKey(event, slotNum) {
+    const key = document.getElementById('abilityKey' + slotNum).value;
+    let keys = this.state.abilityKeys;
+    keys[slotNum] = key;
+    this.setState({abilityKeys:keys});
+  }
+
+
   renderAbilityTypes(slotNum) {
-    let value = this.state['abilityType' + slotNum];
+    let value = this.state.abilityTypes[slotNum];
     if (!value) {
       value = _s.abilityTypeDefaults[slotNum];
     }
@@ -205,7 +218,16 @@ export default class Index extends React.Component {
   }
 
   renderAbilityOptions() {
-    return _s.abilityTypes.map((t) => {
+    // clonse
+    const types = _s.abilityTypes.slice(0);
+
+    types.sort((a, b) => {
+      if(a.name < b.name) { return -1; }
+      if(a.name > b.name) { return 1; }
+      return 0;
+    });
+
+    return types.map((t) => {
       return (
         <option key={t.id} value={t.id}>{t.name}</option>
       )
@@ -214,9 +236,16 @@ export default class Index extends React.Component {
 
   abilityOptionsChanged(event, slotNum) {
     const type = document.getElementById('abilityType' + slotNum).value;
-    let obj = {};
-    obj['abilityType'+slotNum] = type;
-    this.setState(obj);
+
+    let abilityTypes = this.state.abilityTypes;
+
+    if (abilityTypes.includes(type)) {
+      // error: can't have duplicate abilities
+      return;
+    }
+
+    abilityTypes[slotNum] = type;
+    this.setState({abilityTypes:abilityTypes});
   }
 
 
