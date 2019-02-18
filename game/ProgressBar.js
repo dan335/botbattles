@@ -44,15 +44,23 @@ export default class ProgressBar {
   }
 
   destroy() {
-    this.scene.remove(this.bg);
-    this.bg.geometry.dispose();
-    this.bg.material.dispose();
-    this.bg = undefined;
+    if (this.bg) {
+      this.scene.remove(this.bg);
+      if (this.bg.geometry) {
+        this.bg.geometry.dispose();
+        this.bg.material.dispose();
+      }
+      this.bg = undefined;
+    }
 
-    this.scene.remove(this.bar);
-    this.bar.geometry.dispose();
-    this.bar.material.dispose();
-    this.bar = undefined;
+    if (this.bar) {
+      this.scene.remove(this.bar);
+      if (this.bar.geometry) {
+        this.bar.geometry.dispose();
+        this.bar.material.dispose();
+      }
+      this.bar = undefined;
+    }
   }
 
   goInvisible() {

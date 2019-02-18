@@ -30,6 +30,7 @@ export default class TopMenu extends React.Component {
         </div>
         <style jsx>{`
           #topMenu {
+            font-family: 'Roboto', sans-serif;
             position: absolute;
             right: 20px;
             top: 20px;

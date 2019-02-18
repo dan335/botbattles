@@ -112,8 +112,19 @@ export default class Abilities extends React.Component {
         url += '/category/' + this.props.query.category;
       }
 
+      let selected = false;
+
+      if (this.props.query.sort == d.id) {
+        selected = true;
+      }
+
+      if (d.id == 'alphabetical' && !this.props.query.sort) {
+        selected = true;
+      }
+
+
       return (
-        <a href={url} key={d.id}><button className={this.props.query.sort == d.id ? 'selected' : ''}>{d.name}</button></a>
+        <a href={url} key={d.id}><button className={selected ? 'selected' : ''}>{d.name}</button></a>
       )
     })
   }
@@ -126,14 +137,14 @@ export default class Abilities extends React.Component {
     if (this.props.query.sort) {
       allCatUrl += '/sort/' + this.props.query.sort;
     }
-    
+
     return (
       <div>
         <MainLayout>
           <div>
             <div className="constrain">
               <div id="content">
-                <h1>{this.props.abilities.length} Abilities</h1>
+                <h1 className="audiowide">{this.props.abilities.length} Abilities</h1>
 
                 <div>
                   Sort: &nbsp;&nbsp;
@@ -156,7 +167,7 @@ export default class Abilities extends React.Component {
 
                   return (
                     <div className="ability" key={ability._id}>
-                      <div className="name">{ability.name}</div>
+                      <div className="name audiowide">{ability.name}</div>
                       <div className="description">{ability.description}</div>
                       <div className="categories">
                         Categories: &nbsp;&nbsp;
@@ -189,6 +200,10 @@ export default class Abilities extends React.Component {
         <style jsx>{`
           #content {
             padding: 10px;
+            font-family: 'Roboto', sans-serif;
+          }
+          .audiowide {
+              font-family: 'Audiowide', sans-serif;
           }
           .constrain {
             max-width: 900px;
@@ -209,15 +224,12 @@ export default class Abilities extends React.Component {
           .description {
             color: #ddd;
             margin-bottom: 10px;
-            font-family: 'Roboto', sans-serif;
           }
           .info {
             color: #aaa;
-            font-family: 'Roboto', sans-serif;
           }
           .usedWith {
             color: #aaa;
-            font-family: 'Roboto', sans-serif;
             margin-top: 10px;
           }
           ul {
@@ -225,7 +237,6 @@ export default class Abilities extends React.Component {
           }
           .categories {
             color: #aaa;
-            font-family: 'Roboto', sans-serif;
             margin-bottom: 10px;
           }
           .category {
