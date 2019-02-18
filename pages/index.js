@@ -252,7 +252,7 @@ export default class Index extends React.Component {
   renderAbilityDescription(slotNum) {
     let description = '';
 
-    const type = this.state['abilityType' + slotNum];
+    const type = this.state.abilityTypes[slotNum];
 
     const info = _s.abilityTypes.find((a) => {
       return a.id == type;
@@ -319,7 +319,7 @@ export default class Index extends React.Component {
             <tbody>
               <tr colSpan="2" id="topBox">
                 <td colSpan="2">
-                  <h1 id="logo">Astro Arena</h1>
+                  <h1 id="logo">Bot Battle</h1>
                   <h2 id="tagline">Multiplayer Online Battle Arena</h2>
                 </td>
               </tr>

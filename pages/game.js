@@ -272,8 +272,8 @@ export default class Game extends React.Component {
 
 
   renderHealthBars() {
-    const health = this.state.health + '%';
-    const shield = this.state.shield + '%';
+    const health = (this.state.health / _s.maxHealth * 100) + '%';
+    const shield = (this.state.shield / _s.maxShield * 100) + '%';
 
     return (
       <div id="healthContainer">

@@ -18,7 +18,7 @@ export default class MainLayout extends React.Component {
     return (
       <div>
         <Head>
-          <title>Astro Arena</title>
+          <title>BotBattle.io</title>
           <link href="https://fonts.googleapis.com/css?family=Audiowide" rel="stylesheet" />
           <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
         </Head>
