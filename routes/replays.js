@@ -16,7 +16,8 @@ module.exports = function(app) {
 
   app.get('/api/replays', (req, res) => {
     Replays.find({}).select({json:0}).sort({createdAt:-1}).limit(100).exec((error, replays) => {
-      if (error || !replays) {
+      if (error) {
+        console.error(error)
         res.status(500).end();
       } else {
         res.json(replays).end();

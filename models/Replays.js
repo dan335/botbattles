@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 
 const Replays = new Schema({
   createdAt: {type:Date},
-  gameStart: {type:Number},
+  gameStart: {type:Number, index: true},
   json: {type:String},
-  gameId: {type:String}
+  gameId: {type:String, index: true}
 });
 
 module.exports = mongoose.model('replays', Replays);

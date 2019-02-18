@@ -32,9 +32,9 @@ export default class Games extends React.Component {
         replays = await result.json();
       } catch (error) {
         console.error(error);
-        console.log(result);
       }
     }
+
 
     let user = null;
     if (userId) {

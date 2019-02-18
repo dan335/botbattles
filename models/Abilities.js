@@ -3,11 +3,11 @@ const Schema = mongoose.Schema;
 
 const Abilities = new Schema({
   abilityId: {type:String, unique: true, index: true},
-  name: {type:String},
+  name: {type:String, index: true},
   description: {type:String},
-  uses: {type:Number},
-  wins: {type:Number},
-  winPercent: {type:Number},
+  uses: {type:Number, index: true},
+  wins: {type:Number, index: true},
+  winPercent: {type:Number, index: true},
   usedWith: {type:Array}
 });
 
