@@ -1,6 +1,7 @@
 import MainLayout from '../layouts/MainLayout.js';
 import fetch from 'isomorphic-unfetch';
 import TopMenu from '../components/TopMenu.js';
+const _s = require('../lib/settings.js');
 
 
 
@@ -9,9 +10,15 @@ export default class Abilities extends React.Component {
   static async getInitialProps({req, query}) {
     const userId = req && req.session ? req.session.userId : null;
 
+    let sort = 'alphabetical';
+    if (query.sort) {
+        sort = query.sort;
+    }
+
     const result = await fetch(process.env.API_URL + '/api/abilities', {
-      method: 'get',
-      headers: { 'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json' }
+      method: 'post',
+      headers: { 'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json' },
+      body: JSON.stringify({sort:sort})
     })
 
     var abilities = await result.json();
@@ -44,6 +51,36 @@ export default class Abilities extends React.Component {
   }
 
 
+
+  renderUsedWith(ability) {
+    if (!ability.usedWith) return;
+
+    ability.usedWith.sort((a, b) => {
+      return b.uses - a.uses;
+    })
+
+    const num = Math.min(ability.usedWith.length, 6);
+
+    let html = [];
+
+    for (let i = 0; i < num; i++) {
+      const info = _s.abilityTypes.find((a) => {
+        return a.id == ability.usedWith[i].id;
+      })
+
+      if (info) {
+        html.push(
+          <li key={info.id}>{info.name}</li>
+        )
+      }
+    }
+
+    return html;
+  }
+
+
+
+
   render() {
     return (
       <div>
@@ -52,6 +89,16 @@ export default class Abilities extends React.Component {
             <div className="constrain">
               <div id="content">
                 <h1>{this.props.abilities.length} Abilities</h1>
+
+                <div>
+                  Sort: &nbsp;&nbsp;
+                  <a href="/abilities/sort/alphabetical"><button>Alphabetical</button></a>
+                  <a href="/abilities/sort/uses"><button>Uses</button></a>
+                  <a href="/abilities/sort/wins"><button>Wins</button></a>
+                  <a href="/abilities/sort/winPercent"><button>Win Percentage When Used</button></a>
+                </div>
+                <br/>
+
                 {this.props.abilities.map((ability) => {
                   const winPercent = ability.wins / ability.uses;
                   return (
@@ -62,6 +109,12 @@ export default class Abilities extends React.Component {
                         Uses: {ability.uses} ({Math.round(ability.uses / this.props.maxUses * 10000) / 100}%) &nbsp;&nbsp;&nbsp;
                         Wins: {ability.wins} ({Math.round(ability.wins / this.props.maxUses * 10000) / 100}%) &nbsp;&nbsp;&nbsp;
                         Win percentage when used: {winPercent ? Math.round(winPercent * 10000) / 100 : 0}%
+                      </div>
+                      <div className="usedWith">
+                        Most often used with:
+                        <ul>
+                          {this.renderUsedWith(ability)}
+                        </ul>
                       </div>
                     </div>
                   )
@@ -92,13 +145,21 @@ export default class Abilities extends React.Component {
             color: #91df3e;
           }
           .description {
-            color: #aaa;
+            color: #ddd;
             margin-bottom: 10px;
             font-family: 'Roboto', sans-serif;
           }
           .info {
             color: #aaa;
             font-family: 'Roboto', sans-serif;
+          }
+          .usedWith {
+            color: #aaa;
+            font-family: 'Roboto', sans-serif;
+            margin-top: 10px;
+          }
+          ul {
+            margin: 5px 0 0 0;
           }
         `}</style>
       </div>

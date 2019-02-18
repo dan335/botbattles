@@ -6,7 +6,9 @@ const Abilities = new Schema({
   name: {type:String},
   description: {type:String},
   uses: {type:Number},
-  wins: {type:Number}
+  wins: {type:Number},
+  winPercent: {type:Number},
+  usedWith: {type:Array}
 });
 
 module.exports = mongoose.model('abilities', Abilities);

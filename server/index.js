@@ -55,6 +55,10 @@ nextApp.prepare().then(() => {
     nextApp.render(req, res, '/ability', { userId: req.params.abilityId })
   })
 
+  expressApp.get('/abilities/sort/:sort', (req, res) => {
+    nextApp.render(req, res, '/abilities', { sort: req.params.sort })
+  })
+
   expressApp.get('*', (req,res) => {
     return handle(req,res);
   })

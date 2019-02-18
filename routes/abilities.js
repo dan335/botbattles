@@ -4,8 +4,28 @@ const Abilities = require('../models/Abilities.js');
 
 module.exports = function(app) {
 
-  app.get('/api/abilities', (req, res) => {
-    Abilities.find({}).sort({name:1}).exec((error, abilities) => {
+  app.post('/api/abilities', (req, res) => {
+    let sort = {};
+
+    switch (req.body.sort) {
+      case 'alphabetical':
+        sort['name'] = 1;
+        break;
+      case 'uses':
+        sort['uses'] = -1;
+        break;
+      case 'wins':
+        sort['wins'] = -1;
+        break;
+      case 'winPercent':
+        sort['winPercent'] = -1
+        break;
+      default:
+        sort['name'] = 1;
+        break;
+    }
+
+    Abilities.find({}).sort(sort).exec((error, abilities) => {
       if (error) {
         res.status(500).end();
       } else {

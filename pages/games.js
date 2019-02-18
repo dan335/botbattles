@@ -6,7 +6,7 @@ import TopMenu from '../components/TopMenu.js';
 
 
 
-export default class Replays extends React.Component {
+export default class Games extends React.Component {
 
   static async getInitialProps({req, query}) {
     const userId = req && req.session ? req.session.userId : null;
@@ -28,7 +28,12 @@ export default class Replays extends React.Component {
 
     let replays = [];
     if (serverResult.status == 200) {
-      replays = await result.json();
+      try {
+        replays = await result.json();
+      } catch (error) {
+        console.error(error);
+        console.log(result);
+      }
     }
 
     let user = null;
@@ -122,7 +127,7 @@ export default class Replays extends React.Component {
               {this.props.games.map((game) => {
                 return (
                   <div key={game._id} className="gameInfo">
-                    <div className="name">{game._id.substring(game._id.length - 5)}</div>
+                    <div className="name">{game._id.substring(game._id.length - 6)}</div>
                     <div className="info">
                       Ended: {moment(game.endedAt).format('lll')} &nbsp;&nbsp;
                       Lasted: {Math.round(game.length / 1000)} sec &nbsp;&nbsp;
