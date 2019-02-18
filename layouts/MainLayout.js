@@ -82,7 +82,7 @@ export default class MainLayout extends React.Component {
             cursor: pointer;
           }
           button.selected,.btn.selected {
-            background-color: hsl(213, 60%, 40%);
+            background-color: hsl(89, 40%, 40%);
           }
           button.selected.noHover:hover,.btn.selected.noHover:hover {
             cursor: default;

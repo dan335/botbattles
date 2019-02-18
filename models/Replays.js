@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Replays = new Schema({
-  createdAt: {type:Date},
-  gameStart: {type:Number, index: true},
+  createdAt: {type:Date, index: true},
   json: {type:String},
   gameId: {type:String, index: true}
 });

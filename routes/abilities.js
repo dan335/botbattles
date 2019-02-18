@@ -25,7 +25,13 @@ module.exports = function(app) {
         break;
     }
 
-    Abilities.find({}).sort(sort).exec((error, abilities) => {
+    let find = {};
+
+    if (req.body.category) {
+      find.categories = req.body.category;
+    }
+
+    Abilities.find(find).sort(sort).exec((error, abilities) => {
       if (error) {
         res.status(500).end();
       } else {

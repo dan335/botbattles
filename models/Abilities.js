@@ -8,7 +8,8 @@ const Abilities = new Schema({
   uses: {type:Number, index: true},
   wins: {type:Number, index: true},
   winPercent: {type:Number, index: true},
-  usedWith: {type:Array}
+  usedWith: {type:Array},
+  categories: {type:Array}
 });
 
 module.exports = mongoose.model('abilities', Abilities);

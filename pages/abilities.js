@@ -18,7 +18,7 @@ export default class Abilities extends React.Component {
     const result = await fetch(process.env.API_URL + '/api/abilities', {
       method: 'post',
       headers: { 'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json' },
-      body: JSON.stringify({sort:sort})
+      body: JSON.stringify({sort:sort, category:query.category})
     })
 
     var abilities = await result.json();
@@ -42,7 +42,7 @@ export default class Abilities extends React.Component {
     })
     var usesResult = await maxResult.json();
 
-    return {userId:userId, abilities:abilities, user:user, maxUses:usesResult.uses};
+    return {userId:userId, abilities:abilities, user:user, maxUses:usesResult.uses, query:query};
   }
 
   constructor(props) {
@@ -80,8 +80,53 @@ export default class Abilities extends React.Component {
 
 
 
+  renderCategories() {
+    return _s.abilityCategories.map((cat) => {
+
+      let url = '/abilities';
+      if (this.props.query.sort) {
+        url += '/sort/' + this.props.query.sort;
+      }
+
+      url += '/category/' + cat.id;
+
+      return (
+        <a href={url} key={cat.id}><button className={this.props.query.category == cat.id ? 'selected' : ''}>{cat.name}</button></a>
+      )
+    })
+  }
+
+
+  renderSorting() {
+    const data = [
+      {name:'Alphabetical', id:'alphabetical'},
+      {name:'Uses', id:'uses'},
+      {name:'Wins', id:'wins'},
+      {name:'Win Percentage When Used', id:'winPercent'},
+    ]
+
+    return data.map((d) => {
+      let url = '/abilities/sort/' + d.id;
+
+      if (this.props.query.category) {
+        url += '/category/' + this.props.query.category;
+      }
+
+      return (
+        <a href={url} key={d.id}><button className={this.props.query.sort == d.id ? 'selected' : ''}>{d.name}</button></a>
+      )
+    })
+  }
+
+
+
 
   render() {
+    let allCatUrl = '/abilities';
+    if (this.props.query.sort) {
+      allCatUrl += '/sort/' + this.props.query.sort;
+    }
+    
     return (
       <div>
         <MainLayout>
@@ -92,19 +137,36 @@ export default class Abilities extends React.Component {
 
                 <div>
                   Sort: &nbsp;&nbsp;
-                  <a href="/abilities/sort/alphabetical"><button>Alphabetical</button></a>
-                  <a href="/abilities/sort/uses"><button>Uses</button></a>
-                  <a href="/abilities/sort/wins"><button>Wins</button></a>
-                  <a href="/abilities/sort/winPercent"><button>Win Percentage When Used</button></a>
+                  {this.renderSorting()}
+                </div>
+                <br/>
+
+                <div>
+                  Categories: &nbsp;&nbsp;
+                  <a href={allCatUrl} key="all"><button className={!this.props.query.category ? 'selected': ''}>All</button></a>
+                  {this.renderCategories()}
                 </div>
                 <br/>
 
                 {this.props.abilities.map((ability) => {
                   const winPercent = ability.wins / ability.uses;
+                  const info = _s.abilityTypes.find((t) => {
+                    return t.id == ability.abilityId;
+                  })
+
                   return (
                     <div className="ability" key={ability._id}>
                       <div className="name">{ability.name}</div>
                       <div className="description">{ability.description}</div>
+                      <div className="categories">
+                        Categories: &nbsp;&nbsp;
+                        {info.categories.map((cat) => {
+                          const catInfo = _s.abilityCategories.find((c) => {
+                            return c.id == cat;
+                          });
+                          return <span className="category" key={cat}>{catInfo.name}</span>
+                        })}
+                      </div>
                       <div className="info">
                         Uses: {ability.uses} ({Math.round(ability.uses / this.props.maxUses * 10000) / 100}%) &nbsp;&nbsp;&nbsp;
                         Wins: {ability.wins} ({Math.round(ability.wins / this.props.maxUses * 10000) / 100}%) &nbsp;&nbsp;&nbsp;
@@ -160,6 +222,17 @@ export default class Abilities extends React.Component {
           }
           ul {
             margin: 5px 0 0 0;
+          }
+          .categories {
+            color: #aaa;
+            font-family: 'Roboto', sans-serif;
+            margin-bottom: 10px;
+          }
+          .category {
+            border: 1px solid hsl(203, 40%, 40%);
+            border-radius: 2px;
+            padding: 3px 10px;
+            margin-right: 5px;
           }
         `}</style>
       </div>

@@ -59,6 +59,14 @@ nextApp.prepare().then(() => {
     nextApp.render(req, res, '/abilities', { sort: req.params.sort })
   })
 
+  expressApp.get('/abilities/category/:category', (req, res) => {
+    nextApp.render(req, res, '/abilities', { category: req.params.category })
+  })
+
+  expressApp.get('/abilities/sort/:sort/category/:category', (req, res) => {
+    nextApp.render(req, res, '/abilities', { sort: req.params.sort, category: req.params.category })
+  })
+
   expressApp.get('*', (req,res) => {
     return handle(req,res);
   })
