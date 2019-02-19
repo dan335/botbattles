@@ -5,7 +5,6 @@ const _s = require('../lib/settings.js');
 
 export default class GameBlock extends React.Component {
 
-
   renderAbilities(player) {
     if (player.abilities) {
       return player.abilities.map((ability) => {
@@ -29,15 +28,9 @@ export default class GameBlock extends React.Component {
             )
           } else {
             return (
-              <div key={Math.random()}>
-                {a.name}
-                <style jsx>{`
-                  div {
-                    font-size: 70%;
-                    margin-left: 20px;
-                  }
-                `}</style>
-              </div>
+              <span key={Math.random()}>
+                {a.name},&nbsp;
+              </span>
             )
           }
         }
@@ -48,8 +41,6 @@ export default class GameBlock extends React.Component {
 
 
   renderReplay(game) {
-
-
     if (this.props.replay) {
       const url = '/replay/' + this.props.replay._id;
 
@@ -58,6 +49,8 @@ export default class GameBlock extends React.Component {
       )
     }
   }
+
+
 
 
   render() {
@@ -69,24 +62,26 @@ export default class GameBlock extends React.Component {
           Lasted: {Math.round(this.props.game.length / 1000)} sec &nbsp;&nbsp;
           {this.renderReplay(this.props.game)}
         </div>
-        {
-          this.props.game.players.map((player) => {
-            const playerUrl = '/player/' + player.userId;
-            return (
-              <div className="playerInfo" key={Math.random()}>
-                <div className="playerName">
-                  {player.userId ? (<a href={playerUrl}>{player.name}</a>) : player.name} &nbsp;&nbsp;
-                  Kills: {player.kills} &nbsp;&nbsp;
-                  Damage: {Math.round(player.damage)} &nbsp;&nbsp;
-                  <span className="winner">{player.isWinner ? 'Winner' : ''}</span>
-                </div>
-                <div className="abilities">
-                  {this.renderAbilities(player)}
-                </div>
-              </div>
-            )
-          })
-        }
+        <ul>
+          {
+            this.props.game.players.map((player) => {
+              const playerUrl = '/player/' + player.userId;
+              return (
+                <li className="playerInfo" key={Math.random()}>
+                  <div className="playerName">
+                    {player.userId ? (<a href={playerUrl}>{player.name}</a>) : player.name} &nbsp;&nbsp;
+                    <span className="winner">{player.isWinner ? 'Winner' : ''}</span>
+                  </div>
+                  <div className="other">
+                    Kills: {player.kills} &nbsp;&nbsp;
+                    Damage: {Math.round(player.damage)} &nbsp;&nbsp;
+                    Abilities: {this.renderAbilities(player)}
+                  </div>
+                </li>
+              )
+            })
+          }
+        </ul>
         <style jsx>{`
           .name {
             font-size: 175%;
@@ -100,7 +95,7 @@ export default class GameBlock extends React.Component {
             border-radius: 3px;
           }
           .playerInfo {
-            margin-left: 20px;
+            margin: 0px;
             font-family: 'Roboto', sans-serif;
             margin-bottom: 10px;
           }
@@ -118,6 +113,14 @@ export default class GameBlock extends React.Component {
           }
           .abilities {
             color: #aaa;
+          }
+          .other {
+            color: #aaa;
+            font-size: 85%;
+          }
+          ul {
+            padding: 0;
+            padding-left: 20px;
           }
         `}</style>
       </div>

@@ -11,6 +11,7 @@ export default class Login extends React.Component {
   static async getInitialProps({req, query}) {
     const userId = req && req.session ? req.session.userId : null;
 
+    var player = null;
     const playerResult = await fetch(process.env.API_URL + '/api/user', {
       method: 'post',
       headers: { 'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json' },
@@ -18,9 +19,7 @@ export default class Login extends React.Component {
     })
 
     if (playerResult.status == 200) {
-      var player = await playerResult.json();
-    } else {
-      var player = null;
+      player = await playerResult.json();
     }
 
     let user = null;
@@ -36,26 +35,28 @@ export default class Login extends React.Component {
       }
     }
 
-    const serverResult = await fetch(process.env.API_URL + '/api/gamesWithUser', {
-      method: 'post',
-      headers: { 'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json' },
-      body: JSON.stringify({userId:userId})
-    });
-
     let games = [];
-    if (serverResult.status == 200) {
-      games = await serverResult.json();
+    if (player) {
+      const gamesResult = await fetch(process.env.API_URL + '/api/gamesWithUser', {
+        method: 'post',
+        headers: { 'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json' },
+        body: JSON.stringify({userId:player._id})
+      });
+      if (gamesResult.status == 200) {
+        games = await gamesResult.json();
+      }
     }
 
-    const result = await fetch(process.env.API_URL + '/api/replays', {
+
+    const replaysResult = await fetch(process.env.API_URL + '/api/replays', {
       method: 'get',
       headers: { 'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json' }
     });
 
     let replays = [];
-    if (serverResult.status == 200) {
+    if (replaysResult.status == 200) {
       try {
-        replays = await result.json();
+        replays = await replaysResult.json();
       } catch (error) {
         console.error(error);
       }
@@ -73,7 +74,7 @@ export default class Login extends React.Component {
   render() {
     if (this.props.player) {
 
-      const num = Math.min(3, this.props.games.length);
+      const num = Math.min(5, this.props.games.length);
 
       let wins = 0;
       let plays = 0;
@@ -92,7 +93,7 @@ export default class Login extends React.Component {
         kills += player.kills;
         damage += player.damage;
       }
-      
+
       return (
         <div>
           <MainLayout>
@@ -101,21 +102,39 @@ export default class Login extends React.Component {
                 <div id="content">
                   <h1>{this.props.player.username}</h1>
 
-                  Games Played: {this.props.player.plays}<br/>
-                  Wins: {this.props.player.wins}<br/>
-                  Kills: {this.props.player.kills}<br/>
-                  Damage Dealt: {this.props.player.damage}<br/>
-                  Win Rate: {(this.props.player.wins / this.props.player.plays * 100) + '%'}<br/>
-                  Kills Per Game: {this.props.player.kills / this.props.player.plays}<br/>
-                  Damage Per Game: {this.props.player.damage / this.props.player.plays}<br/>
+                  <h2>{this.props.player.plays} Games</h2>
+                  <div className="block">
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td>Wins</td><td>{this.props.player.wins}</td><td>{(this.props.player.wins / this.props.player.plays * 100) + '%'}</td>
+                        </tr>
+                        <tr>
+                          <td>Kills</td><td>{this.props.player.kills}</td><td>{this.props.player.kills / this.props.player.plays} Per Game</td>
+                        </tr>
+                        <tr>
+                          <td>Damage Dealt</td><td>{this.props.player.damage}</td><td>{this.props.player.damage / this.props.player.plays} Per Game</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
 
                   <h2>Last {num} Games</h2>
-                  Wins: {wins}<br/>
-                  Kills: {kills}<br/>
-                  Damage Dealt: {damage}<br/>
-                  Win Rate: {(wins / plays * 100) + '%'}<br/>
-                  Kills Per Game: {kills / plays}<br/>
-                  Damage Per Game: {damage / plays}<br/>
+                  <div className="block">
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td>Wins</td><td>{wins}</td><td>{(wins / plays * 100) + '%'}</td>
+                        </tr>
+                        <tr>
+                          <td>Kills</td><td>{kills}</td><td>{kills / plays} Per Game</td>
+                        </tr>
+                        <tr>
+                          <td>Damage Dealt</td><td>{damage}</td><td>{damage / plays} Per Game</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
 
                   <h2>Recent Games</h2>
                   {this.props.games.map((game) => {
@@ -138,6 +157,17 @@ export default class Login extends React.Component {
               max-width: 900px;
               margin-right: auto;
               margin-left: auto;
+            }
+            .block {
+              background-color: hsl(203, 20%, 10%);
+              padding: 20px;
+              border-radius: 3px;
+            }
+            td {
+              padding: 5px 20px 5px 0px;
+            }
+            td:nth-child(2) {
+              text-align: right;
             }
           `}</style>
         </div>
