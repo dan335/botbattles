@@ -6,7 +6,7 @@ module.exports = function(app) {
 
   app.post('/api/user', (req, res) => {
     User.findOne({_id:req.body.userId}).exec((error, user) => {
-      if (error || !user) {
+      if (error) {
         res.status(500).end();
       } else {
         res.json(user).end();

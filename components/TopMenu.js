@@ -1,11 +1,25 @@
 export default class TopMenu extends React.Component {
 
+  logout() {
+    fetch('/auth/logout', {
+      method: 'get',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      }
+    }).then(() => {
+      location.reload();
+    })
+  }
+
+
   renderAuth() {
     if (this.props.user) {
-      const url = '/player/' + this.props.userId;
+      const url = '/player/' + this.props.user._id;
       return (
         <span>
           <a href={url}><button>{this.props.user.username}</button></a>
+          <button onClick={this.logout}>Logout</button>
         </span>
       )
     } else {

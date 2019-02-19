@@ -24,6 +24,11 @@ const UserSchema = new Schema({
   createdAt: Date,
   updatedAt: Date,
   isAdmin: {type:Boolean, required:true},
+
+  plays: {type:Number},
+  wins: {type:Number},
+  kills: {type:Number},
+  damage: {type:Number},
 });
 
 
