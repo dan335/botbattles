@@ -16,7 +16,7 @@ module.exports = function(app) {
 
 
   app.post('/api/gamesWithUser', (req, res) => {
-    Games.find({'players.userId':req.body.userId}).sort({endedAt:-1}).limit(100).exec((error, games) => {
+    Games.find({'players.userId':req.body.userId}).sort({endedAt:-1}).limit(30).exec((error, games) => {
       if (error) {
         res.status(500).end();
       } else {
