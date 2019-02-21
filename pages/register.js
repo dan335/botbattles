@@ -71,6 +71,7 @@ export default class Register extends React.Component {
     return (
       <div>
         <MainLayout>
+          <TopMenu user={this.props.user} />
           <div>
 
             <div className="constrain">
@@ -102,7 +103,6 @@ export default class Register extends React.Component {
             </div>
 
           </div>
-          <TopMenu user={this.props.user} />
         </MainLayout>
         <style jsx>{`
           #content {

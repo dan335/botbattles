@@ -1,6 +1,6 @@
 import MainLayout from '../layouts/MainLayout.js';
 import TopMenu from '../components/TopMenu.js';
-
+import fetch from 'isomorphic-unfetch';
 
 
 export default class Login extends React.Component {
@@ -79,6 +79,7 @@ export default class Login extends React.Component {
     return (
       <div>
         <MainLayout>
+          <TopMenu user={this.props.user} />
           <div>
 
             <div className="constrain">
@@ -102,7 +103,6 @@ export default class Login extends React.Component {
               </div>
             </div>
           </div>
-          <TopMenu user={this.props.user} />
         </MainLayout>
         <style jsx>{`
           #content {

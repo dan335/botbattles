@@ -13,43 +13,49 @@ export default class TopMenu extends React.Component {
   }
 
 
-  renderAuth() {
-    if (this.props.user) {
-      const url = '/player/' + this.props.user._id;
-      return (
-        <span>
-          <a href={url}><button>{this.props.user.username}</button></a>
-          <button onClick={this.logout}>Logout</button>
-        </span>
-      )
-    } else {
-      return (
-        <span>
-          <a href="/register"><button>Register</button></a>
-          <a href="/login"><button>Login</button></a>
-        </span>
-      )
-    }
-  }
-
 
   render() {
     return (
       <div>
         <div id="topMenu">
-          <a href="/"><button>Home</button></a>
-          <a href="/abilities"><button>Abilities</button></a>
-          <a href="/leaderboard"><button>Leaderboard</button></a>
-          <a href="/games"><button>History</button></a>
-          {this.renderAuth()}
+          <div>
+            <a href="/">Home</a>
+            <a href="/abilities">Abilities</a>
+            <a href="/leaderboard">Leaderboard</a>
+            <a href="/games">History</a>
+          </div>
+          <div id="rightMenu">
+            {this.props.user ? (
+              <span>
+                <a href={'/player/' + this.props.user._id}>{this.props.user.username}</a>
+                <a onClick={this.logout}>Logout</a>
+              </span>
+            ) : (
+              <span>
+                <a href="/register">Register</a>
+                <a href="/login">Login</a>
+              </span>
+            )}
+          </div>
         </div>
         <style jsx>{`
           #topMenu {
             font-family: 'Roboto', sans-serif;
-            position: absolute;
-            right: 20px;
-            top: 20px;
+            background-color: hsl(203, 20%, 10%);
+            display: grid;
+            grid-template-columns: auto auto;
+          }
+          #rightMenu {
             text-align: right;
+          }
+          a {
+            padding: 10px;
+            color: #eee;
+            display: inline-block;
+          }
+          a:hover {
+            background-color: hsl(203, 20%, 20%);
+            color: #eee;
           }
         `}</style>
       </div>

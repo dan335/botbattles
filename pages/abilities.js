@@ -141,6 +141,7 @@ export default class Abilities extends React.Component {
     return (
       <div>
         <MainLayout>
+          <TopMenu user={this.props.user} />
           <div>
             <div className="constrain">
               <div id="content">
@@ -195,7 +196,6 @@ export default class Abilities extends React.Component {
               </div>
             </div>
           </div>
-          <TopMenu user={this.props.user} />
         </MainLayout>
         <style jsx>{`
           #content {

@@ -73,6 +73,7 @@ export default class Games extends React.Component {
     return (
       <div>
         <MainLayout>
+          <TopMenu user={this.props.user} />
           <div className="constrain">
             <div id="content">
               <h1>Game History</h1>
@@ -87,7 +88,6 @@ export default class Games extends React.Component {
               })}
             </div>
           </div>
-          <TopMenu user={this.props.user} />
         </MainLayout>
         <style jsx>{`
           #content {

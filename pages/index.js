@@ -315,55 +315,65 @@ export default class Index extends React.Component {
     return (
       <div>
         <MainLayout>
-          <table id="mainTable">
-            <tbody>
-              <tr colSpan="2" id="topBox">
-                <td colSpan="2">
-                  <h1 id="logo">Bot Battles</h1>
-                  <h2 id="tagline">Multiplayer Online Robot Battle Arena</h2>
-                </td>
-              </tr>
-              <tr>
-                <td id="left">
-                  <div id="inputContainer">
-                    <label>Name</label>
-                    <input type="text" defaultValue={name} id="nameInput"></input>
-                  </div>
-                  {this.renderPlayButton()}
-                </td>
-                <td id="right">
-                  {this.renderAbilities()}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div id="bottomLeft">
-            <a href="http://bongo.games"><button>More io Games</button></a>
-          </div>
           <TopMenu user={this.props.user} />
+
+          <div id="topBox">
+            <h1 id="logo">Bot Battles</h1>
+            <h2 id="tagline">Multiplayer Online Robot Battle Arena</h2>
+          </div>
+
+          <div id="mainContainer">
+
+            <div id="midBox">
+              <div id="leftBox">
+                <div id="inputContainer">
+                  <label>Name</label>
+                  <input type="text" defaultValue={name} id="nameInput"></input>
+                </div>
+                {this.renderPlayButton()}
+              </div>
+
+              <div></div>
+
+              <div>
+                {this.renderAbilities()}
+              </div>
+            </div>
+
+          </div>
+          <div id="bottom">
+            <div>
+              <a href="http://bongo.games">More io Games</a>
+            </div>
+            <div style={{textAlign:'right'}}>
+              <a href="/privacypolicy">Privacy Policy</a>
+            </div>
+          </div>
         </MainLayout>
         <style jsx>{`
-          table {
-            width: 900px;
-            margin-left: auto;
-            margin-right: auto;
+          #mainContainer {
+            background-color: hsl(203, 20%, 20%);
           }
+
           #topBox {
             text-align: center;
             width: 100%;
+            margin-bottom: 40px;
           }
-          td {
-            vertical-align: top;
-          }
-          td#left {
-            text-align:center;
+
+          #midBox {
+            display: grid;
+            grid-template-columns: 1fr 20px 1fr;
+            width: 900px;
+            margin-left: auto;
+            margin-right: auto;
             padding: 20px;
-            width: 50%;
           }
-          td#right {
-            padding: 20px;
-            width: 50%;
+
+          #leftBox {
+            text-align: center;
           }
+
           #logo {
             color: #91df3e;
             font-size: 400%;
@@ -379,10 +389,17 @@ export default class Index extends React.Component {
             margin-bottom: 10px;
             color: #91df3e;
           }
-          #bottomLeft {
+          #bottom {
             position: absolute;
-            left: 20px;
-            bottom: 20px;
+            bottom: 0px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background-color: hsl(203, 20%, 10%);
+            padding: 20px;
+          }
+          #bottom a {
+            color: #eee;
           }
           #inputContainer {
             text-align: left;
