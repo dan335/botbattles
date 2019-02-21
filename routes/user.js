@@ -1,5 +1,8 @@
 const User = require('../models/User.js');
+const _s = require('../lib/settings.js');
 
+
+const playersPerPage = 1;
 
 
 module.exports = function(app) {
@@ -13,5 +16,17 @@ module.exports = function(app) {
       }
     })
   });
+
+
+  // for leaderboard
+  app.post('/api/players', (req, res) => {
+    User.find({rating:{$exists:true}}).sort({rating:-1}).limit(_s.numPlayersPerLeaderboardPage).skip(_s.numPlayersPerLeaderboardPage * req.body.page).exec((error, users) => {
+      if (error) {
+        res.status(500).end();
+      } else {
+        res.json(users).end();
+      }
+    })
+  })
 
 }

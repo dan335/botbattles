@@ -320,7 +320,7 @@ export default class Index extends React.Component {
               <tr colSpan="2" id="topBox">
                 <td colSpan="2">
                   <h1 id="logo">Bot Battles</h1>
-                  <h2 id="tagline">Multiplayer Online Battle Arena</h2>
+                  <h2 id="tagline">Multiplayer Online Robot Battle Arena</h2>
                 </td>
               </tr>
               <tr>

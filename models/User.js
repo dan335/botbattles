@@ -29,6 +29,7 @@ const UserSchema = new Schema({
   wins: {type:Number},
   kills: {type:Number},
   damage: {type:Number},
+  rating: {type:Number}
 });
 
 

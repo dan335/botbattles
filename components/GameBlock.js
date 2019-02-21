@@ -7,33 +7,20 @@ export default class GameBlock extends React.Component {
 
   renderAbilities(player) {
     if (player.abilities) {
-      return player.abilities.map((ability) => {
+      return player.abilities.map((ability, index) => {
+
         const a = _s.abilityTypes.find((t) => {
           return t.id == ability.id;
         })
 
         if (a) {
-          if (a.userId) {
-            const url = '/player/' + a.userId;
-            return (
-              <div key={Math.random()}>
-                <a href={url}>{a.name}</a>
-                <style jsx>{`
-                  div {
-                    font-size: 70%;
-                    margin-left: 20px;
-                  }
-                `}</style>
-              </div>
-            )
-          } else {
-            return (
-              <span key={Math.random()}>
-                {a.name},&nbsp;
-              </span>
-            )
-          }
+          return (
+            <span key={Math.random()}>
+              {a.name}{index == _s.numAbilities-1 ? '' : ','}&nbsp;
+            </span>
+          )
         }
+
       })
     }
   }
@@ -75,7 +62,8 @@ export default class GameBlock extends React.Component {
                   <div className="other">
                     Kills: {player.kills} &nbsp;&nbsp;
                     Damage: {Math.round(player.damage)} &nbsp;&nbsp;
-                    Abilities: {this.renderAbilities(player)}
+                    Abilities: {this.renderAbilities(player)} &nbsp;&nbsp;
+                    {player.userId ? 'Rating Change: ' + player.ratingChange : ''}
                   </div>
                 </li>
               )

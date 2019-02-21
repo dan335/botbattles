@@ -39,7 +39,8 @@ export default class TopMenu extends React.Component {
         <div id="topMenu">
           <a href="/"><button>Home</button></a>
           <a href="/abilities"><button>Abilities</button></a>
-          <a href="/games"><button>Game History</button></a>
+          <a href="/leaderboard"><button>Leaderboard</button></a>
+          <a href="/games"><button>History</button></a>
           {this.renderAuth()}
         </div>
         <style jsx>{`

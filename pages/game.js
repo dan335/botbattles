@@ -47,6 +47,12 @@ export default class Game extends React.Component {
       serverTickTime: null,
       clientTickTime: null
     };
+
+    this.cooldownData = [];
+
+    for (let i = 0; i < _s.numAbilities; i++) {
+      this.cooldownData[i] = { lastFired:0, cooldown:0 };
+    }
   }
 
 
@@ -125,7 +131,7 @@ export default class Game extends React.Component {
             position: fixed;
             left: 10px;
             bottom: 10px;
-            color: #ccc;
+            color: #999;
             font-size: 50%;
           }
         `}</style>
@@ -197,25 +203,8 @@ export default class Game extends React.Component {
 
 
   updateCooldowns() {
-    let widths = [];
-    let hasChanged = false;
-
-    for (let i = 0; i <= _s.numAbilities; i++) {
-      if (this.state.cooldowns[i]) {
-        widths[i] = Math.min(1, (Date.now() - this.state.cooldowns[i].lastFired) / this.state.cooldowns[i].interval) * 100 + '%';
-        if (widths[i] != this.state.cooldownWidths[i]) {
-          hasChanged = true;
-        }
-      } else {
-        widths[i] = '100%';
-        if (widths[i] != this.state.cooldownWidths[i]) {
-          hasChanged = true;
-        }
-      }
-    }
-
-    if (hasChanged) {
-      this.setState({cooldownWidths:widths});
+    for (let i = 0; i < _s.numAbilities; i++) {
+      document.getElementById('cooldownBar' + i).style.width = Math.min(1, (Date.now() - this.cooldownData[i].lastFired) / this.cooldownData[i].cooldown) * 100 + '%';
     }
   }
 
@@ -237,11 +226,12 @@ export default class Game extends React.Component {
       <div id="cooldownContainer">
         {data.map((d) => {
           i++
+          const barName = 'cooldownBar' + i;
           return (
             <div key={i}>
               <label>{d.name}</label>
               <div className="bg">
-                <div className="bar" style={{width:this.state.cooldownWidths[i]}}></div>
+                <div className="bar" id={barName} style={{width:'100%'}}></div>
               </div>
             </div>
           )

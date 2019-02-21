@@ -67,6 +67,10 @@ nextApp.prepare().then(() => {
     nextApp.render(req, res, '/abilities', { sort: req.params.sort, category: req.params.category })
   })
 
+  expressApp.get('/leaderboard/:page', (req, res) => {
+    nextApp.render(req, res, '/leaderboard', { page: req.params.page });
+  })
+
   expressApp.get('*', (req,res) => {
     return handle(req,res);
   })
