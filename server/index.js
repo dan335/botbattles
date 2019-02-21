@@ -38,6 +38,7 @@ nextApp.prepare().then(() => {
   require('../routes/auth.js')(expressApp);
   require('../routes/user.js')(expressApp);
   require('../routes/abilities.js')(expressApp);
+  require('../routes/contact.js')(expressApp);
 
   expressApp.get('/replay/:replayId', (req, res) => {
     nextApp.render(req, res, '/replay', { replayId: req.params.replayId })

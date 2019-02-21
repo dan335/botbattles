@@ -346,6 +346,7 @@ export default class Index extends React.Component {
               <a href="http://bongo.games">More io Games</a>
             </div>
             <div style={{textAlign:'right'}}>
+              <a href="/contact">Contact</a>
               <a href="/privacypolicy">Privacy Policy</a>
             </div>
           </div>
@@ -396,10 +397,11 @@ export default class Index extends React.Component {
             display: grid;
             grid-template-columns: 1fr 1fr;
             background-color: hsl(203, 20%, 10%);
-            padding: 20px;
           }
           #bottom a {
             color: #eee;
+            padding: 20px;
+            display: inline-block;
           }
           #inputContainer {
             text-align: left;

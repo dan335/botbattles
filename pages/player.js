@@ -152,7 +152,7 @@ export default class Login extends React.Component {
                 <div id="content">
                   <h1>{this.props.player.username}</h1>
 
-                  Rating: {this.props.player.rating}<br/>
+                  Rating: {Math.round(this.props.player.rating)}<br/>
                   <br/>
 
                   <h2>{this.props.player.plays} Games</h2>

@@ -63,7 +63,7 @@ export default class GameBlock extends React.Component {
                     Kills: {player.kills} &nbsp;&nbsp;
                     Damage: {Math.round(player.damage)} &nbsp;&nbsp;
                     Abilities: {this.renderAbilities(player)} &nbsp;&nbsp;
-                    {player.userId ? 'Rating Change: ' + player.ratingChange : ''}
+                    {player.userId ? 'Rating Change: ' + Math.round(player.ratingChange) : ''}
                   </div>
                 </li>
               )
