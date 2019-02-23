@@ -17,15 +17,15 @@ export default class ProgressBar {
     this.height = height;
 
     var geometry = new BoxBufferGeometry( 1, 1, 1 );
-    var material = new MeshBasicMaterial( {color: bgColor} );
-    this.bg = new Mesh( geometry, material );
+    this.bgMaterial = new MeshBasicMaterial( {color: bgColor} );
+    this.bg = new Mesh( geometry, this.bgMaterial );
     this.bg.position.set(x, y, z);
     this.bg.scale.set(width, 1, height);
     this.scene.add(this.bg);
 
     var geometry = new BoxBufferGeometry( 1, 1, 1 );
-    var material = new MeshBasicMaterial( {color: color} );
-    this.bar = new Mesh( geometry, material );
+    this.barMaterial = new MeshBasicMaterial( {color: color} );
+    this.bar = new Mesh( geometry, this.barMaterial );
     this.bar.position.set(x, y, z);
     this.bar.scale.set(width, 1, height);
     this.scene.add(this.bar);
@@ -64,12 +64,12 @@ export default class ProgressBar {
   }
 
   goInvisible() {
-    this.bg.visible = false;
-    this.bar.visible = false;
+    this.bgMaterial.visible = false;
+    this.barMaterial.visible = false;
   }
 
   goVisible() {
-    this.bg.visible = true;
-    this.bar.visible = true;
+    this.bgMaterial.visible = true;
+    this.barMaterial.visible = true;
   }
 }

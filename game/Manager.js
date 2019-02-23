@@ -46,26 +46,26 @@ export default class Manager {
   }
 
 
-  startCountdown(startTime) {
-    this.gameStartTime = startTime;
+  // startCountdown(startTime) {
+  //   this.gameStartTime = startTime;
+  //
+  //   const msLeft = startTime - Date.now();
+  //   const seconds = Math.floor(msLeft / 1000);
+  //   const delay = msLeft - seconds * 1000;
+  //   setTimeout(() => {
+  //     this.displayCountdown();
+  //   }, delay);
+  // }
 
-    const msLeft = startTime - Date.now();
-    const seconds = Math.floor(msLeft / 1000);
-    const delay = msLeft - seconds * 1000;
-    setTimeout(() => {
-      this.displayCountdown();
-    }, delay);
-  }
-
-  displayCountdown() {
-    this.ui.addToLog(Math.round((this.gameStartTime - Date.now()) / 1000));
-
-    if (this.gameStartTime - Date.now() >= 1000) {
-      setTimeout(() => {
-        this.displayCountdown();
-      }, 1000);
-    }
-  }
+  // displayCountdown() {
+  //   this.ui.addToLog(Math.round((this.gameStartTime - Date.now()) / 1000));
+  //
+  //   if (this.gameStartTime - Date.now() >= 1000) {
+  //     setTimeout(() => {
+  //       this.displayCountdown();
+  //     }, 1000);
+  //   }
+  // }
 
 
   checkPing() {

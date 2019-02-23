@@ -46,7 +46,7 @@ export default class MainLayout extends React.Component {
             text-decoration: none;
           }
           a:hover {
-            color: hsl(89, 40%, 40%);
+            color: hsl(89, 40%, 60%);
             text-decoration: none;
           }
           textarea:focus, input:focus, select:focus {

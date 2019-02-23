@@ -54,8 +54,9 @@ export default class Player extends Ship {
     //return new MeshBasicMaterial( { map: new TextureLoader().load( '/static/textures/playerColor.jpg' ) } );
     return new MeshBasicMaterial( {
       map: new TextureLoader().load( '/static/textures/playerColor.jpg' ),
-      alphaMap: new TextureLoader().load( '/static/textures/shipInvisibleAlpha.jpg' ),
-      transparent: false
+      //alphaMap: new TextureLoader().load( '/static/textures/shipInvisibleAlpha.jpg' ),
+      transparent: true,
+      opacity: 1
     });
   }
 
@@ -225,10 +226,14 @@ export default class Player extends Ship {
   }
 
   goInvisible() {
-    this.mesh.material.transparent = true;
+    // this.mesh.material.transparent = true;
+    // this.mesh.material.opacity = 0.5;
+    // this.mesh.material.needsUpdate = true;
+    this.mesh.material.visible = false;
   }
 
   goVisible() {
-    this.mesh.material.transparent = false;
+    //this.mesh.material.transparent = false;
+    this.mesh.material.opacity = 1;
   }
 }

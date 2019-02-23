@@ -29,6 +29,7 @@ export default class Replay extends React.Component {
       isConnected: true,
       isLoading: false,
       log: [],
+      winner: null
     };
   }
 
@@ -96,20 +97,50 @@ export default class Replay extends React.Component {
         {this.renderLogs()}
         <style jsx>{`
           div {
-            position: absolute;
-            left: 10px;
-            bottom: 40px;
+            line-height: 150%;
           }
         `}</style>
       </div>
     )
   }
+
+
   renderLogs() {
     return this.state.log.map((data) => {
       return (
         <div key={data.key}>{data.text}</div>
       )
     })
+  }
+
+
+  renderWinner() {
+    if (this.state.winner) {
+      return (
+        <div id="container">
+          <div id="winner">{this.state.winner} Wins!</div>
+          <div id="discord">
+            <a href="https://discord.gg/6R3jYyH">Chat about this game on <img src="/static/Discord-Logo+Wordmark-White.png" /></a>
+          </div>
+          <style jsx>{`
+            #container {
+              margin-top: 40px;
+            }
+            #winner {
+              font-size: 200%;
+              margin-bottom: 20px;
+            }
+            img {
+              width: 100px;
+              vertical-align: middle;
+            }
+            #discord {
+              margin-top: 10px;
+            }
+          `}</style>
+        </div>
+      )
+    }
   }
 
 
@@ -120,13 +151,27 @@ export default class Replay extends React.Component {
           <div id="game"></div>
           {this.renderLostConnection()}
           {this.renderLoading()}
-          {this.renderLog()}
+          <div id="logContainer">
+            {this.renderLog()}
+            {this.renderWinner()}
+          </div>
+          <div id="backButton"><a href="/">&lt; Back Home</a></div>
         </MainLayout>
         <style jsx global>{`
           #game {
           }
           #game canvas {
             position: fixed;
+          }
+          #backButton {
+            position: fixed;
+            top: 20px;
+            left: 10px;
+          }
+          #logContainer {
+            position: absolute;
+            left: 10px;
+            bottom: 40px;
           }
         `}</style>
       </div>

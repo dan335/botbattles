@@ -190,7 +190,7 @@ export default class Login extends React.Component {
                   </div>
 
                   <h2>Abilities</h2>
-                  <div className="block">
+                  <div className="block" id="abilities">
                     <table>
                       <thead>
                         <tr>
@@ -207,9 +207,9 @@ export default class Login extends React.Component {
                             <tr key={ability.id}>
                               <td>{ability.name}</td>
                               <td>{ability.uses}</td>
-                              <td>{ability.wins} ({Math.round(ability.wins / ability.uses * 100)}%)</td>
-                              <td>{ability.kills} ({Math.round(ability.kills / ability.uses * 100)/100} Per Use)</td>
-                              <td>{Math.round(ability.damage)} ({Math.round(ability.damage / ability.uses)} Per Use)</td>
+                              <td>{ability.wins} &nbsp; ({Math.round(ability.wins / ability.uses * 100)}%)</td>
+                              <td>{ability.kills} &nbsp; ({Math.round(ability.kills / ability.uses * 100)/100} Per Use)</td>
+                              <td>{Math.round(ability.damage)} &nbsp; ({Math.round(ability.damage / ability.uses)} Per Use)</td>
                             </tr>
                           )
                         })}
@@ -248,6 +248,9 @@ export default class Login extends React.Component {
             }
             td:nth-child(2) {
               text-align: right;
+            }
+            #abilities {
+              font-family: 'Roboto', sans-serif;
             }
           `}</style>
         </div>

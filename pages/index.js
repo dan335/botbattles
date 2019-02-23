@@ -116,6 +116,12 @@ export default class Index extends React.Component {
 
       this.ws.onclose = (event) => {
         this.setState({isWsOpen:false});
+
+        if (event.code == 1006) {
+          setTimeout(() => {
+            this.connectToServer();
+          }, 500);
+        }
       }
     }
   }
@@ -346,6 +352,7 @@ export default class Index extends React.Component {
               <a href="http://bongo.games">More io Games</a>
             </div>
             <div style={{textAlign:'right'}}>
+              <a href="https://discord.gg/6R3jYyH">Discord</a>
               <a href="/contact">Contact</a>
               <a href="/privacypolicy">Privacy Policy</a>
             </div>
@@ -359,7 +366,7 @@ export default class Index extends React.Component {
           #topBox {
             text-align: center;
             width: 100%;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
           }
 
           #midBox {
@@ -379,11 +386,12 @@ export default class Index extends React.Component {
             color: #91df3e;
             font-size: 400%;
             margin-bottom: 5px;
-            margin-top: 40px;
+            margin-top: 30px;
           }
           #tagline {
             font-size: 100%;
             margin-top: 0;
+            margin-bottom: 10px;
           }
           label {
             display: block;
@@ -400,7 +408,7 @@ export default class Index extends React.Component {
           }
           #bottom a {
             color: #eee;
-            padding: 20px;
+            padding: 10px;
             display: inline-block;
           }
           #inputContainer {

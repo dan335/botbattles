@@ -45,7 +45,8 @@ export default class Game extends React.Component {
       cooldowns: [],
       cooldownWidths: ['100%', '100%', '100%', '100%'],
       serverTickTime: null,
-      clientTickTime: null
+      clientTickTime: null,
+      winner: null
     };
 
     this.cooldownData = [];
@@ -53,6 +54,8 @@ export default class Game extends React.Component {
     for (let i = 0; i < _s.numAbilities; i++) {
       this.cooldownData[i] = { lastFired:0, cooldown:0 };
     }
+
+    this.playButton = this.playButton.bind(this);
   }
 
 
@@ -184,15 +187,15 @@ export default class Game extends React.Component {
         {this.renderLogs()}
         <style jsx>{`
           div {
-            position: absolute;
-            left: 10px;
-            bottom: 40px;
             line-height: 150%;
           }
         `}</style>
       </div>
     )
   }
+
+
+
   renderLogs() {
     return this.state.log.map((data) => {
       return (
@@ -309,6 +312,43 @@ export default class Game extends React.Component {
   }
 
 
+  playButton(event) {
+    this.ws.send(JSON.stringify({t:'requestGame'}));
+  }
+
+
+  renderWinner() {
+    if (this.state.winner) {
+      return (
+        <div id="container">
+          <div id="winner">{this.state.winner} Wins!</div>
+          <div>
+            <button onClick={this.playButton}>Play Again</button>
+          </div>
+          <div id="discord">
+            <a href="https://discord.gg/6R3jYyH">Chat about this game on <img src="/static/Discord-Logo+Wordmark-White.png" /></a>
+          </div>
+          <style jsx>{`
+            #container {
+              margin-top: 40px;
+            }
+            #winner {
+              font-size: 200%;
+              margin-bottom: 20px;
+            }
+            img {
+              width: 100px;
+              vertical-align: middle;
+            }
+            #discord {
+              margin-top: 10px;
+            }
+          `}</style>
+        </div>
+      )
+    }
+  }
+
 
   render() {
     return (
@@ -319,15 +359,29 @@ export default class Game extends React.Component {
           {this.renderStats()}
           {this.renderLoading()}
           {this.renderLoadingReplay()}
-          {this.renderLog()}
+          <div id="logContainer">
+            {this.renderLog()}
+            {this.renderWinner()}
+          </div>
           {this.renderHealthBars()}
           {this.renderCooldowns()}
+          <div id="backButton"><a href="/">&lt; Back Home</a></div>
         </MainLayout>
         <style jsx global>{`
           #game {
           }
           #game canvas {
             position: fixed;
+          }
+          #backButton {
+            position: fixed;
+            top: 20px;
+            left: 10px;
+          }
+          #logContainer {
+            position: absolute;
+            left: 10px;
+            bottom: 40px;
           }
         `}</style>
       </div>
