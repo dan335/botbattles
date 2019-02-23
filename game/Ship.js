@@ -72,9 +72,7 @@ export default class Ship extends Obj {
 
   material() {
     return new MeshBasicMaterial( {
-      map: new TextureLoader().load( '/static/textures/shipColor.jpg' ),
-      alphaMap: new TextureLoader().load( '/static/textures/shipInvisibleAlpha.jpg' ),
-      transparent: false
+      map: new TextureLoader().load( '/static/textures/shipColor.jpg' )
     });
   }
 
@@ -161,14 +159,13 @@ export default class Ship extends Obj {
 
 
   goInvisible() {
-
-    this.mesh.visible = false;
+    this.material.visible = false;
     this.healthBars.goInvisible();
   }
 
 
   goVisible() {
-    this.mesh.visible = true;
+    this.material.visible = true;
     this.healthBars.goVisible();
   }
 }
