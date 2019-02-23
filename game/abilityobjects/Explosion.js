@@ -6,6 +6,7 @@ import {
   Vector3,
   TextureLoader
 } from 'three';
+import Particle from '../fx/Particle.js';
 
 
 
@@ -18,6 +19,22 @@ export default class Explosion extends Obj {
     this.mesh = new Mesh( geometry, material );
     this.mesh.position.set(this.position.x, 0, this.position.y);
     this.manager.scene.add(this.mesh);
+
+    if (this.radius > 30) {
+      for (let i = 0; i < 10; i++) {
+        new Particle(this.manager, {
+          x: this.position.x,
+          y: this.position.y,
+          rotation: Math.random() * Math.PI*2,
+          scale: 20,
+          speed: 4,
+          drag: 0.8,
+          lifespan: 200,
+          color: parseInt(color),
+          fadeTime: 150
+        });
+      }
+    }
   }
 
 

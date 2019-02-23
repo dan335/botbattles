@@ -5,6 +5,7 @@ import {
   Mesh,
   Vector3
 } from 'three';
+import Particle from '../fx/Particle.js';
 
 
 
@@ -18,6 +19,18 @@ export default class BlasterBullet extends Obj {
     this.mesh.position.set(this.position.x, -0.5, this.position.y);
     this.mesh.setRotationFromAxisAngle(new Vector3(0, 1, 0), this.rotation * -1);
     this.manager.scene.add(this.mesh);
+
+    new Particle(this.manager, {
+      x: this.position.x,
+      y: this.position.y,
+      rotation: this.rotation,
+      scale: 30,
+      speed: 0.5,
+      drag: 0.8,
+      lifespan: 200,
+      color: parseInt(color),
+      fadeTime: 150
+    });
   }
 
 

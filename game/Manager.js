@@ -26,6 +26,7 @@ export default class Manager {
     this.obstacles = [];
     this.boxes = [];
     this.abilityObjects = [];
+    this.particles = [];
     this.player = null;
     this.ping = 50; // average ping round trip
     this.pings = [];  // raw pings
@@ -34,6 +35,8 @@ export default class Manager {
     this.clientTickSum = 0;
     this.clientTickNum = 0;
     this.gameStartTime = null;
+    this.deltaTime = 0;
+    this.tickStartTime = 0;
 
     this.setup();
   }
@@ -229,7 +232,9 @@ export default class Manager {
   animate() {
     this.checkPing();
 
-    const tickStartTime = performance.now();
+    this.deltaTime = performance.now() - this.tickStartTime;
+
+    this.tickStartTime = performance.now();
 
     if (this.map) this.map.tick();
 
@@ -249,10 +254,14 @@ export default class Manager {
       this.abilityObjects[i].tick();
     }
 
+    for (let i = 0; i < this.particles.length; i++) {
+      this.particles[i].tick();
+    }
+
     requestAnimationFrame( this.animate.bind(this) );
 	   this.renderer.render( this.scene, this.camera );
 
-     this.clientTickSum += performance.now() - tickStartTime;
+     this.clientTickSum += performance.now() - this.tickStartTime;
      this.clientTickNum++;
 
      if (this.clientTickNum > 100) {
