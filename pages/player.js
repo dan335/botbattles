@@ -141,8 +141,6 @@ export default class Login extends React.Component {
         return b.uses - a.uses;
       })
 
-      console.log(abilities)
-
       return (
         <div>
           <MainLayout>
@@ -152,11 +150,12 @@ export default class Login extends React.Component {
                 <div id="content">
                   <h1>{this.props.player.username}</h1>
 
-                  Rating: {Math.round(this.props.player.rating)}<br/>
-                  <br/>
+                  <div className="block" style={{textAlign:'center', fontSize:'300%'}}>
+                    Rating: {Math.round(this.props.player.rating)}<br/>
+                  </div>
 
                   <h2>{this.props.player.plays} Games</h2>
-                  <div className="block">
+                  <div className="block roboto">
                     <table>
                       <tbody>
                         <tr>
@@ -173,7 +172,7 @@ export default class Login extends React.Component {
                   </div>
 
                   <h2>Last {num} Games</h2>
-                  <div className="block">
+                  <div className="block roboto">
                     <table>
                       <tbody>
                         <tr>
@@ -190,7 +189,7 @@ export default class Login extends React.Component {
                   </div>
 
                   <h2>Abilities</h2>
-                  <div className="block" id="abilities">
+                  <div className="block roboto">
                     <table>
                       <thead>
                         <tr>
@@ -243,13 +242,22 @@ export default class Login extends React.Component {
               padding: 20px;
               border-radius: 3px;
             }
+            h1 {
+              color: #91df3e;
+              font-size: 300%;
+              margin-bottom: 20px;
+            }
+            h2 {
+              margin-bottom: 10px;
+              margin-top: 40px;
+            }
             td {
               padding: 5px 20px 5px 0px;
             }
             td:nth-child(2) {
               text-align: right;
             }
-            #abilities {
+            .roboto {
               font-family: 'Roboto', sans-serif;
             }
           `}</style>
