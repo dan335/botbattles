@@ -165,7 +165,7 @@ export default class Login extends React.Component {
                           <td>Kills</td><td>{this.props.player.kills || 0}</td><td>{Math.round((this.props.player.kills || 0) / (this.props.player.plays || 0) *100)/100} Per Game</td>
                         </tr>
                         <tr>
-                          <td>Damage</td><td>{Math.round((this.props.player.damage || 0) *100)/100}</td><td>{Math.round(this.props.player.damage / (this.props.player.plays || 0) *100)/100} Per Game</td>
+                          <td>Damage</td><td>{Math.round((this.props.player.damage || 0))}</td><td>{Math.round(this.props.player.damage / (this.props.player.plays || 0))} Per Game</td>
                         </tr>
                       </tbody>
                     </table>
@@ -182,7 +182,7 @@ export default class Login extends React.Component {
                           <td>Kills</td><td>{kills}</td><td>{Math.round(kills / (plays || 0) *100)/100} Per Game</td>
                         </tr>
                         <tr>
-                          <td>Damage</td><td>{Math.round(damage*100)/100}</td><td>{Math.round(damage / (plays || 0) *100)/100} Per Game</td>
+                          <td>Damage</td><td>{Math.round(damage)}</td><td>{Math.round(damage / (plays || 0) )} Per Game</td>
                         </tr>
                       </tbody>
                     </table>

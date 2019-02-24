@@ -18,6 +18,7 @@ export default class TopMenu extends React.Component {
     return (
       <div>
         <div id="topMenu">
+          <div></div>
           <div>
             <a href="/">Home</a>
             <a href="/abilities">Abilities</a>
@@ -37,13 +38,14 @@ export default class TopMenu extends React.Component {
               </span>
             )}
           </div>
+          <div></div>
         </div>
         <style jsx>{`
           #topMenu {
             font-family: 'Roboto', sans-serif;
             background-color: hsl(203, 20%, 10%);
             display: grid;
-            grid-template-columns: auto auto;
+            grid-template-columns: 40px auto auto 40px;
           }
           #rightMenu {
             text-align: right;

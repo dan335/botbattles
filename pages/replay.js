@@ -60,7 +60,7 @@ export default class Replay extends React.Component {
             #lostConnectionModal {
               position: fixed;
               left: 20px;
-              top: 20px;
+              top: 50px;
               color: #fff;
             }
           `}</style>

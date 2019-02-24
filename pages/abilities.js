@@ -4,7 +4,6 @@ import TopMenu from '../components/TopMenu.js';
 const _s = require('../lib/settings.js');
 
 
-
 export default class Abilities extends React.Component {
 
   static async getInitialProps({req, query}) {

@@ -3,6 +3,7 @@ import MainLayout from '../layouts/MainLayout.js';
 import * as Cookies from 'js-cookie';
 const _s = require('../lib/settings.js');
 import TopMenu from '../components/TopMenu.js';
+import BottomMenu from '../components/BottomMenu.js';
 
 
 
@@ -86,6 +87,21 @@ export default class Index extends React.Component {
     }
 
     this.setState({abilityKeys:abilityKeys});
+
+    this.sendPings();
+  }
+
+
+
+  // to keep connection alive
+  sendPings() {
+    if (this.ws && this.ws.readyState == 1) {
+      this.ws.send(JSON.stringify({t:'ping'}));
+    }
+
+    setTimeout(() => {
+      this.sendPings();
+    }, 1000 * 45);
   }
 
 
@@ -117,11 +133,11 @@ export default class Index extends React.Component {
       this.ws.onclose = (event) => {
         this.setState({isWsOpen:false});
 
-        if (event.code == 1006) {
-          setTimeout(() => {
-            this.connectToServer();
-          }, 500);
-        }
+        // if (event.code == 1006) {
+        //   setTimeout(() => {
+        //     this.connectToServer();
+        //   }, 500);
+        // }
       }
     }
   }
@@ -347,16 +363,7 @@ export default class Index extends React.Component {
             </div>
 
           </div>
-          <div id="bottom">
-            <div>
-              <a href="http://bongo.games">More io Games</a>
-            </div>
-            <div style={{textAlign:'right'}}>
-              <a href="https://discord.gg/6R3jYyH">Discord</a>
-              <a href="/contact">Contact</a>
-              <a href="/privacypolicy">Privacy Policy</a>
-            </div>
-          </div>
+          <BottomMenu />
         </MainLayout>
         <style jsx>{`
           #mainContainer {
@@ -397,19 +404,6 @@ export default class Index extends React.Component {
             display: block;
             margin-bottom: 10px;
             color: #91df3e;
-          }
-          #bottom {
-            position: absolute;
-            bottom: 0px;
-            width: 100%;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            background-color: hsl(203, 20%, 10%);
-          }
-          #bottom a {
-            color: #eee;
-            padding: 10px;
-            display: inline-block;
           }
           #inputContainer {
             text-align: left;

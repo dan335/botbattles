@@ -108,7 +108,7 @@ export default class Game extends React.Component {
             #lostConnectionModal {
               position: fixed;
               left: 20px;
-              top: 20px;
+              top: 50px;
               color: #fff;
             }
           `}</style>
@@ -207,7 +207,10 @@ export default class Game extends React.Component {
 
   updateCooldowns() {
     for (let i = 0; i < _s.numAbilities; i++) {
-      document.getElementById('cooldownBar' + i).style.width = Math.min(1, (Date.now() - this.cooldownData[i].lastFired) / this.cooldownData[i].cooldown) * 100 + '%';
+      const bar = document.getElementById('cooldownBar' + i);
+      if (bar) {
+        bar.style.width = Math.min(1, (Date.now() - this.cooldownData[i].lastFired) / this.cooldownData[i].cooldown) * 100 + '%';
+      }
     }
   }
 
