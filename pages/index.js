@@ -315,6 +315,7 @@ export default class Index extends React.Component {
               background-color: hsl(203, 20%, 10%);
               padding: 20px;
               margin-bottom: 5px;
+              border-radius: 3px;
             }
             label {
               display: block;
@@ -394,7 +395,7 @@ export default class Index extends React.Component {
 
           #midBox {
             display: grid;
-            grid-template-columns: 300px 20px auto;
+            grid-template-columns: 320px 10px auto;
             width: 900px;
             margin-left: auto;
             margin-right: auto;
@@ -409,7 +410,7 @@ export default class Index extends React.Component {
             color: #91df3e;
             font-size: 400%;
             margin-bottom: 5px;
-            margin-top: 30px;
+            margin-top: 20px;
           }
           #tagline {
             font-size: 100%;
@@ -424,6 +425,9 @@ export default class Index extends React.Component {
           #inputContainer {
             text-align: left;
             margin-bottom: 40px;
+            background-color: hsl(203, 20%, 10%);
+            padding: 20px;
+            border-radius: 3px;
           }
         `}</style>
       </div>

@@ -21,13 +21,13 @@
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
-    "mongoose": "^5.4.10",
-    "next": "^7.0.2",
+    "mongoose": "^5.4.15",
+    "next": "^8.0.3",
     "nodemailer": "^5.1.1",
     "nodemailer-sendgrid-transport": "^0.2.0",
     "normalize.css": "^8.0.1",
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
     "three": "^0.101.1"
   },
   "devDependencies": {
