@@ -2,11 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Replays = new Schema({
-  createdAt: {type:Date},
-  json: {type:String},
-  gameId: {type:String, index: true}
+  createdAt: {type:Date, index: true},
+  gameId: {type:String}
 });
-
-Replays.index({ createdAt:-1 });
 
 module.exports = mongoose.model('replays', Replays);

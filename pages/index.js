@@ -156,7 +156,7 @@ export default class Index extends React.Component {
     // name
     let name = document.getElementById('nameInput').value;
     if (!name) {
-      name = 'Noname';
+      name = 'Noname_' + Math.round(Math.random()*1000);
     }
     name = name.substring(0, 24);
     Cookies.set('name', name);
@@ -329,9 +329,11 @@ export default class Index extends React.Component {
 
 
   render() {
-    let name = Cookies.get("name");
-    if (!name) {
-      name = 'Noname';
+    let name = 'Noname_' + Math.round(Math.random()*1000);
+    if (this.props.user) {
+      name = this.props.user.username;
+    } else if (Cookies.get('name')) {
+      name = Cookies.get('name');
     }
 
     return (

@@ -16,7 +16,7 @@ import messageFunctions from '../lib/messageFunctions.js';
 
 export default class Manager {
 
-  constructor(gameId, ui, replay, userId) {
+  constructor(gameId, ui, replay, userId, user) {
     this.gameId = gameId;
     this.userId = userId;
     this.ui = ui;
@@ -37,13 +37,14 @@ export default class Manager {
     this.gameStartTime = null;
     this.deltaTime = 0;
     this.tickStartTime = 0;
+    this.user = user;
 
     this.setup();
   }
 
 
   sendToServer(str) {
-    if (this.ui.ws.readyState === this.ui.ws.OPEN) {
+    if (this.ui.ws && this.ui.ws.readyState === this.ui.ws.OPEN) {
       this.ui.ws.send(JSON.stringify(str));
     }
   }
@@ -188,7 +189,11 @@ export default class Manager {
     // name
     let name = Cookies.get('name');
     if (!name) {
-      name = 'Noname';
+      if (this.user) {
+        name = this.user.username;
+      } else {
+        name = 'Noname_' + Math.round(Math.random()*1000);
+      }
     }
 
     let uiState = [];

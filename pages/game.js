@@ -24,7 +24,20 @@ export default class Game extends React.Component {
       server = await serverResult.json();
     }
 
-    return {userId:userId, gameId:query.gameId, server:server};
+    let user = null;
+    if (userId) {
+      const userResult = await fetch(process.env.API_URL + '/api/user', {
+        method: 'post',
+        headers: { 'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json' },
+        body: JSON.stringify({userId:userId})
+      })
+
+      if (userResult.status == 200) {
+        user = await userResult.json();
+      }
+    }
+
+    return {userId:userId, gameId:query.gameId, server:server, user:user};
   }
 
 
@@ -67,7 +80,7 @@ export default class Game extends React.Component {
 
     this.ws.onopen = (event) => {
       onopen(event, this.manager, this.ws, this);
-      this.manager = new Manager(this.props.gameId, this, null, this.props.userId);
+      this.manager = new Manager(this.props.gameId, this, null, this.props.userId, this.props.user);
     }
 
     this.ws.onmessage = (event) => {

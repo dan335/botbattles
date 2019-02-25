@@ -18,7 +18,15 @@ export default class Replay extends React.Component {
 
     const replay = await serverResult.json();
 
-    return {replay:replay};
+    const dataResult = await fetch(process.env.API_URL + '/api/replaydata', {
+      method: 'post',
+      headers: { 'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json' },
+      body: JSON.stringify({replayId:query.replayId})
+    });
+
+    const replaydata = await dataResult.json();
+
+    return {replay:replay, replaydata:replaydata};
   }
 
 
@@ -27,7 +35,7 @@ export default class Replay extends React.Component {
 
     this.state = {
       isConnected: true,
-      isLoading: false,
+      isLoading: true,
       log: [],
       winner: null
     };
@@ -37,7 +45,7 @@ export default class Replay extends React.Component {
   componentDidMount() {
     if (!this.props.replay) return;
 
-    this.manager = new Manager(this.props.gameId, this, this.props.replay, null);
+    this.manager = new Manager(this.props.gameId, this, this.props.replaydata, null);
   }
 
 
