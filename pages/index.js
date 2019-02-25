@@ -304,9 +304,11 @@ export default class Index extends React.Component {
       html.push(
         <div className="ability" key={i}>
           <label>Ability {i+1}</label>
-          {this.renderKeyOptions(i)}
-          {this.renderAbilityTypes(i)}
-          <br/><br/>
+          <div className="abilityDropdowns">
+            <div>{this.renderKeyOptions(i)}</div>
+            <div></div>
+            <div>{this.renderAbilityTypes(i)}</div>
+          </div>
           {this.renderAbilityDescription(i)}
           <style jsx>{`
             .ability {
@@ -318,6 +320,18 @@ export default class Index extends React.Component {
               display: block;
               margin-bottom: 10px;
               color: #91df3e;
+            }
+          `}</style>
+          <style jsx global>{`
+            .abilityDropdowns {
+              display: grid;
+              grid-template-columns: auto 10px auto;
+              margin-bottom: 10px;
+            }
+            .abilityDropdowns select {
+              width: 100%;
+              padding: 5px;
+              border-radius: 3px;
             }
           `}</style>
         </div>
@@ -343,7 +357,7 @@ export default class Index extends React.Component {
 
           <div id="topBox">
             <h1 id="logo">Bot Battles</h1>
-            <h2 id="tagline">Multiplayer Online Robot Battle Arena</h2>
+            <h2 id="tagline">MULTIPLAYER ONLINE ROBOT BATTLE ARENA</h2>
           </div>
 
           <div id="mainContainer">
@@ -380,7 +394,7 @@ export default class Index extends React.Component {
 
           #midBox {
             display: grid;
-            grid-template-columns: 1fr 20px 1fr;
+            grid-template-columns: 300px 20px auto;
             width: 900px;
             margin-left: auto;
             margin-right: auto;
