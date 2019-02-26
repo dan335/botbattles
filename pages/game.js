@@ -116,7 +116,7 @@ export default class Game extends React.Component {
     if (!this.state.isConnected) {
       return (
         <div>
-          <div id="lostConnectionModal">Lost connection to server. <a href="/">Return to main menu</a>.</div>
+          <div id="lostConnectionModal">Lost connection to server.</div>
           <style jsx>{`
             #lostConnectionModal {
               position: fixed;

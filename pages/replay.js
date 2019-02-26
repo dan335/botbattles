@@ -59,24 +59,6 @@ export default class Replay extends React.Component {
   }
 
 
-  renderLostConnection() {
-    if (!this.state.isConnected) {
-      return (
-        <div>
-          <div id="lostConnectionModal">Lost connection to server. <a href="/">Return to main menu</a>.</div>
-          <style jsx>{`
-            #lostConnectionModal {
-              position: fixed;
-              left: 20px;
-              top: 50px;
-              color: #fff;
-            }
-          `}</style>
-        </div>
-      )
-    }
-  }
-
 
   renderLoading() {
     if (this.state.isLoading) {
@@ -157,7 +139,6 @@ export default class Replay extends React.Component {
       <div>
         <MainLayout>
           <div id="game"></div>
-          {this.renderLostConnection()}
           {this.renderLoading()}
           <div id="logContainer">
             {this.renderLog()}
