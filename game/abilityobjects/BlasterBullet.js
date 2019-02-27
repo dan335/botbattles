@@ -17,7 +17,8 @@ export default class BlasterBullet extends Obj {
     var material = new MeshBasicMaterial( {color: parseInt(color)} );
     this.mesh = new Mesh( geometry, material );
     this.mesh.position.set(this.position.x, -0.5, this.position.y);
-    this.mesh.setRotationFromAxisAngle(new Vector3(0, 1, 0), this.rotation * -1);
+    //this.mesh.setRotationFromAxisAngle(new Vector3(0, 1, 0), this.rotation * -1);
+    this.mesh.rotation.set(0, this.rotation * -1, 0);
     this.manager.scene.add(this.mesh);
 
     new Particle(this.manager, {

@@ -4,7 +4,8 @@ import {
   OrthographicCamera,
   Math as tMath,
   DirectionalLight,
-  AxesHelper
+  AxesHelper,
+  TextureLoader
 } from 'three';
 
 import * as Cookies from 'js-cookie';
@@ -38,6 +39,17 @@ export default class Manager {
     this.deltaTime = 0;
     this.tickStartTime = 0;
     this.user = user;
+
+    this.textures = {};
+    this.loadTextures();
+
+  }
+
+
+  loadTextures() {
+    this.textures.particleAlpha = new TextureLoader().load( '/static/textures/particleAlpha.jpg' );
+    this.textures.pillarColor = new TextureLoader().load('/static/textures/pillarColor.jpg');
+    this.textures.bg = new TextureLoader().load('/static/textures/bg.jpg');
 
     this.setup();
   }

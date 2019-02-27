@@ -4,7 +4,9 @@ import {
   MeshBasicMaterial,
   Mesh,
   Vector3,
-  TextureLoader
+  TextureLoader,
+  Euler,
+  Matrix4
 } from 'three';
 import HealthBars from './HealthBars.js';
 const _s = require('../lib/settings.js');
@@ -29,7 +31,7 @@ export default class Ship extends Obj {
     this.engineUpParticleCreated = 0;
     this.engineLeftParticleCreated = 0;
     this.engineRightParticleCreated = 0;
-    this.particleCreateDelay = 60;
+    this.particleCreateDelay = 50;
 
     this.loadMesh();
     this.healthBars = new HealthBars(x, y, 0, 1, -45, manager.scene);
@@ -37,7 +39,7 @@ export default class Ship extends Obj {
 
 
   loadMesh() {
-    var geometry = new CylinderBufferGeometry( this.radius, this.radius, 1, 32 );
+    var geometry = new CylinderBufferGeometry( this.radius, this.radius, 15, 32 );
     this.material = this.material();
     this.mesh = new Mesh( geometry, this.material );
     this.mesh.position.set(this.position.x, 0, this.position.y);
@@ -70,6 +72,34 @@ export default class Ship extends Obj {
   }
 
 
+  setRotation(r) {
+    this.rotation = r;
+
+    if (this.mesh) {
+      let rotateX = 0;
+      let rotateZ = 0;
+      if (this.engineLeft) rotateZ += Math.PI/7;
+      if (this.engineRight) rotateZ -= Math.PI/7;
+      if (this.engineUp) rotateX -= Math.PI/7;
+      if (this.engineDown) rotateX += Math.PI/7;
+
+      //this.mesh.rotation.set(0, r * -1, 0);   // why -1?
+
+      let x = new Matrix4().makeRotationX(rotateX);
+      let y = new Matrix4().makeRotationY(r * -1);
+      let z = new Matrix4().makeRotationZ(rotateZ);
+
+      x.multiply(z).multiply(y);
+
+      this.mesh.matrix = x;
+      this.mesh.setRotationFromMatrix(x);
+    }
+  }
+
+
+
+
+
   material() {
     return new MeshBasicMaterial( {
       map: new TextureLoader().load( '/static/textures/shipColor.jpg' )
@@ -86,10 +116,10 @@ export default class Ship extends Obj {
           x: this.position.x,
           y: this.position.y,
           rotation: 0 + (Math.random() * 0.4 - 0.2),
-          scale: 20,
+          scale: 30,
           speed: 0.4,
           drag: 0.8,
-          lifespan: 150,
+          lifespan: 120,
           color: 0x555555,
           fadeTime: 100
         });
@@ -102,10 +132,10 @@ export default class Ship extends Obj {
           x: this.position.x,
           y: this.position.y,
           rotation: Math.PI/2 + (Math.random() * 0.4 - 0.2),
-          scale: 20,
+          scale: 30,
           speed: 0.4,
           drag: 0.8,
-          lifespan: 150,
+          lifespan: 120,
           color: 0x555555,
           fadeTime: 100
         });
@@ -118,10 +148,10 @@ export default class Ship extends Obj {
           x: this.position.x,
           y: this.position.y,
           rotation: Math.PI + (Math.random() * 0.4 - 0.2),
-          scale: 20,
+          scale: 30,
           speed: 0.4,
           drag: 0.8,
-          lifespan: 150,
+          lifespan: 120,
           color: 0x555555,
           fadeTime: 100
         });
@@ -134,10 +164,10 @@ export default class Ship extends Obj {
           x: this.position.x,
           y: this.position.y,
           rotation: -Math.PI/2 + (Math.random() * 0.4 - 0.2),
-          scale: 20,
+          scale: 30,
           speed: 0.4,
           drag: 0.8,
-          lifespan: 150,
+          lifespan: 120,
           color: 0x555555,
           fadeTime: 100
         });

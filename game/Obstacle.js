@@ -12,7 +12,7 @@ export default class Obstacle extends Obj {
     super(manager, x, y, rotation, radius, id);
 
     var geometry = new CylinderBufferGeometry( radius, radius, 1, 32 );
-    var material = new MeshBasicMaterial( {color: 0x6a6f73} );
+    var material = new MeshBasicMaterial( {color: 0x6a6f73, map:this.manager.textures.pillarColor} );
     this.mesh = new Mesh( geometry, material );
     this.mesh.position.set(this.position.x, 0, this.position.y);
     this.manager.scene.add(this.mesh);

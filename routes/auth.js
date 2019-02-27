@@ -38,15 +38,17 @@ module.exports = function(app) {
 
   app.post('/auth/register', (req, res) => {
 
-    if (!req.body.username || !req.body.username.length) {
-      return res.status(500).send('Email address required.');
+    let name = req.body.username.replace(/[^0-9a-zA-Z_\s]/g, '').trim();
+
+    if (!name || !name.length) {
+      return res.status(500).send('Name required.');
     }
 
     if (!req.body.email || !req.body.email.length) {
       return res.status(500).send('Email address required.');
     }
 
-    if (req.body.username.length >= 32) {
+    if (name.length >= 32) {
       return res.status(500).send('Username must be less than 32 characters.');
     }
 
@@ -70,7 +72,9 @@ module.exports = function(app) {
       if (anotherUser) {
         return res.status(500).send('A user with this email already exists.');
       } else {
-        User.findOne({username:req.body.username.trim()}, function(error, anotherUser) {
+        const nameQuery = '^' + name + '$';
+
+        User.findOne({username:{ $regex : new RegExp(nameQuery, "i") }}, function(error, anotherUser) {
           if (anotherUser) {
             return res.status(500).send('A user with this username already exists.');
           } else {

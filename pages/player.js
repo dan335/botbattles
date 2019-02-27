@@ -68,7 +68,30 @@ export default class Login extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      settingsError: null
+    };
+  }
+
+
+  saveSettings(event) {
+    let name = document.getElementById('nameInput').value;
+
+    const settings = {name:name};
+
+    fetch('/api/saveSettings', {
+      method: 'post',
+      headers: {'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json'},
+      body: JSON.stringify(settings)
+    }).then((res) => {
+      if (res.status == 200) {
+        location.reload();
+      } else {
+        res.text().then((error) => {
+          this.setState({settingsError:error});
+        })
+      }
+    })
   }
 
 
@@ -79,11 +102,19 @@ export default class Login extends React.Component {
         <div>
           <h2>Settings</h2>
           <div className="block roboto">
+            {this.state.settingsError ? (<div id="settingsError">{this.state.settingsError}</div>) : ''}
             <label>Name</label>
-            <input type="text" defaultValue={this.props.user.username} />
-            <button>Save</button>
+            <input type="text" defaultValue={this.props.user.username} id="nameInput" />
+            <button onClick={this.saveSettings.bind(this)}>Save</button>
           </div>
           <style jsx>{`
+            #settingsError {
+              background-color: hsl(0, 60%, 50%);
+              color: #fff;
+              padding: 10px;
+              border-radius: 3px;
+              margin-bottom: 20px;
+            }
             .roboto {
               font-family: 'Roboto', sans-serif;
             }

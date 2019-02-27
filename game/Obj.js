@@ -34,12 +34,7 @@ export default class Obj extends Base {
 
     // rotation
     var diff = Math.atan2(Math.sin(to.r-from.r), Math.cos(to.r-from.r));
-    this.rotation = from.r + diff * Math.max(0, Math.min(percentage, 1));
-
-    if (this.mesh) {
-      this.mesh.position.set(this.position.x, 0, this.position.y);
-      this.mesh.setRotationFromAxisAngle(new Vector3(0, 1, 0), this.rotation * -1); // why -1?
-    }
+    this.setRotation(from.r + diff * Math.max(0, Math.min(percentage, 1)));
   }
 
 
