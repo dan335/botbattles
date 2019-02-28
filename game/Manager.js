@@ -62,12 +62,10 @@ export default class Manager {
       volume: 0.4
     });
 
-    // TODO
     this.sounds.boost = new Howl({
       src: ['/static/sounds/Boost.wav']
     });
 
-    // TODO
     this.sounds.bulletTime = new Howl({
       src: ['/static/sounds/Bullet_Time.wav']
     });
@@ -77,7 +75,6 @@ export default class Manager {
       volume: 0.4
     });
 
-    // TODO
     this.sounds.charging = new Howl({
       src: ['/static/sounds/Charging_LOOP.wav'],
       loop: true
@@ -108,17 +105,14 @@ export default class Manager {
       src: ['/static/sounds/Large_Explosion.wav']
     });
 
-    // TODO
     this.sounds.mineDropper = new Howl({
       src: ['/static/sounds/Mine_Dropper.wav']
     });
 
-    // TODO
     this.sounds.rage = new Howl({
       src: ['/static/sounds/Rage.wav']
     });
 
-    // TODO
     this.sounds.shieldRecharge = new Howl({
       src: ['/static/sounds/Shield_Recharge_LOOP.wav'],
       loop: true

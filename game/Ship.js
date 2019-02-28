@@ -198,4 +198,22 @@ export default class Ship extends Obj {
     this.material.visible = true;
     this.healthBars.goVisible();
   }
+
+
+  chargeStart() {
+    this.chargeSoundId = this.manager.sounds.charging.play();
+  }
+
+
+  chargeEnd() {
+     this.manager.sounds.charging.stop(this.chargeSoundId);
+  }
+
+  shieldRechargeStart() {
+    this.shieldRechargeSoundId = this.manager.sounds.shieldRecharge.play();
+  }
+
+  shieldRechargeEnd() {
+    this.manager.sounds.shieldRecharge.stop(this.shieldRechargeSoundId);
+  }
 }

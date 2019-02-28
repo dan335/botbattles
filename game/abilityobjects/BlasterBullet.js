@@ -10,7 +10,7 @@ import Particle from '../fx/Particle.js';
 
 
 export default class BlasterBullet extends Obj {
-  constructor(manager, x, y, rotation, radius, id, color) {
+  constructor(manager, x, y, rotation, radius, id, color, playSound) {
     super(manager, x, y, rotation, radius, id);
 
     var geometry = new CylinderBufferGeometry( this.radius, this.radius, 0.1, 12 );
@@ -33,7 +33,9 @@ export default class BlasterBullet extends Obj {
       fadeTime: 150
     });
 
-    this.manager.sounds.blaster.play();
+    if (playSound) {
+      this.manager.sounds.blaster.play();
+    }
   }
 
 
