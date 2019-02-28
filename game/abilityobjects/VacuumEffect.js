@@ -1,5 +1,6 @@
 import Particle from '../fx/Particle.js';
 import Obj from '../Obj.js';
+import {Howler} from 'howler';
 
 const color = 0x356ab5;
 
@@ -8,6 +9,7 @@ export default class VacuumEffect extends Obj {
     super(manager, ship.position.x, ship.position.y, ship.rotation, radius, id);
     this.ship = ship;
     this.particles = [];
+    this.soundId = this.manager.sounds.vacuum.play();
   }
 
 
@@ -32,6 +34,8 @@ export default class VacuumEffect extends Obj {
 
 
   destroy() {
+    this.manager.sounds.vacuum.stop(this.soundId);
+
     this.particles.forEach((particle) => {
       particle.destroy();
     })

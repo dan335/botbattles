@@ -58,6 +58,8 @@ export default class SmasherSpikes extends Obj {
     this.mesh.position.set(this.position.x, 0, this.position.y);
     this.mesh.rotation.set(Math.PI/2, 0, this.ship.rotation);
     this.manager.scene.add(this.mesh);
+
+    this.manager.sounds.smasher.play();
   }
 
 

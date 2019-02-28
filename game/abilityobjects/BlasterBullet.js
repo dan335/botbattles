@@ -32,6 +32,8 @@ export default class BlasterBullet extends Obj {
       color: parseInt(color),
       fadeTime: 150
     });
+
+    this.manager.sounds.blaster.play();
   }
 
 

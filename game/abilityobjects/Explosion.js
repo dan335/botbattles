@@ -34,6 +34,10 @@ export default class Explosion extends Obj {
           fadeTime: 150
         });
       }
+
+      this.manager.sounds.explosionLarge.play();
+    } else {
+      this.manager.sounds.explosionSmall.play();
     }
   }
 

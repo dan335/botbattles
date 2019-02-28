@@ -11,6 +11,7 @@ import {
 import * as Cookies from 'js-cookie';
 const _s = require('../lib/settings.js');
 import messageFunctions from '../lib/messageFunctions.js';
+import {Howl} from 'howler';
 
 
 
@@ -41,8 +42,8 @@ export default class Manager {
     this.user = user;
 
     this.textures = {};
+    this.sounds = {};
     this.loadTextures();
-
   }
 
 
@@ -50,6 +51,110 @@ export default class Manager {
     this.textures.particleAlpha = new TextureLoader().load( '/static/textures/particleAlpha.jpg' );
     this.textures.pillarColor = new TextureLoader().load('/static/textures/pillarColor.jpg');
     this.textures.bg = new TextureLoader().load('/static/textures/bg.jpg');
+
+    this.loadSounds();
+  }
+
+
+  loadSounds() {
+    this.sounds.blaster = new Howl({
+      src: ['/static/sounds/Blaster.wav']
+    });
+
+    // TODO
+    this.sounds.boost = new Howl({
+      src: ['/static/sounds/Boost.wav']
+    });
+
+    // TODO
+    this.sounds.bulletTime = new Howl({
+      src: ['/static/sounds/Bullet_Time.wav']
+    });
+
+    this.sounds.cannon = new Howl({
+      src: ['/static/sounds/Cannon.wav']
+    });
+
+    // TODO
+    this.sounds.charging = new Howl({
+      src: ['/static/sounds/Charging_LOOP.wav'],
+      loop: true
+    });
+
+    this.sounds.countdown = new Howl({
+      src: ['/static/sounds/Countdown_Beep.wav']
+    });
+
+    this.sounds.emp = new Howl({
+      src: ['/static/sounds/EMP.wav']
+    });
+
+    this.sounds.forceField = new Howl({
+      src: ['/static/sounds/Force_Field.wav']
+    });
+
+    this.sounds.gameOver = new Howl({
+      src: ['/static/sounds/Game_Over.wav']
+    });
+
+    this.sounds.gameStart = new Howl({
+      src: ['/static/sounds/Game_Start.wav']
+    });
+
+    this.sounds.explosionLarge = new Howl({
+      src: ['/static/sounds/Large_Explosion.wav']
+    });
+
+    // TODO
+    this.sounds.mineDropper = new Howl({
+      src: ['/static/sounds/Mine_Dropper.wav']
+    });
+
+    // TODO
+    this.sounds.rage = new Howl({
+      src: ['/static/sounds/Rage.wav']
+    });
+
+    // TODO
+    this.sounds.shieldRecharge = new Howl({
+      src: ['/static/sounds/Shield_Recharge_LOOP.wav'],
+      loop: true
+    });
+
+    // TODO
+    this.sounds.silencer = new Howl({
+      src: ['/static/sounds/Silencer.wav']
+    });
+
+    this.sounds.slam = new Howl({
+      src: ['/static/sounds/Slam.wav']
+    });
+
+    this.sounds.explosionSmall = new Howl({
+      src: ['/static/sounds/Small_Explosion.wav']
+    });
+
+    this.sounds.smasher = new Howl({
+      src: ['/static/sounds/Smasher.wav']
+    });
+
+    this.sounds.stunGun = new Howl({
+      src: ['/static/sounds/Stun_Gun.wav']
+    });
+
+    // TODO
+    this.sounds.teleport = new Howl({
+      src: ['/static/sounds/Teleport.wav']
+    });
+
+    this.sounds.turret = new Howl({
+      src: ['/static/sounds/Turret.wav']
+    });
+
+    this.sounds.vacuum = new Howl({
+      src: ['/static/sounds/Vacuum_LOOP.wav'],
+      loop: true
+    });
 
     this.setup();
   }

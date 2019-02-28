@@ -18,6 +18,8 @@ export default class Emp extends Obj {
     this.mesh = new Mesh( geometry, material );
     this.mesh.position.set(this.position.x, 0, this.position.y);
     this.manager.scene.add(this.mesh);
+
+    this.manager.sounds.emp.play();
   }
 
 

@@ -23,6 +23,8 @@ export default class SlamGfx extends Obj {
     setTimeout(() => {
       this.destroy();
     }, 200);
+
+    this.manager.sounds.slam.play();
   }
 
 

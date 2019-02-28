@@ -27,6 +27,8 @@ export default class TurretObject extends Obj {
     this.offsetZ = -35;
 
     this.healthBar = new ProgressBar(this.maxHealth, this.maxHealth, 50, 10, manager.scene, x+this.offsetX, this.offsetY, y+this.offsetZ, 0x111111, 0x75b535);
+
+    this.manager.sounds.turret.play();
   }
 
 

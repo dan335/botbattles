@@ -16,6 +16,8 @@ export default class Blast {
         color: parseInt(color),
         fadeTime: 150
       });
+
+      this.manager.sounds.cannon.play();
     }
 
   }
