@@ -17,7 +17,7 @@ export default class Blast {
         fadeTime: 150
       });
 
-      this.manager.sounds.cannon.play();
+      manager.sounds.cannon.play();
     }
 
   }

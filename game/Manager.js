@@ -59,7 +59,7 @@ export default class Manager {
   loadSounds() {
     this.sounds.blaster = new Howl({
       src: ['/static/sounds/Blaster.wav'],
-      volume: 0.5
+      volume: 0.4
     });
 
     // TODO
@@ -73,7 +73,8 @@ export default class Manager {
     });
 
     this.sounds.cannon = new Howl({
-      src: ['/static/sounds/Cannon.wav']
+      src: ['/static/sounds/Cannon.wav'],
+      volume: 0.4
     });
 
     // TODO
@@ -83,7 +84,8 @@ export default class Manager {
     });
 
     this.sounds.countdown = new Howl({
-      src: ['/static/sounds/Countdown_Beep.wav']
+      src: ['/static/sounds/Countdown_Beep.wav'],
+      volume: 0.7
     });
 
     this.sounds.emp = new Howl({
@@ -133,7 +135,7 @@ export default class Manager {
 
     this.sounds.explosionSmall = new Howl({
       src: ['/static/sounds/Small_Explosion.wav'],
-      volume: 0.5
+      volume: 0.6
     });
 
     this.sounds.smasher = new Howl({
