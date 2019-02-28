@@ -58,7 +58,8 @@ export default class Manager {
 
   loadSounds() {
     this.sounds.blaster = new Howl({
-      src: ['/static/sounds/Blaster.wav']
+      src: ['/static/sounds/Blaster.wav'],
+      volume: 0.5
     });
 
     // TODO
@@ -131,7 +132,8 @@ export default class Manager {
     });
 
     this.sounds.explosionSmall = new Howl({
-      src: ['/static/sounds/Small_Explosion.wav']
+      src: ['/static/sounds/Small_Explosion.wav'],
+      volume: 0.5
     });
 
     this.sounds.smasher = new Howl({
