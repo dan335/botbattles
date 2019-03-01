@@ -167,7 +167,9 @@ export default class Index extends React.Component {
       Cookies.set('abilityType' + i, document.getElementById('abilityType' + i).value);
     }
 
-    this.ws.send(JSON.stringify({t:'requestGame'}));
+    if (this.ws && this.ws.readyState == this.ws.OPEN) {
+      this.ws.send(JSON.stringify({t:'requestGame'}));
+    }
   }
 
 

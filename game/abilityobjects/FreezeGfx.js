@@ -34,6 +34,8 @@ export default class FreezeGfx extends Obj {
         fadeTime: 80
       });
     }
+
+    this.manager.sounds.slam.play();
   }
 
 

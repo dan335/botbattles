@@ -72,7 +72,7 @@ export default class Manager {
 
     this.sounds.cannon = new Howl({
       src: ['/static/sounds/Cannon.wav'],
-      volume: 0.4
+      volume: 0.3
     });
 
     this.sounds.charging = new Howl({
@@ -118,7 +118,6 @@ export default class Manager {
       loop: true
     });
 
-    // TODO
     this.sounds.silencer = new Howl({
       src: ['/static/sounds/Silencer.wav']
     });
@@ -140,7 +139,6 @@ export default class Manager {
       src: ['/static/sounds/Stun_Gun.wav']
     });
 
-    // TODO
     this.sounds.teleport = new Howl({
       src: ['/static/sounds/Teleport.wav']
     });
@@ -153,6 +151,11 @@ export default class Manager {
       src: ['/static/sounds/Vacuum_LOOP.wav'],
       loop: true
     });
+
+    this.sounds.stunned = new Howl({
+      src: ['/static/sounds/Stun_LOOP.wav'],
+      loop: true
+    })
 
     this.setup();
   }

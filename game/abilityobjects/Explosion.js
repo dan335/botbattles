@@ -35,9 +35,11 @@ export default class Explosion extends Obj {
         });
       }
 
-      this.manager.sounds.explosionLarge.play();
+      this.soundId = this.manager.sounds.explosionLarge.play();
+      this.manager.sounds.explosionLarge.volume(Math.random() * 0.5 + 0.5, this.soundId);
     } else {
-      this.manager.sounds.explosionSmall.play();
+      this.soundId = this.manager.sounds.explosionSmall.play();
+      this.manager.sounds.explosionSmall.volume(Math.random() * 0.4 + 0.2, this.soundId);
     }
   }
 

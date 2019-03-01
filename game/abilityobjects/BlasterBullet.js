@@ -34,7 +34,8 @@ export default class BlasterBullet extends Obj {
     });
 
     if (playSound) {
-      this.manager.sounds.blaster.play();
+      this.soundId = this.manager.sounds.blaster.play();
+      this.manager.sounds.blaster.volume(Math.random() * 0.4 + 0.1, this.soundId);
     }
   }
 

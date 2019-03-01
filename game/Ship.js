@@ -97,9 +97,6 @@ export default class Ship extends Obj {
   }
 
 
-
-
-
   material() {
     return new MeshBasicMaterial( {
       map: new TextureLoader().load( '/static/textures/shipColor.jpg' )
@@ -215,5 +212,15 @@ export default class Ship extends Obj {
 
   shieldRechargeEnd() {
     this.manager.sounds.shieldRecharge.stop(this.shieldRechargeSoundId);
+  }
+
+
+  stunnedStart() {
+    this.stunnedSoundId = this.manager.sounds.stunned.play();
+  }
+
+
+  stunnedEnd() {
+    this.manager.sounds.stunned.stop(this.stunnedSoundId);
   }
 }

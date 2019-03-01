@@ -5,8 +5,8 @@ import {Howler} from 'howler';
 const color = 0x356ab5;
 
 export default class VacuumEffect extends Obj {
-  constructor(manager, radius, id, ship) {
-    super(manager, ship.position.x, ship.position.y, ship.rotation, radius, id);
+  constructor(manager, radius, id, ship, x, y) {
+    super(manager, ship ? ship.position.x : x, ship ? ship.position.y : y, 0, radius, id);
     this.ship = ship;
     this.particles = [];
     this.soundId = this.manager.sounds.vacuum.play();
@@ -18,9 +18,12 @@ export default class VacuumEffect extends Obj {
     for (let i = 0; i < 5; i++) {
       const rotation = Math.random() * Math.PI*2;
 
+      const x = this.ship ? this.ship.position.x : this.position.x;
+      const y = this.ship ? this.ship.position.y : this.position.y;
+
       new Particle(this.manager, {
-        x: this.ship.position.x + Math.cos(rotation) * this.radius,
-        y: this.ship.position.y + Math.sin(rotation) * this.radius,
+        x: x + Math.cos(rotation) * this.radius,
+        y: y + Math.sin(rotation) * this.radius,
         rotation: rotation + Math.PI,
         scale: 10,
         speed: 2,

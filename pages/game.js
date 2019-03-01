@@ -329,7 +329,9 @@ export default class Game extends React.Component {
 
 
   playButton(event) {
-    this.ws.send(JSON.stringify({t:'requestGame'}));
+    if (this.ws && this.ws.readyState === this.ws.OPEN) {
+      this.ws.send(JSON.stringify({t:'requestGame'}));
+    }
   }
 
 

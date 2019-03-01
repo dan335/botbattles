@@ -103,7 +103,7 @@ export default class Player extends Ship {
 
         if (ability != null) {
           if (!this.isAbilityDown[ability]) {
-            this.manager.ui.ws.send(JSON.stringify({t:'abilityKeyDown', num:ability}));
+            this.manager.sendToServer({t:'abilityKeyDown', num:ability});
             this.isAbilityDown[ability] = true;
           }
         }
@@ -123,7 +123,7 @@ export default class Player extends Ship {
 
         if (ability != null) {
           if (this.isAbilityDown[ability]) {
-            this.manager.ui.ws.send(JSON.stringify({t:'abilityKeyUp', num:ability}));
+            this.manager.sendToServer({t:'abilityKeyUp', num:ability});
             this.isAbilityDown[ability] = false;
           }
         }
@@ -145,28 +145,28 @@ export default class Player extends Ship {
           case 'ArrowUp':
           case  'w':
             if (!this.isUpKeyDown) {
-              this.manager.ui.ws.send(JSON.stringify({t:'keyDown', key:'up'}));
+              this.manager.sendToServer({t:'keyDown', key:'up'});
               this.isUpKeyDown = true;
             }
             break;
           case 'ArrowDown':
           case  's':
             if (!this.isDownKeyDown) {
-              this.manager.ui.ws.send(JSON.stringify({t:'keyDown', key:'down'}));
+              this.manager.sendToServer({t:'keyDown', key:'down'});
               this.isDownKeyDown = true;
             }
             break;
           case 'ArrowRight':
           case  'd':
             if (!this.isRightKeyDown) {
-              this.manager.ui.ws.send(JSON.stringify({t:'keyDown', key:'right'}));
+              this.manager.sendToServer({t:'keyDown', key:'right'});
               this.isRightKeyDown = true;
             }
             break;
           case 'ArrowLeft':
           case  'a':
             if (!this.isLeftKeyDown) {
-              this.manager.ui.ws.send(JSON.stringify({t:'keyDown', key:'left'}));
+              this.manager.sendToServer({t:'keyDown', key:'left'});
               this.isLeftKeyDown = true;
             }
             break;
@@ -174,7 +174,7 @@ export default class Player extends Ship {
             for (let i = 0; i < this.abilityKeys.length; i++) {
               if (event.code == this.abilityKeys[i]) {
                 if (!this.isAbilityDown[i]) {
-                  this.manager.ui.ws.send(JSON.stringify({t:'abilityKeyDown', num:i}));
+                  this.manager.sendToServer({t:'abilityKeyDown', num:i});
                   this.isAbilityDown[i] = true;
                 }
               }
@@ -186,28 +186,28 @@ export default class Player extends Ship {
           case 'ArrowUp':
           case  'w':
             if (this.isUpKeyDown) {
-              this.manager.ui.ws.send(JSON.stringify({t:'keyUp', key:'up'}));
+              this.manager.sendToServer({t:'keyUp', key:'up'});
               this.isUpKeyDown = false;
             }
             break;
           case 'ArrowDown':
           case  's':
             if (this.isDownKeyDown) {
-              this.manager.ui.ws.send(JSON.stringify({t:'keyUp', key:'down'}));
+              this.manager.sendToServer({t:'keyUp', key:'down'});
               this.isDownKeyDown = false;
             }
             break;
           case 'ArrowRight':
           case  'd':
             if (this.isRightKeyDown) {
-              this.manager.ui.ws.send(JSON.stringify({t:'keyUp', key:'right'}));
+              this.manager.sendToServer({t:'keyUp', key:'right'});
               this.isRightKeyDown = false;
             }
             break;
           case 'ArrowLeft':
           case  'a':
             if (this.isLeftKeyDown) {
-              this.manager.ui.ws.send(JSON.stringify({t:'keyUp', key:'left'}));
+              this.manager.sendToServer({t:'keyUp', key:'left'});
               this.isLeftKeyDown = false;
             }
             break;
@@ -215,7 +215,7 @@ export default class Player extends Ship {
             for (let i = 0; i < this.abilityKeys.length; i++) {
               if (event.code == this.abilityKeys[i]) {
                 if (this.isAbilityDown[i]) {
-                  this.manager.ui.ws.send(JSON.stringify({t:'abilityKeyUp', num:i}));
+                  this.manager.sendToServer({t:'abilityKeyUp', num:i});
                   this.isAbilityDown[i] = false;
                 }
               }
