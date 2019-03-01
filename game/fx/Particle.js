@@ -30,31 +30,19 @@ export default class Particle {
     this.sprite = this.manager.spriteBucket.pop();
     this.sprite.visible = true;
 
-    this.sprite.material.color = new Color(options.color || 0xaaaaaa);
+    this.sprite.material.color = new Color(parseInt(options.color) || 0xaaaaaa);
     this.sprite.material.opacity = this.opacity;
 
     this.sprite.scale.set(options.scale, options.scale, options.scale);
     this.sprite.position.set(options.x, -20, options.y);
     this.sprite.rotation.set(-Math.PI/2, 0, this.rotation * -1);
 
-    // this.material = new MeshBasicMaterial({
-    //   color:options.color || 0xaaaaaa,
-    //   transparent:true,
-    //   opacity:this.opacity,
-    //   alphaMap:this.manager.textures.particleAlpha
-    // });
-    // this.sprite = new Sprite( this.material );
-    // this.sprite.scale.set(options.scale, options.scale, options.scale);
-    // this.sprite.position.set(options.x, -20, options.y);
-    // this.sprite.rotation.set(-Math.PI/2, 0, this.rotation * -1);
-    // this.manager.scene.add( this.sprite );
-
     this.manager.particles.push(this);
   }
 
 
   tick() {
-    if (this.createdAt + this.lifespan < this.manager.tickStartTime) {
+    if (this.createdAt + this.lifespan <= this.manager.tickStartTime) {
       this.destroy();
       return;
     }
@@ -66,7 +54,7 @@ export default class Particle {
     this.sprite.position.set(this.position.x, -20, this.position.y);
 
     if (this.createdAt + this.lifespan - this.fadeTime < this.manager.tickStartTime) {
-      this.sprite.material.opacity = 1 - ((this.manager.tickStartTime - (this.createdAt + this.lifespan - this.fadeTime)) / this.fadeTime);
+      this.sprite.material.opacity = Math.max(0, 1 - ((this.manager.tickStartTime - (this.createdAt + this.lifespan - this.fadeTime)) / this.fadeTime));
     }
   }
 
@@ -78,10 +66,6 @@ export default class Particle {
     }
 
     if (this.sprite) {
-      // this.manager.scene.remove(this.sprite);
-      // this.sprite.geometry.dispose();
-      // this.sprite.material.dispose();
-      // this.sprite = undefined;
       this.sprite.position.set(10000, -20, 10000);
       this.sprite.visible = false;
       this.manager.spriteBucket.push(this.sprite);

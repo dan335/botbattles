@@ -134,6 +134,31 @@ export default class Replay extends React.Component {
   }
 
 
+  renderStats() {
+    let ping = '-';
+    if (this.state.ping) {
+      ping = Math.round(this.state.ping);
+    }
+
+    return (
+      <div>
+        Ping: {ping} &nbsp;&nbsp;
+        Server Tick: {Math.round(this.state.serverTickTime * 100) / 100} &nbsp;&nbsp;
+        Client Tick: {Math.round(this.state.clientTickTime * 100) / 100} &nbsp;&nbsp;
+        <style jsx>{`
+          div {
+            position: fixed;
+            left: 10px;
+            bottom: 10px;
+            color: #999;
+            font-size: 50%;
+          }
+        `}</style>
+      </div>
+    )
+  }
+
+
   render() {
     return (
       <div>
@@ -143,6 +168,7 @@ export default class Replay extends React.Component {
           <div id="logContainer">
             {this.renderLog()}
             {this.renderWinner()}
+            {this.renderState()}
           </div>
           <div id="backButton"><a href="/">&lt; Back Home</a></div>
         </MainLayout>

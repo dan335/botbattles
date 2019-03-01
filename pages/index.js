@@ -49,7 +49,8 @@ export default class Index extends React.Component {
       isWsOpen: false,
       server: null,
       abilityTypes: [],
-      abilityKeys: []
+      abilityKeys: [],
+      serverInfo: []
     }
 
     this.playButton = this.playButton.bind(this);
@@ -89,6 +90,40 @@ export default class Index extends React.Component {
     this.setState({abilityKeys:abilityKeys});
 
     this.sendPings();
+
+    this.getServerStats();
+
+    setInterval(() => {
+      this.getServerStats();
+    }, 1000 * 5);
+  }
+
+
+
+  getServerStats() {
+    let serverInfo = [];
+    let promises = [];
+
+    this.props.servers.forEach((server) => {
+      promises.push(new Promise((resolve, reject) => {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.responseType = 'json';
+        xmlHttp.open('GET', server.url + '/stats', true);
+        xmlHttp.onload = function() {
+          if (this.status == 200) {
+            serverInfo.push(Object.assign({name:server.name, id:server._id}, this.response));
+            resolve();
+          } else {
+            reject();
+          }
+        }
+        xmlHttp.send();
+      }));
+    });
+
+    Promise.all(promises).then(() => {
+      this.setState({serverInfo:serverInfo});
+    })
   }
 
 
@@ -372,6 +407,30 @@ export default class Index extends React.Component {
                   <input type="text" defaultValue={name} id="nameInput"></input>
                 </div>
                 {this.renderPlayButton()}
+
+                <div id="serverInfo">
+                  {this.state.serverInfo.map((server) => {
+                    return (
+                      <div key={server.name} className="serverContainer">
+                        <div className="serverTitle">
+                          <div className="serverName">{server.name}</div>
+                          <div className="alignRight">{server.numPlayers} Players, {server.numSpectators} Spectators in {server.numGames} Games</div>
+                        </div>
+                        {server.games.map((game) => {
+                          return (
+                            <div key={game.id} className="gameInfo">
+                              <div>{game.numPlayers} Players, {game.numSpectators} Spectators</div>
+                              <div className="alignRight">
+                                {game.isStarted ? (<a href={'/game/'+server.id+'/'+game.id}>Spectate</a>) : (<a href={'/game/'+server.id+'/'+game.id}>Join</a>)}
+                                {game.isEnded ? ' Ended' : ''}
+                              </div>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    )
+                  })}
+                </div>
               </div>
 
               <div></div>
@@ -385,6 +444,35 @@ export default class Index extends React.Component {
           <BottomMenu />
         </MainLayout>
         <style jsx>{`
+          #serverInfo {
+            font-family: 'Roboto', sans-serif;
+            text-align: left;
+            background-color: hsl(203, 20%, 10%);
+            padding: 10px;
+            border-radius: 3px;
+            margin-top: 30px;
+            font-size: 90%;
+            max-height: 300px;
+            overflow-y: auto;
+          }
+          .serverContainer {
+            margin-bottom: 20px;
+          }
+          .serverTitle {
+            display: grid;
+            grid-template-columns: auto auto;
+            margin-bottom: 10px;
+          }
+          .serverName {
+            font-weight: bold;
+          }
+          .alignRight {
+            text-align: right;
+          }
+          .gameInfo {
+            display: grid;
+            grid-template-columns: auto auto;
+          }
           #mainContainer {
             background-color: hsl(203, 20%, 20%);
           }
@@ -426,7 +514,7 @@ export default class Index extends React.Component {
           }
           #inputContainer {
             text-align: left;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             background-color: hsl(203, 20%, 10%);
             padding: 20px;
             border-radius: 3px;

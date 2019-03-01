@@ -77,6 +77,7 @@ export default class Manager {
 
 
   loadTextures() {
+    this.textures.obstacleAoAlpha = new TextureLoader().load('/static/textures/obstacleAoAlpha.jpg');
     this.textures.playerColor = new TextureLoader().load('/static/textures/playerColor.jpg');
     this.textures.shipColor = new TextureLoader().load('/static/textures/shipColor.jpg');
     this.textures.turretColor = new TextureLoader().load('/static/textures/turretColor.jpg');

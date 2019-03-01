@@ -37,7 +37,7 @@ export default class Player extends Ship {
       if (!this.manager.replay) {
         this.manager.sendToServer({t:'mousemove', x:x, y:y});
       }
-    }, 60);
+    }, 50);
 
     window.addEventListener( 'keydown', this, false );
     window.addEventListener( 'keyup', this, false );

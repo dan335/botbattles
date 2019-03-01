@@ -22,7 +22,7 @@ export default class PlayerSeekingMissle extends BlasterBullet {
       speed: 0,
       drag: 0,
       lifespan: 100,
-      color: this.color,
+      color: 0xffaaaa,
       fadeTime: 100
     });
   }
