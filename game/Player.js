@@ -143,28 +143,32 @@ export default class Player extends Ship {
       case 'keydown':
         switch (event.key) {
           case 'ArrowUp':
-          case  'w':
+          case 'w':
+          case 'W':
             if (!this.isUpKeyDown) {
               this.manager.sendToServer({t:'keyDown', key:'up'});
               this.isUpKeyDown = true;
             }
             break;
           case 'ArrowDown':
-          case  's':
+          case 's':
+          case 'S':
             if (!this.isDownKeyDown) {
               this.manager.sendToServer({t:'keyDown', key:'down'});
               this.isDownKeyDown = true;
             }
             break;
           case 'ArrowRight':
-          case  'd':
+          case 'd':
+          case 'D':
             if (!this.isRightKeyDown) {
               this.manager.sendToServer({t:'keyDown', key:'right'});
               this.isRightKeyDown = true;
             }
             break;
           case 'ArrowLeft':
-          case  'a':
+          case 'a':
+          case 'A':
             if (!this.isLeftKeyDown) {
               this.manager.sendToServer({t:'keyDown', key:'left'});
               this.isLeftKeyDown = true;
@@ -184,28 +188,32 @@ export default class Player extends Ship {
       case 'keyup':
         switch (event.key) {
           case 'ArrowUp':
-          case  'w':
+          case 'w':
+          case 'W':
             if (this.isUpKeyDown) {
               this.manager.sendToServer({t:'keyUp', key:'up'});
               this.isUpKeyDown = false;
             }
             break;
           case 'ArrowDown':
-          case  's':
+          case 's':
+          case 'S':
             if (this.isDownKeyDown) {
               this.manager.sendToServer({t:'keyUp', key:'down'});
               this.isDownKeyDown = false;
             }
             break;
           case 'ArrowRight':
-          case  'd':
+          case 'd':
+          case 'D':
             if (this.isRightKeyDown) {
               this.manager.sendToServer({t:'keyUp', key:'right'});
               this.isRightKeyDown = false;
             }
             break;
           case 'ArrowLeft':
-          case  'a':
+          case 'a':
+          case 'A':
             if (this.isLeftKeyDown) {
               this.manager.sendToServer({t:'keyUp', key:'left'});
               this.isLeftKeyDown = false;
