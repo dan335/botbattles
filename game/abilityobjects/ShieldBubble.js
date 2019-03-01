@@ -15,7 +15,11 @@ export default class ShieldBubble extends Obj {
     this.ship = ship;
 
     var geometry = new CylinderBufferGeometry( this.radius, this.radius, 0.1, 32 );
-    var material = new MeshBasicMaterial( {color: 0x356ab5} );
+    var material = new MeshBasicMaterial( {
+      color: 0x356ab5,
+      alphaMap: this.manager.textures.forceFieldAlpha,
+      transparent: true
+    });
     this.mesh = new Mesh( geometry, material );
     this.mesh.position.set(this.position.x, 0, this.position.y);
     this.manager.scene.add(this.mesh);

@@ -3,7 +3,8 @@ import {
   CylinderBufferGeometry,
   MeshBasicMaterial,
   Mesh,
-  Vector3
+  Vector3,
+  Color
 } from 'three';
 import Particle from '../fx/Particle.js';
 
@@ -14,7 +15,7 @@ export default class BlasterBullet extends Obj {
     super(manager, x, y, rotation, radius, id);
 
     var geometry = new CylinderBufferGeometry( this.radius, this.radius, 0.1, 12 );
-    var material = new MeshBasicMaterial( {color: parseInt(color)} );
+    var material = new MeshBasicMaterial( {color: new Color(parseInt(color))} );
     this.mesh = new Mesh( geometry, material );
     this.mesh.position.set(this.position.x, -0.5, this.position.y);
     //this.mesh.setRotationFromAxisAngle(new Vector3(0, 1, 0), this.rotation * -1);
@@ -25,12 +26,12 @@ export default class BlasterBullet extends Obj {
       x: this.position.x,
       y: this.position.y,
       rotation: this.rotation,
-      scale: 30,
-      speed: 0.5,
-      drag: 0.8,
-      lifespan: 200,
+      scale: 50,
+      speed: 0,
+      drag: 0,
+      lifespan: 80,
       color: parseInt(color),
-      fadeTime: 150
+      fadeTime: 80
     });
 
     if (playSound) {

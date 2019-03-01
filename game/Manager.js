@@ -5,7 +5,10 @@ import {
   Math as tMath,
   DirectionalLight,
   AxesHelper,
-  TextureLoader
+  TextureLoader,
+  MeshBasicMaterial,
+  Sprite,
+  Color
 } from 'three';
 
 import * as Cookies from 'js-cookie';
@@ -40,19 +43,47 @@ export default class Manager {
     this.deltaTime = 0;
     this.tickStartTime = 0;
     this.user = user;
-
     this.textures = {};
     this.sounds = {};
+
     this.loadTextures();
+    this.loadSounds();
+    this.setup();
+    this.createSprites();
+    this.animate();
+  }
+
+
+  createSprites() {
+    this.spriteBucket = [];
+
+    for (let i = 0; i < _s.numBucketSprites; i++) {
+      const spriteMaterial = new MeshBasicMaterial({
+        color: new Color(0xaaaaaa),
+        transparent: true,
+        opacity: 0.1,
+        alphaMap: this.textures.particleAlpha
+      });
+
+      const sprite = new Sprite( spriteMaterial );
+      sprite.scale.set(1, 1, 1);
+      sprite.position.set(10000, 0, 10000);
+      sprite.rotation.set(-Math.PI/2, 0, 0);
+      sprite.visible = false;
+      this.scene.add( sprite );
+      this.spriteBucket.push(sprite);
+    }
   }
 
 
   loadTextures() {
+    this.textures.playerColor = new TextureLoader().load('/static/textures/playerColor.jpg');
+    this.textures.shipColor = new TextureLoader().load('/static/textures/shipColor.jpg');
+    this.textures.turretColor = new TextureLoader().load('/static/textures/turretColor.jpg');
     this.textures.particleAlpha = new TextureLoader().load( '/static/textures/particleAlpha.jpg' );
     this.textures.pillarColor = new TextureLoader().load('/static/textures/pillarColor.jpg');
     this.textures.bg = new TextureLoader().load('/static/textures/bg.jpg');
-
-    this.loadSounds();
+    this.textures.forceFieldAlpha = new TextureLoader().load('/static/textures/forceFieldAlpha.jpg');
   }
 
 
@@ -156,8 +187,6 @@ export default class Manager {
       src: ['/static/sounds/Stun_LOOP.wav'],
       loop: true
     })
-
-    this.setup();
   }
 
 
@@ -166,28 +195,6 @@ export default class Manager {
       this.ui.ws.send(JSON.stringify(str));
     }
   }
-
-
-  // startCountdown(startTime) {
-  //   this.gameStartTime = startTime;
-  //
-  //   const msLeft = startTime - Date.now();
-  //   const seconds = Math.floor(msLeft / 1000);
-  //   const delay = msLeft - seconds * 1000;
-  //   setTimeout(() => {
-  //     this.displayCountdown();
-  //   }, delay);
-  // }
-
-  // displayCountdown() {
-  //   this.ui.addToLog(Math.round((this.gameStartTime - Date.now()) / 1000));
-  //
-  //   if (this.gameStartTime - Date.now() >= 1000) {
-  //     setTimeout(() => {
-  //       this.displayCountdown();
-  //     }, 1000);
-  //   }
-  // }
 
 
   checkPing() {
@@ -220,9 +227,6 @@ export default class Manager {
     this.camera.position.y = 100;
     this.camera.rotation.x = tMath.degToRad(-90);
 
-    // var directionalLight = new DirectionalLight( 0xffffff, 1 );
-    // this.scene.add( directionalLight );
-
     document.getElementById('game').appendChild( this.renderer.domElement );
 
     window.addEventListener( 'resize', this, false );
@@ -232,11 +236,6 @@ export default class Manager {
     } else {
       this.sendJoinGameMessage();
     }
-
-    // var axesHelper = new AxesHelper( 20 );
-    // this.scene.add( axesHelper );
-
-    this.animate();
   }
 
 

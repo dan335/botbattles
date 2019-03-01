@@ -16,7 +16,9 @@ export default class TurretObject extends Obj {
     this.maxHealth = health;
 
     var geometry = new CylinderBufferGeometry( this.radius, this.radius, 0.1, 12 );
-    var material = new MeshBasicMaterial( {color: 0xffbb44} );
+    var material = new MeshBasicMaterial({
+      map: this.manager.textures.turretColor
+    });
     this.mesh = new Mesh( geometry, material );
     this.mesh.position.set(this.position.x, 0, this.position.y);
     this.mesh.setRotationFromAxisAngle(new Vector3(0, 1, 0), this.rotation * -1);

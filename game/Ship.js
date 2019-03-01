@@ -99,7 +99,7 @@ export default class Ship extends Obj {
 
   material() {
     return new MeshBasicMaterial( {
-      map: new TextureLoader().load( '/static/textures/shipColor.jpg' )
+      map: this.manager.textures.shipColor
     });
   }
 
@@ -110,10 +110,10 @@ export default class Ship extends Obj {
     if (this.engineLeft) {
       if (this.engineLeftParticleCreated + this.particleCreateDelay < this.manager.tickStartTime) {
         new Particle(this.manager, {
-          x: this.position.x,
-          y: this.position.y,
+          x: this.position.x + Math.random() * 10 - 5,
+          y: this.position.y + Math.random() * 10 - 5,
           rotation: 0 + (Math.random() * 0.4 - 0.2),
-          scale: 30,
+          scale: Math.random() * 15 + 15,
           speed: 0.4,
           drag: 0.8,
           lifespan: 120,
@@ -126,10 +126,10 @@ export default class Ship extends Obj {
     if (this.engineUp) {
       if (this.engineUpParticleCreated + this.particleCreateDelay < this.manager.tickStartTime) {
         new Particle(this.manager, {
-          x: this.position.x,
-          y: this.position.y,
+          x: this.position.x + Math.random() * 10 - 5,
+          y: this.position.y + Math.random() * 10 - 5,
           rotation: Math.PI/2 + (Math.random() * 0.4 - 0.2),
-          scale: 30,
+          scale: Math.random() * 15 + 15,
           speed: 0.4,
           drag: 0.8,
           lifespan: 120,
@@ -142,10 +142,10 @@ export default class Ship extends Obj {
     if (this.engineRight) {
       if (this.engineRightParticleCreated + this.particleCreateDelay < this.manager.tickStartTime) {
         new Particle(this.manager, {
-          x: this.position.x,
-          y: this.position.y,
+          x: this.position.x + Math.random() * 10 - 5,
+          y: this.position.y + Math.random() * 10 - 5,
           rotation: Math.PI + (Math.random() * 0.4 - 0.2),
-          scale: 30,
+          scale: Math.random() * 15 + 15,
           speed: 0.4,
           drag: 0.8,
           lifespan: 120,
@@ -158,10 +158,10 @@ export default class Ship extends Obj {
     if ( this.engineDown) {
       if (this.engineDownParticleCreated + this.particleCreateDelay < this.manager.tickStartTime) {
         new Particle(this.manager, {
-          x: this.position.x,
-          y: this.position.y,
+          x: this.position.x + Math.random() * 10 - 5,
+          y: this.position.y + Math.random() * 10 - 5,
           rotation: -Math.PI/2 + (Math.random() * 0.4 - 0.2),
-          scale: 30,
+          scale: Math.random() * 15 + 15,
           speed: 0.4,
           drag: 0.8,
           lifespan: 120,

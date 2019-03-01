@@ -25,7 +25,7 @@ export default class VacuumEffect extends Obj {
         x: x + Math.cos(rotation) * this.radius,
         y: y + Math.sin(rotation) * this.radius,
         rotation: rotation + Math.PI,
-        scale: 10,
+        scale: Math.random() * 5 + 8,
         speed: 2,
         drag: 0.8,
         lifespan: 100,
