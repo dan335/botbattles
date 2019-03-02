@@ -135,16 +135,11 @@ export default class Replay extends React.Component {
 
 
   renderStats() {
-    let ping = '-';
-    if (this.state.ping) {
-      ping = Math.round(this.state.ping);
-    }
-
     return (
       <div>
-        Ping: {ping} &nbsp;&nbsp;
-        Server Tick: {Math.round(this.state.serverTickTime * 100) / 100} &nbsp;&nbsp;
-        Client Tick: {Math.round(this.state.clientTickTime * 100) / 100} &nbsp;&nbsp;
+        Ping: <span id="ping">-</span> &nbsp;&nbsp;
+        Server Tick: <span id="serverTickTime">-</span> &nbsp;&nbsp;
+        Client Tick: <span id="clientTickTime">-</span> &nbsp;&nbsp;
         <style jsx>{`
           div {
             position: fixed;

@@ -63,10 +63,16 @@ export default class Player extends Ship {
 
   updateAttributes(json) {
     super.updateAttributes(json);
-    this.manager.ui.setState({
-      health:this.health,
-      shield:this.shield
-    });
+
+    const health = document.getElementById('health');
+    if (health) {
+      health.style.width = (this.health / _s.maxHealth * 100) + '%';
+    }
+
+    const shield = document.getElementById('shield');
+    if (shield) {
+      shield.style.width = (this.shield / _s.maxShield * 100) + '%';
+    }
   }
 
 

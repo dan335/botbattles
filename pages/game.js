@@ -49,15 +49,11 @@ export default class Game extends React.Component {
       isConnected: true,
       isLoadingReplay: false,
       hasAShip: false,
-      ping: null,
       isLoading: true,
       log: [],
-      health: _s.maxHealth,
-      shield: _s.maxShield,
       abilityTypes: null,
       cooldowns: [],
       cooldownWidths: ['100%', '100%', '100%', '100%'],
-      serverTickTime: null,
       clientTickTime: null,
       winner: null
     };
@@ -132,16 +128,11 @@ export default class Game extends React.Component {
 
 
   renderStats() {
-    let ping = '-';
-    if (this.state.ping) {
-      ping = Math.round(this.state.ping);
-    }
-
     return (
       <div>
-        Ping: {ping} &nbsp;&nbsp;
-        Server Tick: {Math.round(this.state.serverTickTime * 100) / 100} &nbsp;&nbsp;
-        Client Tick: {Math.round(this.state.clientTickTime * 100) / 100} &nbsp;&nbsp;
+        Ping: <span id="ping">-</span> &nbsp;&nbsp;
+        Server Tick: <span id="serverTickTime">-</span> &nbsp;&nbsp;
+        Client Tick: <span id="clientTickTime">-</span> &nbsp;&nbsp;
         <style jsx>{`
           div {
             position: fixed;
@@ -281,16 +272,13 @@ export default class Game extends React.Component {
 
 
   renderHealthBars() {
-    const health = (this.state.health / _s.maxHealth * 100) + '%';
-    const shield = (this.state.shield / _s.maxShield * 100) + '%';
-
     return (
       <div id="healthContainer">
         <div id="shieldContainer" className="barContainer">
-          <div id="shield" className="bar" style={{width:shield}}></div>
+          <div id="shield" className="bar" style={{width:'100%'}}></div>
         </div>
         <div id="healthContainer" className="barContainer">
-          <div id="health" className="bar" style={{width:health}}></div>
+          <div id="health" className="bar" style={{width:'100%'}}></div>
         </div>
         <style jsx>{`
           #healthContainer {

@@ -386,7 +386,10 @@ export default class Manager {
     this.clientTickNum++;
 
     if (this.clientTickNum > 100) {
-      this.ui.setState({clientTickTime: this.clientTickSum / this.clientTickNum});
+      const elm = document.getElementById('clientTickTime');
+      if (elm) {
+        elm.innerHTML = Math.round(this.clientTickSum / this.clientTickNum * 100) / 100
+      }
       this.clientTickSum = 0;
       this.clientTickNum = 0;
     }
