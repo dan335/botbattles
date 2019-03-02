@@ -30,7 +30,7 @@ export default class Obj extends Base {
     const from = this.lastSyncPositions[1];
     const to = this.lastSyncPositions[0];
 
-    const percentage = (Date.now() - this.manager.serverTimeOffset - from.t) / timeBetweenSyncs;
+    const percentage = (Date.now() - this.manager.serverTimeOffset - this.manager.ping/2 - from.t) / timeBetweenSyncs;
 
     this.setPosition(
       from.x + percentage * (to.x - from.x),
