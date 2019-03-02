@@ -276,10 +276,6 @@ export default class Manager {
         }
       }
 
-      if (event.t >= this.gameStartTime) {
-        this.ui.setState({hasPassedGameStart:true});
-      }
-
       const timeElapsed = Date.now() - this.playStart;
       const eventTimeFromStart = event.t - this.replayStart;
 
