@@ -36,6 +36,7 @@ export default class Manager {
     this.ping = 50; // average ping round trip
     this.pings = [];  // raw pings
     this.serverTimeOffset = 0;
+    this.renderDelay = 0;   // delay from when message is recieved from client to rendering
     this.lastPingCheck = null;
     this.timeBetweenSyncs = 0;
     this.clientTickSum = 0;
@@ -200,6 +201,8 @@ export default class Manager {
 
 
   checkPing() {
+    if (this.replay) return;
+
     const now = Date.now();
     if (!this.lastPingCheck || now - this.lastPingCheck > 1000 * 5) {
       if (this.ui.ws && this.ui.ws.readyState == 1) {
