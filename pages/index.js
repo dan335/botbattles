@@ -395,7 +395,7 @@ export default class Index extends React.Component {
 
           <div id="topBox">
             <h1 id="logo">Bot Battles</h1>
-            <h2 id="tagline">MULTIPLAYER ONLINE ROBOT BATTLE ARENA</h2>
+            <h2 id="tagline">MULTIPLAYER ONLINE ROBOT BATTLE ROYALE ARENA</h2>
           </div>
 
           <div id="mainContainer">

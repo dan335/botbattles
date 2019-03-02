@@ -35,6 +35,7 @@ export default class Manager {
     this.player = null;
     this.ping = 50; // average ping round trip
     this.pings = [];  // raw pings
+    this.serverTimeOffset = 0;
     this.lastPingCheck = null;
     this.timeBetweenSyncs = 0;
     this.clientTickSum = 0;
@@ -50,7 +51,8 @@ export default class Manager {
     this.loadSounds();
     this.setup();
     this.createSprites();
-    this.animate();
+    this.tick();
+    this.render();
   }
 
 
@@ -241,7 +243,6 @@ export default class Manager {
 
 
   startReplay() {
-    this.ui.setState({isLoadingReplay:true});
     this.replayJson = JSON.parse(this.replay.json);
 
     if (this.replayJson) {
@@ -250,7 +251,7 @@ export default class Manager {
         return new Date(a.t) - new Date(b.t);
       })
 
-      this.ui.setState({isLoadingReplay:false});
+      this.ui.setState({isLoading:false});
       this.playStart = Date.now();
       this.replayStart = this.replayJson[0].t;
       this.replayNextEvent();
@@ -352,7 +353,7 @@ export default class Manager {
   }
 
 
-  animate() {
+  tick() {
     this.checkPing();
 
     this.deltaTime = performance.now() - this.tickStartTime;
@@ -381,17 +382,24 @@ export default class Manager {
       this.particles[i].tick();
     }
 
-    requestAnimationFrame( this.animate.bind(this) );
+    this.clientTickSum += performance.now() - this.tickStartTime;
+    this.clientTickNum++;
+
+    if (this.clientTickNum > 100) {
+      this.ui.setState({clientTickTime: this.clientTickSum / this.clientTickNum});
+      this.clientTickSum = 0;
+      this.clientTickNum = 0;
+    }
+
+    setTimeout(() => {
+      this.tick();
+    }, _s.tickIntervalMs);
+  }
+
+
+  render() {
+    requestAnimationFrame( this.render.bind(this) );
 	   this.renderer.render( this.scene, this.camera );
-
-     this.clientTickSum += performance.now() - this.tickStartTime;
-     this.clientTickNum++;
-
-     if (this.clientTickNum > 100) {
-       this.ui.setState({clientTickTime: this.clientTickSum / this.clientTickNum});
-       this.clientTickSum = 0;
-       this.clientTickNum = 0;
-     }
   }
 
 

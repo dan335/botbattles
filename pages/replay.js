@@ -168,7 +168,7 @@ export default class Replay extends React.Component {
           <div id="logContainer">
             {this.renderLog()}
             {this.renderWinner()}
-            {this.renderState()}
+            {this.renderStats()}
           </div>
           <div id="backButton"><a href="/">&lt; Back Home</a></div>
         </MainLayout>

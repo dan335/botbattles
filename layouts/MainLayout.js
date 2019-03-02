@@ -19,6 +19,7 @@ export default class MainLayout extends React.Component {
       <div>
         <Head>
           <title>BotBattles.io</title>
+          <meta name="description" content="BotBattles.io is a free io multiplayer online battle royale arena game." />
           <link href="https://fonts.googleapis.com/css?family=Audiowide" rel="stylesheet" />
           <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
         </Head>

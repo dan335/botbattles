@@ -16,16 +16,21 @@ export default class Obj extends Base {
   tick() {
     let sum = 0;
     let count = 0;
+    let timeBetweenSyncs;
     for (let n = 1; n < this.lastSyncPositions.length; n++) {
-      sum += this.lastSyncPositions[n-1].recieved - this.lastSyncPositions[n].recieved;
+      sum += this.lastSyncPositions[n-1].t - this.lastSyncPositions[n].t;
       count++;
     }
-    if (!count) return;
-    this.manager.timeBetweenSyncs = sum / count;
+    if (count) {
+      timeBetweenSyncs = sum / count;
+    } else {
+      return;
+    }
 
     const from = this.lastSyncPositions[1];
     const to = this.lastSyncPositions[0];
-    const percentage = Math.max(0, Math.min(1, (Date.now() - to.recieved) / this.manager.timeBetweenSyncs));
+
+    const percentage = (Date.now() - this.manager.serverTimeOffset - from.t) / timeBetweenSyncs;
 
     this.setPosition(
       from.x + percentage * (to.x - from.x),
@@ -54,12 +59,12 @@ export default class Obj extends Base {
       }
     }
 
-    if (this.lastSyncPositions.length > 4) {
+    if (this.lastSyncPositions.length > 6) {
       this.lastSyncPositions.pop();
     }
 
-    this.lastSyncPositions.sort(function(a, b) {
-      return b.t - a.t;
-    });
+    // this.lastSyncPositions.sort(function(a, b) {
+    //   return b.t - a.t;
+    // });
   }
 }
