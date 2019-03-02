@@ -66,7 +66,7 @@ export default class SlicerSpikes extends Obj {
 
   tick() {
     this.mesh.position.set(this.ship.position.x, 0, this.ship.position.y);
-    this.mesh.rotation.set(Math.PI/2, 0, this.mesh1.rotation.z + 0.08);
+    this.mesh.rotation.set(Math.PI/2, 0, this.mesh.rotation.z + 0.08);
   }
 
 
