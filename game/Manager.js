@@ -51,7 +51,6 @@ export default class Manager {
     this.loadSounds();
     this.setup();
     this.createSprites();
-    this.tick();
     this.render();
   }
 
@@ -393,14 +392,12 @@ export default class Manager {
       this.clientTickSum = 0;
       this.clientTickNum = 0;
     }
-
-    setTimeout(() => {
-      this.tick();
-    }, _s.tickIntervalMs);
   }
 
 
   render() {
+    this.tick();
+
     requestAnimationFrame( this.render.bind(this) );
 	   this.renderer.render( this.scene, this.camera );
   }
