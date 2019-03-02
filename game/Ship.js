@@ -78,10 +78,10 @@ export default class Ship extends Obj {
     if (this.mesh) {
       let rotateX = 0;
       let rotateZ = 0;
-      if (this.engineLeft) rotateZ += Math.PI/7;
-      if (this.engineRight) rotateZ -= Math.PI/7;
-      if (this.engineUp) rotateX -= Math.PI/7;
-      if (this.engineDown) rotateX += Math.PI/7;
+      if (this.engineLeft) rotateZ += Math.PI/10;
+      if (this.engineRight) rotateZ -= Math.PI/10;
+      if (this.engineUp) rotateX -= Math.PI/10;
+      if (this.engineDown) rotateX += Math.PI/10;
 
       //this.mesh.rotation.set(0, r * -1, 0);   // why -1?
 

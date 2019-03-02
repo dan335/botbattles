@@ -52,6 +52,7 @@ export default class Manager {
     this.loadSounds();
     this.setup();
     this.createSprites();
+    this.tick();
     this.render();
   }
 
@@ -149,7 +150,8 @@ export default class Manager {
 
     this.sounds.shieldRecharge = new Howl({
       src: ['/static/sounds/Shield_Recharge_LOOP.wav'],
-      loop: true
+      loop: true,
+      volume: 0.2
     });
 
     this.sounds.silencer = new Howl({
@@ -395,12 +397,14 @@ export default class Manager {
       this.clientTickSum = 0;
       this.clientTickNum = 0;
     }
+
+    setTimeout(() => {
+      this.tick();
+    }, 16.666)
   }
 
 
   render() {
-    this.tick();
-
     requestAnimationFrame( this.render.bind(this) );
 	   this.renderer.render( this.scene, this.camera );
   }

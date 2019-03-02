@@ -14,13 +14,15 @@ export default class Obj extends Base {
 
 
   tick() {
+    if (this.lastSyncPositions.length < 2) return;
+
     const now = Date.now();
 
     let sum = 0;
     let count = 0;
     let timeBetweenSyncs;
     for (let n = 1; n < this.lastSyncPositions.length; n++) {
-      sum += this.lastSyncPositions[n-1].t - this.lastSyncPositions[n].t;
+      sum += this.lastSyncPositions[n-1].recieved - this.lastSyncPositions[n].recieved;
       count++;
     }
     if (count) {
@@ -32,7 +34,7 @@ export default class Obj extends Base {
     const from = this.lastSyncPositions[1];
     const to = this.lastSyncPositions[0];
 
-    const percentage = (now - from.recieved) / timeBetweenSyncs;
+    const percentage = Math.min(2, (now - from.recieved) / timeBetweenSyncs);
 
     this.setPosition(
       from.x + percentage * (to.x - from.x),
@@ -43,7 +45,11 @@ export default class Obj extends Base {
     var diff = Math.atan2(Math.sin(to.r-from.r), Math.cos(to.r-from.r));
     this.setRotation(from.r + diff * Math.max(0, Math.min(percentage, 1)));
 
-    this.manager.renderDelay = now - to.recieved;
+    this.manager.renderDelay = Math.min(100, now - to.recieved);
+
+    if (this.lastSyncPositions.length > 6) {
+      this.lastSyncPositions.pop();
+    }
   }
 
 
@@ -63,12 +69,8 @@ export default class Obj extends Base {
       }
     }
 
-    if (this.lastSyncPositions.length > 4) {
-      this.lastSyncPositions.pop();
-    }
-
-    // this.lastSyncPositions.sort(function(a, b) {
-    //   return b.t - a.t;
-    // });
+    this.lastSyncPositions.sort(function(a, b) {
+      return b.t - a.t;
+    });
   }
 }

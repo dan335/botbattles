@@ -131,8 +131,8 @@ export default class Game extends React.Component {
     return (
       <div>
         Ping: <span id="ping">-</span> &nbsp;&nbsp;
-        Server Tick: <span id="serverTickTime">-</span> &nbsp;&nbsp;
-        Client Tick: <span id="clientTickTime">-</span> &nbsp;&nbsp;
+        Server: <span id="serverTickTime">-</span> &nbsp;&nbsp;
+        Client: <span id="clientTickTime">-</span> &nbsp;&nbsp;
         <style jsx>{`
           div {
             position: fixed;
