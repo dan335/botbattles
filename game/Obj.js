@@ -14,7 +14,7 @@ export default class Obj extends Base {
 
 
   tick() {
-    const interpolationMs = this.manager.ping;//Math.max(100, this.manager.ping);
+    const interpolationMs = 100;
     const now = Date.now();
     const playbackServerTime = now - interpolationMs - this.manager.serverTimeOffset;
     let to = null;
@@ -52,6 +52,7 @@ export default class Obj extends Base {
 
 
   updateAttributes(json) {
+
     this.syncPositions.unshift({
       x: Number(json.x),
       y: Number(json.y),
