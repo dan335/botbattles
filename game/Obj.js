@@ -52,13 +52,19 @@ export default class Obj extends Base {
 
 
   updateAttributes(json) {
+    const now = Date.now();
+
+    // if syncPositions are old then erase them
+    if (this.syncPositions.length && now - this.syncPositions[0].recieved > 500) {
+      this.syncPositions = [];
+    }
 
     this.syncPositions.unshift({
       x: Number(json.x),
       y: Number(json.y),
       t: Number(json.time),
       r: Number(json.rotation),
-      recieved: Date.now()
+      recieved: now
     });
 
     if (Boolean(json.teleport)) {

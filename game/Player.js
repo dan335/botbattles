@@ -77,7 +77,7 @@ export default class Player extends Ship {
 
 
   tick() {
-    const interpolationMs = 100;
+    const interpolationMs = 300;
     const now = Date.now();
     const playbackServerTime = now - interpolationMs - this.manager.serverTimeOffset;
     let to = null;
