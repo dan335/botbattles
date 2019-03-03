@@ -21,6 +21,7 @@ export default class Obj extends Base {
     let from = null;
     let lastNeededIndex;
 
+    // find syncPositions surrounding playbackServerTime
     for (let n = 1; n < this.syncPositions.length; n++) {
       if (this.syncPositions[n].t < playbackServerTime && this.syncPositions[n-1].t >= playbackServerTime) {
         from = this.syncPositions[n];
