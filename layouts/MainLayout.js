@@ -47,7 +47,7 @@ export default class MainLayout extends React.Component {
             text-decoration: none;
           }
           a:hover {
-            color: hsl(89, 60%, 65%);
+            color: hsl(89, 65%, 65%);
             text-decoration: none;
           }
           textarea:focus, input:focus, select:focus {
@@ -79,7 +79,7 @@ export default class MainLayout extends React.Component {
             outline:0;
           }
           button:hover,.btn:hover {
-            background-color: hsl(89, 40%, 40%);
+            background-color: hsl(89, 55%, 40%);
             cursor: pointer;
           }
           button.selected,.btn.selected {

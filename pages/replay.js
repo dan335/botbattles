@@ -143,6 +143,7 @@ export default class Replay extends React.Component {
         Ping: <span id="ping">-</span> &nbsp;&nbsp;
         Server: <span id="serverTickTime">-</span> &nbsp;&nbsp;
         Client: <span id="clientTickTime">-</span> &nbsp;&nbsp;
+        Render: <span id="renderTickTime">-</span>
         <style jsx>{`
           div {
             position: fixed;

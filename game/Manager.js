@@ -41,6 +41,8 @@ export default class Manager {
     this.timeBetweenSyncs = 0;
     this.clientTickSum = 0;
     this.clientTickNum = 0;
+    this.renderTickSum = 0;
+    this.renderTickNum = 0;
     this.gameStartTime = null;
     this.deltaTime = 0;
     this.tickStartTime = 0;
@@ -399,7 +401,7 @@ export default class Manager {
     this.clientTickSum += performance.now() - this.tickStartTime;
     this.clientTickNum++;
 
-    if (this.clientTickNum > 100) {
+    if (this.clientTickNum > 200) {
       const elm = document.getElementById('clientTickTime');
       if (elm) {
         elm.innerHTML = Math.round(this.clientTickSum / this.clientTickNum * 100) / 100
@@ -411,8 +413,22 @@ export default class Manager {
 
 
   render() {
+    this.startTime = performance.now();
+
     requestAnimationFrame( this.render.bind(this) );
-	   this.renderer.render( this.scene, this.camera );
+	  this.renderer.render( this.scene, this.camera );
+
+    this.renderTickSum += performance.now() - this.startTime;
+    this.renderTickNum++;
+
+    if (this.renderTickNum > 200) {
+      const elm = document.getElementById('renderTickTime');
+      if (elm) {
+        elm.innerHTML = Math.round(this.renderTickSum / this.renderTickNum * 100) / 100
+      }
+      this.renderTickSum = 0;
+      this.renderTickNum = 0;
+    }
   }
 
 

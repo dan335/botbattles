@@ -133,6 +133,7 @@ export default class Game extends React.Component {
         Ping: <span id="ping">-</span> &nbsp;&nbsp;
         Server: <span id="serverTickTime">-</span> &nbsp;&nbsp;
         Client: <span id="clientTickTime">-</span> &nbsp;&nbsp;
+        Render: <span id="renderTickTime">-</span>
         <style jsx>{`
           div {
             position: fixed;
@@ -165,24 +166,6 @@ export default class Game extends React.Component {
   }
 
 
-  renderLoadingReplay() {
-    if (this.state.isLoadingReplay) {
-      return (
-        <div>
-          Loading Replay...
-          <style jsx>{`
-            div {
-              position: fixed;
-              left: 10px;
-              bottom: 30px;
-              color: #fff;
-            }
-          `}</style>
-        </div>
-      )
-    }
-  }
-
 
   renderLog() {
     return (
@@ -197,15 +180,6 @@ export default class Game extends React.Component {
     )
   }
 
-
-
-  // renderLogs() {
-  //   return this.state.log.map((data) => {
-  //     return (
-  //       <div key={data.key}>{data.text}</div>
-  //     )
-  //   })
-  // }
 
 
   updateCooldowns() {
@@ -363,7 +337,6 @@ export default class Game extends React.Component {
           {this.renderLostConnection()}
           {this.renderStats()}
           {this.renderLoading()}
-          {this.renderLoadingReplay()}
           <div id="logContainer">
             {this.renderLog()}
             {this.renderWinner()}
