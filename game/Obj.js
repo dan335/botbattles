@@ -68,7 +68,6 @@ export default class Obj extends Base {
     if (this.manager.renderDelays.length > 10) {
       this.manager.renderDelays.length = 10;
     }
-    console.log(this.manager.renderDelay())
 
     // get rid of un-needed sync positions
     if (lastNeededIndex) {
