@@ -33,7 +33,7 @@ export default class Obj extends Base {
     if (!to || !from) return;
 
     const percentage = (playbackServerTime - from.t) / (to.t - from.t);
-
+console.log(percentage, from.t, playbackServerTime, to.t)
     this.setPosition(
       from.x + percentage * (to.x - from.x),
       from.y + percentage * (to.y - from.y)

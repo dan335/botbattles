@@ -356,6 +356,10 @@ export default class Manager {
 
 
   tick() {
+    setTimeout(() => {
+      this.tick();
+    },16.666);
+    
     this.checkPing();
 
     this.deltaTime = performance.now() - this.tickStartTime;
@@ -395,10 +399,6 @@ export default class Manager {
       this.clientTickSum = 0;
       this.clientTickNum = 0;
     }
-
-    setTimeout(() => {
-      this.tick();
-    },16.666)
   }
 
 
