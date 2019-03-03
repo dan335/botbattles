@@ -47,10 +47,6 @@ export default class Game extends React.Component {
 
     this.state = {
       isConnected: true,
-      isLoadingReplay: false,
-      hasAShip: false,
-      isLoading: true,
-      log: [],
       abilityTypes: null,
       cooldowns: [],
       cooldownWidths: ['100%', '100%', '100%', '100%'],
@@ -87,6 +83,10 @@ export default class Game extends React.Component {
       onclose(event, this.manager, this.ws, this);
     }
 
+    this.ws.onerror = (event) => {
+      onerror(event);
+    }
+
     this.updateCooldownsTimerHandle = setInterval(() => {
       this.updateCooldowns();
     }, 90);
@@ -94,12 +94,12 @@ export default class Game extends React.Component {
 
 
   addToLog(text) {
-    let log = cloneDeep(this.state.log);
-    log.push({
-      text: text,
-      key: Functions.createId() // for react unique key
-    });
-    this.setState({log: log});
+    const elm = document.getElementById('log');
+    if (elm) {
+      let node = document.createElement('div');
+      node.innerHTML = text;
+      elm.appendChild(node);
+    }
   }
 
 
@@ -148,21 +148,20 @@ export default class Game extends React.Component {
 
 
   renderLoading() {
-    if (this.state.isLoading) {
-      return (
-        <div>
-          Loading...
-          <style jsx>{`
-            div {
-              position: fixed;
-              left: 10px;
-              bottom: 30px;
-              color: #fff;
-            }
-          `}</style>
-        </div>
-      )
-    }
+    return (
+      <div id="loading">
+        Loading...
+        <style jsx>{`
+          div {
+            position: fixed;
+            left: 10px;
+            bottom: 30px;
+            color: #fff;
+            display: true;
+          }
+        `}</style>
+      </div>
+    )
   }
 
 
@@ -188,7 +187,7 @@ export default class Game extends React.Component {
   renderLog() {
     return (
       <div>
-        {this.renderLogs()}
+        <div id="log"></div>
         <style jsx>{`
           div {
             line-height: 150%;
@@ -200,13 +199,13 @@ export default class Game extends React.Component {
 
 
 
-  renderLogs() {
-    return this.state.log.map((data) => {
-      return (
-        <div key={data.key}>{data.text}</div>
-      )
-    })
-  }
+  // renderLogs() {
+  //   return this.state.log.map((data) => {
+  //     return (
+  //       <div key={data.key}>{data.text}</div>
+  //     )
+  //   })
+  // }
 
 
   updateCooldowns() {

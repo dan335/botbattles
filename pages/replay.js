@@ -35,8 +35,6 @@ export default class Replay extends React.Component {
 
     this.state = {
       isConnected: true,
-      isLoading: true,
-      log: [],
       winner: null
     };
   }
@@ -50,32 +48,32 @@ export default class Replay extends React.Component {
 
 
   addToLog(text) {
-    let log = cloneDeep(this.state.log);
-    log.push({
-      text: text,
-      key: Functions.createId() // for react unique key
-    });
-    this.setState({log: log});
+    const elm = document.getElementById('log');
+    console.log(elm);
+    if (elm) {
+      let node = document.createElement('div');
+      node.innerHTML = text;
+      elm.appendChild(node);
+    }
   }
 
 
 
   renderLoading() {
-    if (this.state.isLoading) {
-      return (
-        <div>
-          Loading...
-          <style jsx>{`
-            div {
-              position: fixed;
-              left: 10px;
-              bottom: 30px;
-              color: #fff;
-            }
-          `}</style>
-        </div>
-      )
-    }
+    return (
+      <div id="loading">
+        Loading...
+        <style jsx>{`
+          div {
+            position: fixed;
+            left: 10px;
+            bottom: 30px;
+            color: #fff;
+            display: true;
+          }
+        `}</style>
+      </div>
+    )
   }
 
 
@@ -95,12 +93,17 @@ export default class Replay extends React.Component {
   }
 
 
-  renderLogs() {
-    return this.state.log.map((data) => {
-      return (
-        <div key={data.key}>{data.text}</div>
-      )
-    })
+  renderLog() {
+    return (
+      <div>
+        <div id="log"></div>
+        <style jsx>{`
+          div {
+            line-height: 150%;
+          }
+        `}</style>
+      </div>
+    )
   }
 
 

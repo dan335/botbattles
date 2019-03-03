@@ -246,6 +246,11 @@ export default class Manager {
   }
 
 
+  renderDelay() {
+    return this.renderDelays.reduce((a, b) => a + b) / this.renderDelays.length;
+  }
+
+
   startReplay() {
     this.replayJson = JSON.parse(this.replay.json);
 
@@ -262,11 +267,6 @@ export default class Manager {
       this.replayStart = this.replayJson[0].t;
       this.replayNextEvent();
     }
-  }
-
-
-  renderDelay() {
-    return this.renderDelays.reduce((a, b) => a + b) / this.renderDelays.length;
   }
 
 
@@ -356,7 +356,10 @@ export default class Manager {
 
     this.sendToServer(msg);
 
-    this.ui.setState({isLoading: false});
+    const elm = document.getElementById('loading');
+    if (elm) {
+      elm.style.display = 'none';
+    }
   }
 
 

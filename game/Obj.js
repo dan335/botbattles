@@ -14,7 +14,7 @@ export default class Obj extends Base {
 
 
   tick() {
-    const interpolationMs = 100;
+    const interpolationMs = Math.max(100, this.manager.ping / 2 + 50);
     const now = Date.now();
     const playbackServerTime = now - interpolationMs - this.manager.serverTimeOffset;
     let to = null;

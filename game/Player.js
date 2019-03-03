@@ -45,8 +45,6 @@ export default class Player extends Ship {
     window.addEventListener( 'mousedown', this, false );
     window.addEventListener( 'mouseup', this, false );
     window.addEventListener( 'contextmenu', this, false );
-
-    this.manager.ui.setState({hasAShip:true});
   }
 
 
@@ -141,7 +139,6 @@ export default class Player extends Ship {
 
   destroy() {
     super.destroy();
-    this.manager.ui.setState({hasAShip:false});
   }
 
 
