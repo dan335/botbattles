@@ -93,7 +93,10 @@ export default class Player extends Ship {
       }
     }
 
-    if (!to || !from) return;
+    if (!to || !from) {
+      console.log('aborting');
+      return;
+    };
 
     const percentage = (playbackServerTime - from.t) / (to.t - from.t);
 console.log(percentage, from.t, playbackServerTime, to.t)
