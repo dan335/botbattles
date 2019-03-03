@@ -76,67 +76,67 @@ export default class Player extends Ship {
   }
 
 
-  tick() {
-    const interpolationMs = 100;
-    const now = Date.now();
-    const playbackServerTime = now - interpolationMs - this.manager.serverTimeOffset;
-    let to = null;
-    let from = null;
-    let lastNeededIndex = null;
-
-    // find syncPositions surrounding playbackServerTime
-    for (let n = 1; n < this.syncPositions.length; n++) {
-      if (this.syncPositions[n].t < playbackServerTime && this.syncPositions[n-1].t >= playbackServerTime) {
-        from = this.syncPositions[n];
-        to = this.syncPositions[n-1];
-        lastNeededIndex = n;
-      }
-    }
-
-    if (!to || !from) {
-      if (this.syncPositions.length >= 2) {
-        if (playbackServerTime - this.syncPositions[0].t < 500) {
-          from = this.syncPositions[1];
-          to = this.syncPositions[0];
-          console.log('using old positions')
-        } else {
-          this.syncPositions = [];
-          return;
-        }
-      } else if (this.syncPositions.length == 1) {
-        if (playbackServerTime - this.syncPositions[0].t < 500) {
-          this.setPosition(this.syncPositions[0].x, this.syncPositions[0].y);
-          this.setRotation(this.syncPositions[0].r);
-          console.log('using only position')
-        } else {
-          this.syncPositions = [];
-        }
-        return;
-      } else {
-        console.log('abort')
-        return;
-      }
-    };
-
-    const percentage = (playbackServerTime - from.t) / (to.t - from.t);
-console.log(percentage, from.t, playbackServerTime, to.t);
-    this.setPosition(
-      from.x + percentage * (to.x - from.x),
-      from.y + percentage * (to.y - from.y)
-    );
-
-    // rotation
-    var diff = Math.atan2(Math.sin(to.r-from.r), Math.cos(to.r-from.r));
-    this.setRotation(from.r + diff * percentage);
-
-    // how much delay should be used for things like spawning explosions
-    this.manager.renderDelay = now - from.recieved + (to.recieved - from.recieved) * percentage;
-
-    // get rid of un-needed sync positions
-    if (lastNeededIndex) {
-      this.syncPositions.length = lastNeededIndex + 1;
-    }
-  }
+//   tick() {
+//     const interpolationMs = 100;
+//     const now = Date.now();
+//     const playbackServerTime = now - interpolationMs - this.manager.serverTimeOffset;
+//     let to = null;
+//     let from = null;
+//     let lastNeededIndex = null;
+//
+//     // find syncPositions surrounding playbackServerTime
+//     for (let n = 1; n < this.syncPositions.length; n++) {
+//       if (this.syncPositions[n].t < playbackServerTime && this.syncPositions[n-1].t >= playbackServerTime) {
+//         from = this.syncPositions[n];
+//         to = this.syncPositions[n-1];
+//         lastNeededIndex = n;
+//       }
+//     }
+//
+//     if (!to || !from) {
+//       if (this.syncPositions.length >= 2) {
+//         if (playbackServerTime - this.syncPositions[0].t < 500) {
+//           from = this.syncPositions[1];
+//           to = this.syncPositions[0];
+//           console.log('using old positions')
+//         } else {
+//           this.syncPositions = [];
+//           return;
+//         }
+//       } else if (this.syncPositions.length == 1) {
+//         if (playbackServerTime - this.syncPositions[0].t < 500) {
+//           this.setPosition(this.syncPositions[0].x, this.syncPositions[0].y);
+//           this.setRotation(this.syncPositions[0].r);
+//           console.log('using only position')
+//         } else {
+//           this.syncPositions = [];
+//         }
+//         return;
+//       } else {
+//         console.log('abort')
+//         return;
+//       }
+//     };
+//
+//     const percentage = (playbackServerTime - from.t) / (to.t - from.t);
+// console.log(percentage, from.t, playbackServerTime, to.t);
+//     this.setPosition(
+//       from.x + percentage * (to.x - from.x),
+//       from.y + percentage * (to.y - from.y)
+//     );
+//
+//     // rotation
+//     var diff = Math.atan2(Math.sin(to.r-from.r), Math.cos(to.r-from.r));
+//     this.setRotation(from.r + diff * percentage);
+//
+//     // how much delay should be used for things like spawning explosions
+//     this.manager.renderDelay = now - from.recieved + (to.recieved - from.recieved) * percentage;
+//
+//     // get rid of un-needed sync positions
+//     if (lastNeededIndex) {
+//       this.syncPositions.length = lastNeededIndex + 1;
+//     }
+//   }
 
 
   destroy() {

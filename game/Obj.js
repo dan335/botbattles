@@ -32,7 +32,7 @@ export default class Obj extends Base {
 
     if (!to || !from) {
       if (this.syncPositions.length >= 2) {
-        if (playbackServerTime - this.syncPositions[0].t < 500) {
+        if (playbackServerTime - this.syncPositions[0].t < 400) {
           from = this.syncPositions[1];
           to = this.syncPositions[0];
         } else {
@@ -40,7 +40,7 @@ export default class Obj extends Base {
           return;
         }
       } else if (this.syncPositions.length == 1) {
-        if (playbackServerTime - this.syncPositions[0].t < 500) {
+        if (playbackServerTime - this.syncPositions[0].t < 400) {
           this.setPosition(this.syncPositions[0].x, this.syncPositions[0].y);
           this.setRotation(this.syncPositions[0].r);
         } else {
@@ -77,7 +77,7 @@ export default class Obj extends Base {
     const now = Date.now();
 
     // if syncPositions are old then erase them
-    if (this.syncPositions.length && now - this.syncPositions[0].recieved > 500) {
+    if (this.syncPositions.length && now - this.syncPositions[0].recieved > 400) {
       this.syncPositions = [];
     }
 
