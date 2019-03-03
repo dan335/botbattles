@@ -255,7 +255,7 @@ export default class Manager {
         return new Date(a.t) - new Date(b.t);
       })
 
-      this.serverTimeOffset = Date.now() - this.replayJson[0].
+      this.serverTimeOffset = Date.now() - this.replayJson[0].t;
 
       this.ui.setState({isLoading:false});
       this.playStart = Date.now();
