@@ -30,7 +30,27 @@ export default class Obj extends Base {
       }
     }
 
-    if (!to || !from) return;
+    if (!to || !from) {
+      if (this.syncPositions.length >= 2) {
+        if (playbackServerTime - this.syncPositions[0].t < 500) {
+          from = this.syncPositions[1];
+          to = this.syncPositions[0];
+        } else {
+          this.syncPositions = [];
+          return;
+        }
+      } else if (this.syncPositions.length == 1) {
+        if (playbackServerTime - this.syncPositions[0].t < 500) {
+          this.setPosition(this.syncPositions[0].x, this.syncPositions[0].y);
+          this.setRotation(this.syncPositions[0].r);
+        } else {
+          this.syncPositions = [];
+        }
+        return;
+      } else {
+        return;
+      }
+    };
 
     const percentage = (playbackServerTime - from.t) / (to.t - from.t);
 
@@ -47,7 +67,9 @@ export default class Obj extends Base {
     this.manager.renderDelay = now - from.recieved + (to.recieved - from.recieved) * percentage;
 
     // get rid of un-needed sync positions
-    this.syncPositions.length = lastNeededIndex + 1;
+    if (lastNeededIndex) {
+      this.syncPositions.length = lastNeededIndex + 1;
+    }
   }
 
 
