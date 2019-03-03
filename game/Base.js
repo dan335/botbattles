@@ -12,7 +12,7 @@ export default class Base {
     this.rotation = rotation;
     this.radius = radius;
     this.id = id;
-    this.lastSyncPositions = [];
+    this.syncPositions = [];
   }
 
 

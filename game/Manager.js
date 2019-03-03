@@ -255,6 +255,8 @@ export default class Manager {
         return new Date(a.t) - new Date(b.t);
       })
 
+      this.serverTimeOffset = Date.now() - this.replayJson[0].
+
       this.ui.setState({isLoading:false});
       this.playStart = Date.now();
       this.replayStart = this.replayJson[0].t;
@@ -396,7 +398,7 @@ export default class Manager {
 
     setTimeout(() => {
       this.tick();
-    }, 16.666)
+    }, 33.333)
   }
 
 
