@@ -175,9 +175,9 @@ export default class Ship extends Obj {
 
 
   destroy() {
-    shieldRechargeEnd();
-    chargeEnd();
-    stunnedEnd();
+    this.shieldRechargeEnd();
+    this.chargeEnd();
+    this.stunnedEnd();
 
     super.destroy();
     const index = this.manager.ships.indexOf(this);
