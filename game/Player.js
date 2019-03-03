@@ -77,7 +77,40 @@ export default class Player extends Ship {
 
 
   tick() {
-    super.tick();
+    const interpolationMs = 100;
+    const now = Date.now();
+    const playbackServerTime = now - interpolationMs - this.manager.serverTimeOffset;
+    let to = null;
+    let from = null;
+    let lastNeededIndex;
+
+    // find syncPositions surrounding playbackServerTime
+    for (let n = 1; n < this.syncPositions.length; n++) {
+      if (this.syncPositions[n].t < playbackServerTime && this.syncPositions[n-1].t >= playbackServerTime) {
+        from = this.syncPositions[n];
+        to = this.syncPositions[n-1];
+        lastNeededIndex = n;
+      }
+    }
+
+    if (!to || !from) return;
+
+    const percentage = (playbackServerTime - from.t) / (to.t - from.t);
+console.log(percentage, from.t, playbackServerTime, to.t)
+    this.setPosition(
+      from.x + percentage * (to.x - from.x),
+      from.y + percentage * (to.y - from.y)
+    );
+
+    // rotation
+    var diff = Math.atan2(Math.sin(to.r-from.r), Math.cos(to.r-from.r));
+    this.setRotation(from.r + diff * percentage);
+
+    // how much delay should be used for things like spawning explosions
+    this.manager.renderDelay = now - from.recieved + (to.recieved - from.recieved) * percentage;
+
+    // get rid of un-needed sync positions
+    this.syncPositions.length = lastNeededIndex + 1;
   }
 
 
