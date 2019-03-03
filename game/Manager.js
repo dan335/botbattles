@@ -398,7 +398,7 @@ export default class Manager {
 
     setTimeout(() => {
       this.tick();
-    }, 33.333)
+    },16.666)
   }
 
 
