@@ -36,7 +36,7 @@ export default class Manager {
     this.ping = 50; // average ping round trip
     this.pings = [];  // raw pings
     this.serverTimeOffset = 0;
-    this.renderDelay = 0;   // delay from when message is recieved from client to rendering
+    this.renderDelays = [0];   // delay from when message is recieved from client to rendering
     this.lastPingCheck = null;
     this.timeBetweenSyncs = 0;
     this.clientTickSum = 0;
@@ -265,6 +265,11 @@ export default class Manager {
   }
 
 
+  renderDelay() {
+    return this.renderDelays.reduce((a, b) => a + b) / this.renderDelays.length;
+  }
+
+
   replayNextEvent() {
     if (this.replayJson && this.replayJson.length) {
       var event = this.replayJson.shift();
@@ -359,7 +364,7 @@ export default class Manager {
     setTimeout(() => {
       this.tick();
     },16.666);
-    
+
     this.checkPing();
 
     this.deltaTime = performance.now() - this.tickStartTime;

@@ -64,7 +64,11 @@ export default class Obj extends Base {
     this.setRotation(from.r + diff * percentage);
 
     // how much delay should be used for things like spawning explosions
-    this.manager.renderDelay = now - from.recieved + (to.recieved - from.recieved) * percentage;
+    this.manager.renderDelays.unshift(now - from.recieved - (to.recieved - from.recieved) * percentage);
+    if (this.manager.renderDelays.length > 10) {
+      this.manager.renderDelays.length = 10;
+    }
+    console.log(this.manager.renderDelay())
 
     // get rid of un-needed sync positions
     if (lastNeededIndex) {

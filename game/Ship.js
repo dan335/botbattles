@@ -175,6 +175,10 @@ export default class Ship extends Obj {
 
 
   destroy() {
+    shieldRechargeEnd();
+    chargeEnd();
+    stunnedEnd();
+
     super.destroy();
     const index = this.manager.ships.indexOf(this);
     if (index != -1) {
@@ -203,7 +207,10 @@ export default class Ship extends Obj {
 
 
   chargeEnd() {
-     this.manager.sounds.charging.stop(this.chargeSoundId);
+    if (this.chargeSoundId) {
+      this.manager.sounds.charging.stop(this.chargeSoundId);
+      this.chargeSoundId = null;
+    }
   }
 
   shieldRechargeStart() {
@@ -211,7 +218,10 @@ export default class Ship extends Obj {
   }
 
   shieldRechargeEnd() {
-    this.manager.sounds.shieldRecharge.stop(this.shieldRechargeSoundId);
+    if (this.shieldRechargeSoundId) {
+      this.manager.sounds.shieldRecharge.stop(this.shieldRechargeSoundId);
+      this.shieldRechargeSoundId = null;
+    }
   }
 
 
@@ -221,6 +231,9 @@ export default class Ship extends Obj {
 
 
   stunnedEnd() {
-    this.manager.sounds.stunned.stop(this.stunnedSoundId);
+    if (this.stunnedSoundId) {
+      this.manager.sounds.stunned.stop(this.stunnedSoundId);
+      this.stunnedSoundId =  null;
+    }
   }
 }
