@@ -264,7 +264,11 @@ export default class Manager {
 
       this.serverTimeOffset = Date.now() - this.replayJson[0].t;
 
-      this.ui.setState({isLoading:false});
+      const elm = document.getElementById('loading');
+      if (elm) {
+        elm.style.display = 'none';
+      }
+
       this.playStart = Date.now();
       this.replayStart = this.replayJson[0].t;
       this.replayNextEvent();

@@ -299,8 +299,8 @@ export default class Index extends React.Component {
 
     let abilityTypes = this.state.abilityTypes;
 
+    // don't allow duplicate abilities
     if (abilityTypes.includes(type)) {
-      // error: can't have duplicate abilities
       return;
     }
 
