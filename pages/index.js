@@ -123,7 +123,6 @@ export default class Index extends React.Component {
     });
 
     Promise.all(promises).then(() => {
-      console.log(serverInfo)
       this.setState({serverInfo:serverInfo});
     })
   }
