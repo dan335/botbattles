@@ -31,7 +31,7 @@ export default class Ship extends Obj {
     this.engineUpParticleCreated = 0;
     this.engineLeftParticleCreated = 0;
     this.engineRightParticleCreated = 0;
-    this.particleCreateDelay = 50;
+    this.particleCreateDelay = 80;
 
     this.loadMesh();
     this.healthBars = new HealthBars(x, y, 0, 1, -45, manager.scene);
@@ -113,7 +113,7 @@ export default class Ship extends Obj {
           x: this.position.x + Math.random() * 10 - 5,
           y: this.position.y + Math.random() * 10 - 5,
           rotation: 0 + (Math.random() * 0.4 - 0.2),
-          scale: Math.random() * 15 + 15,
+          scale: Math.random() * 30 + 30,
           speed: 0.4,
           drag: 0.8,
           lifespan: 120,
@@ -129,7 +129,7 @@ export default class Ship extends Obj {
           x: this.position.x + Math.random() * 10 - 5,
           y: this.position.y + Math.random() * 10 - 5,
           rotation: Math.PI/2 + (Math.random() * 0.4 - 0.2),
-          scale: Math.random() * 15 + 15,
+          scale: Math.random() * 30 + 30,
           speed: 0.4,
           drag: 0.8,
           lifespan: 120,
@@ -145,7 +145,7 @@ export default class Ship extends Obj {
           x: this.position.x + Math.random() * 10 - 5,
           y: this.position.y + Math.random() * 10 - 5,
           rotation: Math.PI + (Math.random() * 0.4 - 0.2),
-          scale: Math.random() * 15 + 15,
+          scale: Math.random() * 30 + 30,
           speed: 0.4,
           drag: 0.8,
           lifespan: 120,
@@ -161,7 +161,7 @@ export default class Ship extends Obj {
           x: this.position.x + Math.random() * 10 - 5,
           y: this.position.y + Math.random() * 10 - 5,
           rotation: -Math.PI/2 + (Math.random() * 0.4 - 0.2),
-          scale: Math.random() * 15 + 15,
+          scale: Math.random() * 30 + 30,
           speed: 0.4,
           drag: 0.8,
           lifespan: 120,

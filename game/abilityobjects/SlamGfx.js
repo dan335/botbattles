@@ -1,6 +1,6 @@
 import Obj from '../Obj.js';
 import {
-  CylinderBufferGeometry,
+  PlaneBufferGeometry,
   MeshBasicMaterial,
   Mesh,
   Vector3,
@@ -15,7 +15,7 @@ export default class SlamGfx extends Obj {
     super(manager, x, y, ship.rotation, radius, id);
     this.ship = ship;
 
-    var geometry = new CylinderBufferGeometry( 1, 1, 0.1, 32 );
+    var geometry = new PlaneBufferGeometry( 1, 1 );
     var material = new MeshBasicMaterial({
       color: new Color(0x888888),
       alphaMap: this.manager.textures.forceFieldAlpha,
@@ -23,6 +23,7 @@ export default class SlamGfx extends Obj {
     });
     this.mesh = new Mesh( geometry, material );
     this.mesh.position.set(x, 0, y);
+    this.mesh.rotation.set(-Math.PI/2, 0, 0);
     this.mesh.scale.set(20, 1, 20);
     this.manager.scene.add(this.mesh);
 
@@ -34,10 +35,10 @@ export default class SlamGfx extends Obj {
     //this.mesh.position.set(this.ship.position.x, 0, this.ship.position.y);
 
     let scale = this.mesh.scale.x;
-    scale += this.radius / 10;
+    scale += this.radius * 4 / 10;
 
-    if (scale <= this.radius) {
-      this.mesh.scale.set(scale, 1, scale);
+    if (scale <= this.radius * 4) {
+      this.mesh.scale.set(scale, scale, scale);
     } else {
       this.destroy();
     }

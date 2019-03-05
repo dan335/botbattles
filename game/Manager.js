@@ -67,7 +67,8 @@ export default class Manager {
         color: new Color(0xaaaaaa),
         transparent: true,
         opacity: 0.1,
-        alphaMap: this.textures.particleAlpha
+        alphaMap: this.textures.particleAlpha,
+        alphaTest: 0.1
       });
 
       const sprite = new Sprite( spriteMaterial );
@@ -90,6 +91,7 @@ export default class Manager {
     this.textures.pillarColor = new TextureLoader().load('/static/textures/pillarColor.jpg');
     this.textures.bg = new TextureLoader().load('/static/textures/bg.jpg');
     this.textures.forceFieldAlpha = new TextureLoader().load('/static/textures/forceFieldAlpha.jpg');
+    this.textures.blasterBulletAlpha = new TextureLoader().load('/static/textures/blasterBulletAlpha.jpg');
   }
 
 

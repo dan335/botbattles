@@ -17,7 +17,7 @@ export default class BoostEffect extends Obj {
       x: this.ship.position.x + Math.random() * 20 - 10,
       y: this.ship.position.y + Math.random() * 20 - 10,
       rotation: this.ship.rotation,
-      scale: Math.random() * 15 + 15,
+      scale: Math.random() * 30 + 30,
       speed: 0,
       drag: 0,
       lifespan: 200,

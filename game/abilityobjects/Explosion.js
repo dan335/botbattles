@@ -1,6 +1,6 @@
 import Obj from '../Obj.js';
 import {
-  CylinderBufferGeometry,
+  PlaneBufferGeometry,
   MeshBasicMaterial,
   Mesh,
   Vector3,
@@ -14,10 +14,16 @@ export default class Explosion extends Obj {
   constructor(manager, x, y, rotation, radius, id, color) {
     super(manager, x, y, rotation, radius, id);
     this.radius = radius;
-    var geometry = new CylinderBufferGeometry( 1, 1, 0.1, 32 );
-    var material = new MeshBasicMaterial( {color: parseInt(color)} );
+    var geometry = new PlaneBufferGeometry(1, 1);
+    var material = new MeshBasicMaterial({
+      color: parseInt(color),
+      alphaMap: this.manager.textures.particleAlpha,
+      transparent: true,
+      alphaTest: 0.1
+    });
     this.mesh = new Mesh( geometry, material );
     this.mesh.position.set(this.position.x, 0, this.position.y);
+    this.mesh.rotation.set(-Math.PI/2, 0, 0);
     this.manager.scene.add(this.mesh);
 
     if (this.radius > 30) {
@@ -26,7 +32,7 @@ export default class Explosion extends Obj {
           x: this.position.x,
           y: this.position.y,
           rotation: Math.random() * Math.PI*2,
-          scale: 20,
+          scale: 40,
           speed: this.radius / 60,
           drag: 0.8,
           lifespan: 200,
@@ -43,12 +49,20 @@ export default class Explosion extends Obj {
     }
   }
 
+  setRotation(r) {
+    this.rotation = r;
+
+    if (this.mesh) {
+      this.mesh.rotation.set(-Math.PI/2, 0, 0);   // why -1?
+    }
+  }
+
 
   tick() {
     let scale = this.mesh.scale.x;
-    scale += this.radius / 5;
-    if (scale <= this.radius) {
-      this.mesh.scale.set(scale, 1, scale);
+    scale += this.radius * 6 / 5;
+    if (scale <= this.radius * 6) { // * 6 is to account for texture and radius
+      this.mesh.scale.set(scale, scale, scale);
     } else {
       this.destroy();
     }

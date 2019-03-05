@@ -7,7 +7,7 @@ export default class PlayerSeekingMissle extends BlasterBullet {
   constructor(manager, x, y, rotation, radius, id, color) {
     super(manager, x, y, rotation, radius, id, color);
     this.color = color;
-     this.manager.sounds.blaster.play();
+    this.manager.sounds.blaster.play();
   }
 
 
@@ -18,7 +18,7 @@ export default class PlayerSeekingMissle extends BlasterBullet {
       x: this.position.x,
       y: this.position.y,
       rotation: 0,
-      scale: Math.random() * 15 + 10,
+      scale: Math.random() * 30 + 20,
       speed: 0,
       drag: 0,
       lifespan: 100,

@@ -9,7 +9,7 @@ export default class Blast {
         x: x,
         y: y,
         rotation: rotation + (Math.random() * 0.5 - 0.25),
-        scale: 30,
+        scale: 60,
         speed: Math.random() * 2,
         drag: 0.8,
         lifespan: 200,

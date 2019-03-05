@@ -18,7 +18,7 @@ export default class StunGunBullet extends BlasterBullet {
       x: this.position.x,
       y: this.position.y,
       rotation: 0,
-      scale: Math.random() * 15 + 10,
+      scale: Math.random() * 30 + 20,
       speed: 0,
       drag: 0,
       lifespan: 100,
