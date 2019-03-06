@@ -15,6 +15,9 @@ import * as Cookies from 'js-cookie';
 const _s = require('../lib/settings.js');
 import messageFunctions from '../lib/messageFunctions.js';
 import {Howl} from 'howler';
+import BucketParticles from './BucketParticles.js';
+import BucketBlasterBullets from './BucketBlasterBullets.js';
+import BucketExplosions from './BucketExplosions.js';
 
 
 
@@ -53,33 +56,13 @@ export default class Manager {
     this.loadTextures();
     this.loadSounds();
     this.setup();
-    this.createSprites();
+    this.particleBucket = new BucketParticles(this, 200);
+    this.blasterBulletBucket = new BucketBlasterBullets(this, 100);
+    this.explosionBucket = new BucketExplosions(this, 100);
     this.tick();
     this.render();
   }
 
-
-  createSprites() {
-    this.spriteBucket = [];
-
-    for (let i = 0; i < _s.numBucketSprites; i++) {
-      const spriteMaterial = new MeshBasicMaterial({
-        color: new Color(0xaaaaaa),
-        transparent: true,
-        opacity: 0.1,
-        alphaMap: this.textures.particleAlpha,
-        alphaTest: 0.1
-      });
-
-      const sprite = new Sprite( spriteMaterial );
-      sprite.scale.set(1, 1, 1);
-      sprite.position.set(10000, 0, 10000);
-      sprite.rotation.set(-Math.PI/2, 0, 0);
-      sprite.visible = false;
-      this.scene.add( sprite );
-      this.spriteBucket.push(sprite);
-    }
-  }
 
 
   loadTextures() {
@@ -454,5 +437,8 @@ export default class Manager {
     this.camera.bottom = -window.innerHeight / this.cameraZoom;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize( window.innerWidth, window.innerHeight );
+    if (this.map) {
+      this.map.updateUI();
+    }
   }
 }

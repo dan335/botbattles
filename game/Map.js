@@ -13,6 +13,7 @@ export default class Map {
     this.manager = manager;
     this.size = Number(json.size);
     this.bg = new Bg(manager, this.size);
+    this.updateUI();
   }
 
 
@@ -22,7 +23,23 @@ export default class Map {
       if (this.size != size) {
         this.size = size;
         this.bg.updateScale(size);
+        this.updateUI();
       }
+    }
+  }
+
+
+  updateUI() {
+    var width = window.innerWidth, height = window.innerHeight;
+    var widthHalf = width / 2, heightHalf = height / 2;
+    var pos = new Vector3(this.size/2, 0, 0);
+    pos.project(this.manager.camera);
+    pos.x = ( pos.x * widthHalf ) + widthHalf;
+    pos.y = - ( pos.y * heightHalf ) + heightHalf;
+    console.log(pos.x)
+    const elm = document.getElementById('rightUI');
+    if (elm) {
+      elm.style.right = (width - pos.x - 200 - 40) + 'px';
     }
   }
 

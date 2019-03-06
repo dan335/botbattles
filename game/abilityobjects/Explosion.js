@@ -4,7 +4,8 @@ import {
   MeshBasicMaterial,
   Mesh,
   Vector3,
-  TextureLoader
+  TextureLoader,
+  Color
 } from 'three';
 import Particle from '../fx/Particle.js';
 
@@ -14,17 +15,11 @@ export default class Explosion extends Obj {
   constructor(manager, x, y, rotation, radius, id, color) {
     super(manager, x, y, rotation, radius, id);
     this.radius = radius;
-    var geometry = new PlaneBufferGeometry(1, 1);
-    var material = new MeshBasicMaterial({
-      color: parseInt(color),
-      alphaMap: this.manager.textures.particleAlpha,
-      transparent: true,
-      alphaTest: 0.1
-    });
-    this.mesh = new Mesh( geometry, material );
+
+    this.mesh = this.manager.explosionBucket.getObject();
     this.mesh.position.set(this.position.x, 0, this.position.y);
-    this.mesh.rotation.set(-Math.PI/2, 0, 0);
-    this.manager.scene.add(this.mesh);
+    this.mesh.material.color = new Color(parseInt(color));
+    this.mesh.scale.set(1, 1, 1);
 
     if (this.radius > 30) {
       for (let i = 0; i < 10; i++) {
@@ -46,15 +41,12 @@ export default class Explosion extends Obj {
     } else {
       this.soundId = this.manager.sounds.explosionSmall.play();
       this.manager.sounds.explosionSmall.volume(Math.random() * 0.4 + 0.2, this.soundId);
+      this.manager.sounds.explosionSmall.rate(Math.random() * 0.4 + 0.8, this.soundId);
     }
   }
 
   setRotation(r) {
     this.rotation = r;
-
-    if (this.mesh) {
-      this.mesh.rotation.set(-Math.PI/2, 0, 0);   // why -1?
-    }
   }
 
 
@@ -70,6 +62,8 @@ export default class Explosion extends Obj {
 
 
   destroy() {
+    this.manager.explosionBucket.returnObject(this.mesh);
+    this.mesh = undefined;
     super.destroy();
     const index = this.manager.abilityObjects.indexOf(this);
     if (index != -1) {

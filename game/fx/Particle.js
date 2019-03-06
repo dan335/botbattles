@@ -27,8 +27,7 @@ export default class Particle {
     this.opacity = options.opacity || 1;
     this.fadeTime = Math.min(this.lifespan, options.fadeTime || 50);
 
-    this.sprite = this.manager.spriteBucket.pop();
-    this.sprite.visible = true;
+    this.sprite = this.manager.particleBucket.getObject();
 
     this.sprite.material.color = new Color(parseInt(options.color) || 0xaaaaaa);
     this.sprite.material.opacity = this.opacity;
@@ -66,9 +65,8 @@ export default class Particle {
     }
 
     if (this.sprite) {
-      this.sprite.position.set(10000, -20, 10000);
-      this.sprite.visible = false;
-      this.manager.spriteBucket.push(this.sprite);
+      this.manager.particleBucket.returnObject(this.sprite);
+      this.sprite = undefined;
     }
   }
 

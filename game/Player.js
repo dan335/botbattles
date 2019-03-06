@@ -65,9 +65,19 @@ export default class Player extends Ship {
       health.style.width = (this.health / _s.maxHealth * 100) + '%';
     }
 
+    const healthText = document.getElementById('healthText');
+    if (healthText) {
+      healthText.innerHTML = Math.round(this.health);
+    }
+
     const shield = document.getElementById('shield');
     if (shield) {
       shield.style.width = (this.shield / _s.maxShield * 100) + '%';
+    }
+
+    const shieldText = document.getElementById('shieldText');
+    if (shieldText) {
+      shieldText.innerHTML = Math.round(this.shield);
     }
   }
 

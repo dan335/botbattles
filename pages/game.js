@@ -221,22 +221,25 @@ export default class Game extends React.Component {
         })}
         <style jsx>{`
           #cooldownContainer {
-            position: absolute;
-            right: 10px;
-            bottom: 100px;
+            position: relative;
+            left: 0px;
+            top: 0px;
             width: 200px;
           }
           .bg {
             background-color: hsl(0, 0%, 40%);
-            height: 20px;
+            height: 30px;
             margin-bottom: 10px;
+            border-radius: 3px;
           }
           .bar {
-            height: 20px;
+            height: 30px;
             background-color: hsl(0, 0%, 70%);
+            border-radius: 3px;
           }
           label {
             margin-bottom: 8px;
+            font-size: 80%;
           }
         `}</style>
       </div>
@@ -246,42 +249,56 @@ export default class Game extends React.Component {
 
   renderHealthBars() {
     return (
-      <div id="healthContainer">
+      <div id="statsContainer">
+        <label>Shield</label>
         <div id="shieldContainer" className="barContainer">
           <div id="shield" className="bar" style={{width:'100%'}}></div>
+          <div id="shieldText" className="text"></div>
         </div>
+        <label>Health</label>
         <div id="healthContainer" className="barContainer">
           <div id="health" className="bar" style={{width:'100%'}}></div>
+          <div id="healthText" className="text"></div>
         </div>
         <style jsx>{`
-          #healthContainer {
-
-          }
-
           .barContainer {
             background-color: hsl(0, 0%, 40%);
             width: 200px;
             height: 30px;
-            position: absolute;
+            position: relative;
+            border-radius: 3px;
+            margin-bottom: 10px;
           }
           #healthContainer {
-            right: 10px;
-            bottom: 20px;
+            left: 0px;
+            top: 0px;
           }
-
           #shieldContainer {
-            right: 10px;
-            bottom: 60px;
+            left: 0px;
+            top: 0px;
           }
-
           .bar {
             height: 100%;
+            border-radius: 3px;
+          }
+          .text {
+            width: 200px;
+            position: relative;
+            top: -23px;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 150%;
+            color: #fff;
           }
           #health {
             background-color: hsl(90, 60%, 60%);
           }
           #shield {
             background-color: hsl(215, 60%, 60%);
+          }
+          label
+            margin-bottom: 8px;
+            font-size: 80%;
           }
         `}</style>
       </div>
@@ -341,11 +358,18 @@ export default class Game extends React.Component {
             {this.renderLog()}
             {this.renderWinner()}
           </div>
-          {this.renderHealthBars()}
-          {this.renderCooldowns()}
+          <div id="rightUI">
+            {this.renderCooldowns()}
+            {this.renderHealthBars()}
+          </div>
           <div id="backButton"><a href="/">&lt; Back Home</a></div>
         </MainLayout>
         <style jsx global>{`
+          #rightUI {
+            position: absolute;
+            right: 0px;
+            bottom: 100px;
+          }
           #game {
           }
           #game canvas {

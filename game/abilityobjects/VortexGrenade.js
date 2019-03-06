@@ -22,12 +22,13 @@ export default class VortexGrenade extends Obj {
       this.mesh.setRotationFromAxisAngle(new Vector3(0, 1, 0), this.rotation * -1);
       this.manager.scene.add(this.mesh);
 
-      manager.sounds.cannon.play();
+      this.soundId = manager.sounds.cannon.play();
     }, this.manager.renderDelay);
   }
 
 
   destroy(radius, x, y) {
+
     new Explosion(this.manager, x, y, 0, 50, Math.random(), 0xffbb44);
 
     this.vacuumEffect = new VacuumEffect(this.manager, radius, Math.random(), null, x, y);
