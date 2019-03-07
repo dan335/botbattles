@@ -5,6 +5,7 @@ import * as Cookies from 'js-cookie';
 import Abilities from '../components/Abilities.js';
 var hri = require('human-readable-ids').hri;
 import copy from 'copy-to-clipboard';
+var moment = require('moment');
 
 
 export default class PrivacyPolicy extends React.Component {
@@ -49,11 +50,13 @@ export default class PrivacyPolicy extends React.Component {
     this.state = {
       isWsOpen: false,
       memberId: null,
-      members: []
+      members: [],
+      chat: []
     }
 
     this.connectToServer = this.connectToServer.bind(this);
     this.setReady = this.setReady.bind(this);
+    this.submitChat = this.submitChat.bind(this);
   }
 
 
@@ -61,6 +64,19 @@ export default class PrivacyPolicy extends React.Component {
   componentDidMount() {
     this.connectToServer();
     this.sendPings();
+    this.scrollToBottomOfChat();
+  }
+
+
+  componentDidUpdate(prevProps) {
+    this.scrollToBottomOfChat();
+  }
+
+
+  componentWillUnmount() {
+    if (this.ws) {
+      this.ws.close();
+    }
   }
 
 
@@ -115,6 +131,10 @@ export default class PrivacyPolicy extends React.Component {
 
             case 'partyMembers':
               this.setState({members: json.list});
+              break;
+
+            case 'partyChat':
+              this.setState({chat: json.chat});
               break;
           }
         }
@@ -174,20 +194,37 @@ export default class PrivacyPolicy extends React.Component {
 
 
 
-  renderMidBox() {
-    const url = 'https://botbattles.io/party/' + this.props.server._id + '/' + this.props.partyId;
+  submitChat() {
+    const elm = document.getElementById('chatInput');
+    if (!elm) return;
+    const text = elm.value.trim();
+    if (!text.length) return;
 
+    this.sendJson({
+      t: 'partyChatMessage',
+      partyId: this.props.partyId,
+      text: text
+    });
+
+    elm.value = '';
+  }
+
+
+  scrollToBottomOfChat() {
+    const element = document.getElementById('chatsContainer');
+    if (element) {
+      element.scrollTop = element.scrollHeight;
+    }
+  }
+
+
+
+  renderMidBox() {
     if (this.state.isWsOpen) {
       return (
         <div id="midBox">
           <div id="instructions">
-            Share this link to invite players.  Game starts when everyone clicks "Ready".
-            <br/><br/>
-            <div>
-              {url}
-              &nbsp;&nbsp;&nbsp;
-              <a id="copyLink" onClick={() => { const isCopied = copy(url); if (isCopied) {document.getElementById('copyLink').innerHTML='copied';} }}>copy</a>
-            </div>
+            Share this url to invite people.  The game starts when everyone checks "Ready".
           </div>
           <div>
             {this.state.members.map((member) => {
@@ -204,23 +241,64 @@ export default class PrivacyPolicy extends React.Component {
             })}
           </div>
           <div></div>
-          <div>
-            chat
+          <div id="chat">
+            <div id="chatsContainer">
+              {this.state.chat.map((chat) => {
+                return (
+                  <div key={chat.id} className="chatMessage">
+                    <span className="chatName">{chat.name}</span>: {chat.text} <span className="chatDate">{moment(chat.date).format('LT')}</span>
+                  </div>
+                )
+              })}
+            </div>
+            <div id="chatInputContainer">
+              <div><input type="text" id="chatInput" onKeyDown={(event) => {if (event.keyCode == 13) {this.submitChat();}}} /></div>
+              <div></div>
+              <div><button onClick={this.submitChat}>Submit</button></div>
+            </div>
           </div>
           <div></div>
           <div>
             <Abilities />
           </div>
           <style jsx>{`
+            .chatName {
+              color: #91df3e;
+            }
+            .chatDate {
+              color: #666;
+            }
+            .chatMessage {
+              margin-bottom: 8px;
+            }
+            #chatsContainer {
+              max-height: 450px;
+              overflow-y: auto;
+              word-break: break-all;
+              font-size: 80%;
+              padding: 10px;
+            }
+            input {
+              padding: 6px 10px 6px 10px;
+            }
+            #chatInputContainer {
+              display: grid;
+              grid-template-columns: auto 5px auto;
+              padding: 10px;
+            }
+            #chat {
+              background-color: hsl(203, 20%, 10%);
+              border-radius: 3px;
+            }
             a {
               cursor: pointer;
             }
             #instructions {
               grid-column: 1 / span 5;
-              background-color: hsl(203, 20%, 10%);
-              margin-bottom: 10px;
+              margin-bottom: 20px;
               border-radius: 3px;
-              padding: 10px;
+              font-size: 120%;
+              text-align: center;
             }
             .member {
               background-color: hsl(203, 20%, 10%);
@@ -239,10 +317,7 @@ export default class PrivacyPolicy extends React.Component {
             #midBox {
               display: grid;
               grid-template-columns: 245px 10px 245px 10px auto;
-              width: 1000px;
-              margin-left: auto;
-              margin-right: auto;
-              padding: 20px;
+              padding: 20px 0;
             }
           `}</style>
         </div>
@@ -267,11 +342,18 @@ export default class PrivacyPolicy extends React.Component {
       )
     }
 
+    const url = 'https://botbattles.io/party/' + this.props.server._id + '/' + this.props.partyId;
+
     return (
       <div>
         <MainLayout>
           <TopMenu user={this.props.user} />
           <h1>Party: <span className="green">{this.props.partyId}</span></h1>
+          <div id="url">
+            <span id="urlText">{url}</span>
+            &nbsp;&nbsp;&nbsp;
+            <a id="copyLink" onClick={() => { const isCopied = copy(url); if (isCopied) {document.getElementById('copyLink').innerHTML='copied';} }}>copy</a>
+          </div>
           <div id="mainContainer">
             <div className="constrain">
               <div id="content">
@@ -281,6 +363,21 @@ export default class PrivacyPolicy extends React.Component {
           </div>
         </MainLayout>
         <style jsx>{`
+          #url {
+            text-align: center;
+            margin-bottom: 15px;
+            font-family: 'Roboto', sans-serif;
+          }
+          #urlText {
+            -webkit-user-select: all;
+            -moz-user-select: all;
+            -ms-user-select: all;
+            user-select: all;
+            color: #999;
+          }
+          a {
+            cursor: pointer;
+          }
           h1 {
             font-family: 'Audiowide', sans-serif;
             text-align: center;
@@ -293,11 +390,10 @@ export default class PrivacyPolicy extends React.Component {
           }
 
           #content {
-            padding: 10px;
             font-family: 'Roboto', sans-serif;
           }
           .constrain {
-            max-width: 900px;
+            max-width: 1000px;
             margin-right: auto;
             margin-left: auto;
           }
