@@ -60,6 +60,19 @@ export default class PrivacyPolicy extends React.Component {
 
   componentDidMount() {
     this.connectToServer();
+    this.sendPings();
+  }
+
+
+  // to keep connection alive
+  sendPings() {
+    if (this.ws && this.ws.readyState == 1) {
+      this.ws.send(JSON.stringify({t:'ping'}));
+    }
+
+    setTimeout(() => {
+      this.sendPings();
+    }, 1000 * 45);
   }
 
 
