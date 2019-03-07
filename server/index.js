@@ -44,6 +44,10 @@ nextApp.prepare().then(() => {
     nextApp.render(req, res, '/replay', { replayId: req.params.replayId })
   })
 
+  expressApp.get('/party/:serverId/:partyId', (req, res) => {
+    nextApp.render(req, res, '/party', { serverId: req.params.serverId, partyId: req.params.partyId })
+  })
+
   expressApp.get('/game/:serverId/:gameId', (req, res) => {
     nextApp.render(req, res, '/game', { serverId: req.params.serverId, gameId: req.params.gameId })
   })

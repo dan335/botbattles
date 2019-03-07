@@ -4,6 +4,9 @@ import * as Cookies from 'js-cookie';
 const _s = require('../lib/settings.js');
 import TopMenu from '../components/TopMenu.js';
 import BottomMenu from '../components/BottomMenu.js';
+import functions from '../lib/functions.js';
+import Abilities from '../components/Abilities.js';
+var hri = require('human-readable-ids').hri;
 
 
 
@@ -48,47 +51,18 @@ export default class Index extends React.Component {
     this.state = {
       isWsOpen: false,
       server: null,
-      abilityTypes: [],
-      abilityKeys: [],
       serverInfo: []
     }
 
     this.playButton = this.playButton.bind(this);
     this.connectToServer = this.connectToServer.bind(this);
+    this.saveName = this.saveName.bind(this);
   }
 
 
 
   componentDidMount() {
-    //document.getElementById('mainTable').style.height = window.innerHeight + 'px';
-
     this.findServer();
-
-    // set ability type dropdowns
-    let abilityTypes = [];
-    for (let i = 0; i < _s.numAbilities; i++) {
-      let type = Cookies.get('abilityType'+i);
-
-      const info = _s.abilityTypes.find((t) => {
-        return t.id == type;
-      })
-
-      if (!info) {
-        type = _s.abilityTypeDefaults[i];
-      }
-
-      abilityTypes[i] = type;
-    }
-
-    this.setState({abilityTypes:abilityTypes});
-
-    // ability keys
-    let abilityKeys = [];
-    for (let i = 0; i < _s.numAbilities; i++) {
-      abilityKeys[i] = Cookies.get('abilityKey' + i) || _s.abilityKeyDefaults[i];
-    }
-
-    this.setState({abilityKeys:abilityKeys});
 
     this.sendPings();
 
@@ -168,12 +142,6 @@ export default class Index extends React.Component {
 
       this.ws.onclose = (event) => {
         this.setState({isWsOpen:false});
-
-        // if (event.code == 1006) {
-        //   setTimeout(() => {
-        //     this.connectToServer();
-        //   }, 500);
-        // }
       }
     }
   }
@@ -189,6 +157,13 @@ export default class Index extends React.Component {
 
 
   playButton(event) {
+    if (this.ws && this.ws.readyState == this.ws.OPEN) {
+      this.ws.send(JSON.stringify({t:'requestGame'}));
+    }
+  }
+
+
+  saveName() {
     // name
     let name = document.getElementById('nameInput').value;
     if (!name) {
@@ -196,18 +171,7 @@ export default class Index extends React.Component {
     }
     name = name.substring(0, 24);
     Cookies.set('name', name);
-
-    // abilities
-    for (let i = 0; i < _s.numAbilities; i++) {
-      Cookies.set('abilityKey' + i, document.getElementById('abilityKey' + i).value);
-      Cookies.set('abilityType' + i, document.getElementById('abilityType' + i).value);
-    }
-
-    if (this.ws && this.ws.readyState == this.ws.OPEN) {
-      this.ws.send(JSON.stringify({t:'requestGame'}));
-    }
   }
-
 
 
   renderPlayButton() {
@@ -223,6 +187,11 @@ export default class Index extends React.Component {
           <div>Connecting to server...</div>
           <br/>
           <div><button onClick={this.connectToServer}>Retry</button></div>
+          <style jsx>{`
+            button {
+              margin-bottom: 30px;
+            }
+          `}</style>
         </div>
       )
     }
@@ -234,6 +203,7 @@ export default class Index extends React.Component {
           button {
             font-size: 200%;
             padding: 10px 20px;
+            margin-bottom: 30px;
           }
         `}</style>
       </button>
@@ -241,143 +211,21 @@ export default class Index extends React.Component {
   }
 
 
-  renderKeyOptions(slotNum) {
-    return (
-      <select value={this.state.abilityKeys[slotNum]} id={'abilityKey' + slotNum} onChange={(event) => {this.changeAbilityKey(event, slotNum)}}>
-        <option key="lmb" value="lmb">Left Mouse Button</option>
-        <option key="mmb" value="mmb">Middle Mouse Button</option>
-        <option key="rmb" value="rmb">Right Mouse Button</option>
-        <option key="Space" value="Space">Spacebar</option>
-        <option key="KeyQ" value="KeyQ">Q Key</option>
-        <option key="KeyE" value="KeyE">E Key</option>
-      </select>
-    )
-  }
+  renderPartyButton() {
+    if (this.state.server && this.state.isWsOpen) {
+      const partyLink = '/party/' + this.state.server._id + '/' + hri.random();
 
-
-  changeAbilityKey(event, slotNum) {
-    const key = document.getElementById('abilityKey' + slotNum).value;
-    let keys = this.state.abilityKeys;
-    keys[slotNum] = key;
-    this.setState({abilityKeys:keys});
-  }
-
-
-  renderAbilityTypes(slotNum) {
-    let value = this.state.abilityTypes[slotNum];
-    if (!value) {
-      value = _s.abilityTypeDefaults[slotNum];
-    }
-
-    return (
-      <select value={value} id={'abilityType' + slotNum} onChange={(event) => {this.abilityOptionsChanged(event, slotNum)}}>
-        {this.renderAbilityOptions()}
-      </select>
-
-    )
-  }
-
-  renderAbilityOptions() {
-    // clonse
-    const types = _s.abilityTypes.slice(0);
-
-    types.sort((a, b) => {
-      if(a.name < b.name) { return -1; }
-      if(a.name > b.name) { return 1; }
-      return 0;
-    });
-
-    return types.map((t) => {
       return (
-        <option key={t.id} value={t.id}>{t.name}</option>
-      )
-    })
-  }
-
-  abilityOptionsChanged(event, slotNum) {
-    const type = document.getElementById('abilityType' + slotNum).value;
-
-    let abilityTypes = this.state.abilityTypes;
-
-    // don't allow duplicate abilities
-    if (abilityTypes.includes(type)) {
-      return;
-    }
-
-    abilityTypes[slotNum] = type;
-    this.setState({abilityTypes:abilityTypes});
-  }
-
-
-  renderAbilityDescription(slotNum) {
-    let description = '';
-
-    const type = this.state.abilityTypes[slotNum];
-
-    const info = _s.abilityTypes.find((a) => {
-      return a.id == type;
-    });
-
-    if (info) {
-      description = info.description;
-    }
-
-    return (
-      <div>
-        {description}
-        <style jsx>{`
-          div {
-            font-family: 'Roboto', sans-serif;
-          }
-        `}</style>
-      </div>
-    )
-  }
-
-
-  renderAbilities() {
-    let html = [];
-
-    for (let i = 0; i < _s.numAbilities; i++) {
-      html.push(
-        <div className="ability" key={i}>
-          <label>Ability {i+1}</label>
-          <div className="abilityDropdowns">
-            <div>{this.renderKeyOptions(i)}</div>
-            <div></div>
-            <div>{this.renderAbilityTypes(i)}</div>
-          </div>
-          {this.renderAbilityDescription(i)}
+        <div id="partyLink">
+          <a href={partyLink} onClick={this.saveName}>Create a party.</a>
           <style jsx>{`
-            .ability {
-              background-color: hsl(203, 20%, 10%);
-              padding: 20px;
-              margin-bottom: 5px;
-              border-radius: 3px;
-            }
-            label {
-              display: block;
+            #partyLink {
               margin-bottom: 10px;
-              color: #91df3e;
-            }
-          `}</style>
-          <style jsx global>{`
-            .abilityDropdowns {
-              display: grid;
-              grid-template-columns: auto 10px auto;
-              margin-bottom: 10px;
-            }
-            .abilityDropdowns select {
-              width: 100%;
-              padding: 5px;
-              border-radius: 3px;
             }
           `}</style>
         </div>
       )
     }
-
-    return html;
   }
 
 
@@ -405,9 +253,10 @@ export default class Index extends React.Component {
               <div id="leftBox">
                 <div id="inputContainer">
                   <label>Name</label>
-                  <input type="text" defaultValue={name} id="nameInput"></input>
+                  <input type="text" defaultValue={name} id="nameInput" onChange={this.saveName}></input>
                 </div>
                 {this.renderPlayButton()}
+                {this.renderPartyButton()}
 
                 <div id="serverInfo">
                   {this.state.serverInfo.map((server) => {
@@ -437,7 +286,7 @@ export default class Index extends React.Component {
               <div></div>
 
               <div>
-                {this.renderAbilities()}
+                <Abilities />
               </div>
             </div>
 
@@ -451,7 +300,6 @@ export default class Index extends React.Component {
             background-color: hsl(203, 20%, 10%);
             padding: 10px;
             border-radius: 3px;
-            margin-top: 30px;
             font-size: 90%;
             max-height: 300px;
             overflow-y: auto;
@@ -486,8 +334,8 @@ export default class Index extends React.Component {
 
           #midBox {
             display: grid;
-            grid-template-columns: 320px 10px auto;
-            width: 900px;
+            grid-template-columns: 420px 10px auto;
+            width: 1000px;
             margin-left: auto;
             margin-right: auto;
             padding: 20px;

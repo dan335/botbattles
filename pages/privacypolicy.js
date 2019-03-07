@@ -3,7 +3,7 @@ import TopMenu from '../components/TopMenu.js';
 import fetch from 'isomorphic-unfetch';
 
 
-export default class Login extends React.Component {
+export default class PrivacyPolicy extends React.Component {
 
   static async getInitialProps({req, query}) {
     const userId = req && req.session ? req.session.userId : null;

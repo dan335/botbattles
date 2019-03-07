@@ -36,7 +36,7 @@ export default class Map {
     pos.project(this.manager.camera);
     pos.x = ( pos.x * widthHalf ) + widthHalf;
     pos.y = - ( pos.y * heightHalf ) + heightHalf;
-    console.log(pos.x)
+
     const elm = document.getElementById('rightUI');
     if (elm) {
       elm.style.right = (width - pos.x - 200 - 40) + 'px';
