@@ -52,6 +52,10 @@ nextApp.prepare().then(() => {
     nextApp.render(req, res, '/game', { serverId: req.params.serverId, gameId: req.params.gameId })
   })
 
+  expressApp.get('/game/:serverId/:gameId/:partyId', (req, res) => {
+    nextApp.render(req, res, '/game', { serverId: req.params.serverId, gameId: req.params.gameId, partyId: req.params.partyId })
+  })
+
   expressApp.get('/player/:userId', (req, res) => {
     nextApp.render(req, res, '/player', { userId: req.params.userId })
   })
@@ -77,7 +81,7 @@ nextApp.prepare().then(() => {
   })
 
   expressApp.get('/favicon.ico', (req, res) => (
-    res.status(200).sendFile('favicon2.ico', {root: (__dirname + '/static/').replace('\\server', '')})
+    res.status(200).sendFile('favicon2.ico', {root: (__dirname + '/static/').replace('\\server', '').replace('/server', '')})
   ));
 
   expressApp.get('*', (req,res) => {

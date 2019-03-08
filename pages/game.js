@@ -37,7 +37,7 @@ export default class Game extends React.Component {
       }
     }
 
-    return {userId:userId, gameId:query.gameId, server:server, user:user};
+    return {userId:userId, gameId:query.gameId, server:server, user:user, partyId:query.partyId};
   }
 
 
@@ -346,6 +346,29 @@ export default class Game extends React.Component {
   }
 
 
+  renderBackButton() {
+    if (this.props.partyId) {
+      const url = '/party/' + this.props.server._id + '/' + this.props.partyId;
+      return (
+        <div>
+          <a href={url}>&lt; Back to Party</a>
+          <br /><br />
+          <a href="/">&lt; Back Home</a>
+          <style jsx>{`
+            a {
+              margin-bottom: 10px;
+            }
+          `}</style>
+        </div>
+      )
+    } else {
+      return (
+        <a href="/">&lt; Back Home</a>
+      )
+    }
+  }
+
+
   render() {
     return (
       <div>
@@ -362,7 +385,9 @@ export default class Game extends React.Component {
             {this.renderCooldowns()}
             {this.renderHealthBars()}
           </div>
-          <div id="backButton"><a href="/">&lt; Back Home</a></div>
+          <div id="backButton">
+            {this.renderBackButton()}
+          </div>
         </MainLayout>
         <style jsx global>{`
           #rightUI {

@@ -104,7 +104,7 @@ export default class Manager {
 
     this.sounds.countdown = new Howl({
       src: ['/static/sounds/Countdown_Beep.wav'],
-      volume: 0.7
+      volume: 0.4
     });
 
     this.sounds.emp = new Howl({

@@ -98,14 +98,16 @@ export default class PrivacyPolicy extends React.Component {
       this.ws = new WebSocket(this.props.server.address);
 
       this.ws.onopen = (event) => {
+
         // name
         let name = Cookies.get('name');
+
+        if (this.user) {
+          name = this.user.username;
+        }
+
         if (!name) {
-          if (this.user) {
-            name = this.user.username;
-          } else {
-            name = 'Noname_' + Math.round(Math.random()*1000);
-          }
+          name = 'Noname_' + Math.round(Math.random()*1000);
         }
 
         this.setState({isWsOpen: true});
@@ -126,7 +128,7 @@ export default class PrivacyPolicy extends React.Component {
         if (json) {
           switch (json.t) {
             case 'gameId':
-              window.location.href = '/game/' + this.props.server._id + '/' + json.gameId;
+              window.location.href = '/game/' + this.props.server._id + '/' + json.gameId + '/' + this.props.partyId;
               break;
 
             case 'partyMembers':

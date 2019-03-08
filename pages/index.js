@@ -57,6 +57,7 @@ export default class Index extends React.Component {
     this.playButton = this.playButton.bind(this);
     this.connectToServer = this.connectToServer.bind(this);
     this.saveName = this.saveName.bind(this);
+    this.connectToServerId = this.connectToServerId.bind(this);
   }
 
 
@@ -148,11 +149,40 @@ export default class Index extends React.Component {
 
 
 
-  // in the future if there is more than one server ping all servers to find closest one
   findServer() {
-    if (this.props.servers && this.props.servers.length) {
-      this.setState({server:this.props.servers[0]});
-    }
+    let promises = [];
+    const now = Date.now();
+
+    this.props.servers.forEach((server) => {
+      promises.push(new Promise((resolve, reject) => {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.responseType = 'json';
+        xmlHttp.open('GET', server.url + '/ping', true);
+        xmlHttp.onload = function() {
+          if (this.status == 200) {
+            server.ping = Date.now() - now;
+            resolve(server);
+          } else {
+            reject();
+          }
+        }
+        xmlHttp.send();
+      }))
+    });
+
+    // timeout
+    promises.push(new Promise((resolve, reject) => {
+      let wait = setTimeout(() => {
+        clearTimeout(wait);
+        resolve(null);
+      }, 5000);
+    }))
+
+    Promise.race(promises).then((server) => {
+      if (server) {
+        this.setState({server:server});
+      }
+    })
   }
 
 
@@ -186,7 +216,7 @@ export default class Index extends React.Component {
         <div>
           <div>Connecting to server...</div>
           <br/>
-          <div><button onClick={this.connectToServer}>Retry</button></div>
+          <div><button onClick={this.findServer}>Retry</button></div>
           <style jsx>{`
             button {
               margin-bottom: 30px;
@@ -229,6 +259,45 @@ export default class Index extends React.Component {
   }
 
 
+
+  connectToServerId(serverId) {
+    let server = this.props.servers.find((s) => {
+      return s._id == serverId;
+    })
+
+    if (server) {
+      this.setState({server:server});
+    }
+  }
+
+
+
+  renderServerName(server) {
+    if (server.id == this.state.server._id) {
+      return (
+        <span>
+          {server.name}
+          &nbsp;&nbsp;&nbsp;
+          <span className="status">Connected</span>
+          <style jsx>{`
+            .status {
+              color: #999;
+            }
+          `}</style>
+        </span>
+      )
+    } else {
+      return (
+        <span>
+          {server.name}
+          &nbsp;&nbsp;&nbsp;
+          <button onClick={() => {this.connectToServerId(server.id)}}>Connect</button>
+        </span>
+      )
+    }
+  }
+
+
   render() {
     let name = 'Noname_' + Math.round(Math.random()*1000);
     if (this.props.user) {
@@ -263,7 +332,7 @@ export default class Index extends React.Component {
                     return (
                       <div key={server.name} className="serverContainer">
                         <div className="serverTitle">
-                          <div className="serverName">{server.name}</div>
+                          <div className="serverName">{this.renderServerName(server)}</div>
                           <div className="alignRight">{server.numPlayers} Players, {server.numSpectators} Spectators in {server.numGames} Games</div>
                         </div>
                         {server.games.map((game) => {
@@ -313,7 +382,6 @@ export default class Index extends React.Component {
             margin-bottom: 10px;
           }
           .serverName {
-            font-weight: bold;
           }
           .alignRight {
             text-align: right;
