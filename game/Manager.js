@@ -177,7 +177,8 @@ export default class Manager {
 
     this.sounds.stunned = new Howl({
       src: ['/static/sounds/Stun_LOOP.wav'],
-      loop: true
+      loop: true,
+      volume: 0.5
     })
   }
 

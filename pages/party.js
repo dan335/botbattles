@@ -242,6 +242,7 @@ export default class PrivacyPolicy extends React.Component {
           </div>
           <div></div>
           <div id="chat">
+            <div id="chatTitle">Chat</div>
             <div id="chatsContainer">
               {this.state.chat.map((chat) => {
                 return (
@@ -262,6 +263,9 @@ export default class PrivacyPolicy extends React.Component {
             <Abilities />
           </div>
           <style jsx>{`
+            #chatTitle {
+              padding: 10px;
+            }
             .chatName {
               color: #91df3e;
             }
@@ -276,7 +280,7 @@ export default class PrivacyPolicy extends React.Component {
               overflow-y: auto;
               word-break: break-all;
               font-size: 80%;
-              padding: 10px;
+              padding: 0px 10px;
             }
             input {
               padding: 6px 10px 6px 10px;
@@ -316,7 +320,7 @@ export default class PrivacyPolicy extends React.Component {
             }
             #midBox {
               display: grid;
-              grid-template-columns: 245px 10px 245px 10px auto;
+              grid-template-columns: 275px 5px 275px 5px auto;
               padding: 20px 0;
             }
           `}</style>
@@ -328,6 +332,11 @@ export default class PrivacyPolicy extends React.Component {
           Not connected to server.
           <br/><br/>
           <button onClick={this.connectToServer}>Retry</button>
+          <style jsx>{`
+            div {
+              padding: 20px;
+            }
+          `}</style>
         </div>
       )
     }

@@ -76,6 +76,10 @@ nextApp.prepare().then(() => {
     nextApp.render(req, res, '/leaderboard', { page: req.params.page });
   })
 
+  expressApp.get('/favicon.ico', (req, res) => (
+    res.status(200).sendFile('favicon2.ico', {root: (__dirname + '/static/').replace('\\server', '')})
+  ));
+
   expressApp.get('*', (req,res) => {
     return handle(req,res);
   })

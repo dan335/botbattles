@@ -6,6 +6,7 @@ export default class BottomMenu extends React.Component {
         <div id="bottomMenu">
           <div></div>
           <div>
+            <a href="http://io-games.zone">IO Games</a>
             <a href="http://bongo.games">More io Games</a>
           </div>
           <div style={{textAlign:'right'}}>

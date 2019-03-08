@@ -1,15 +1,14 @@
 import Head from 'next/head';
 import '../node_modules/normalize.css/normalize.css';
-// import ReactGA from 'react-ga';
-// import '@fortawesome/fontawesome-svg-core/styles.css'
+import ReactGA from 'react-ga';
 
 
 
 export default class MainLayout extends React.Component {
 
   componentDidMount() {
-    // ReactGA.initialize('UA-82312326-10');
-    // ReactGA.pageview(window.location.pathname + window.location.search);
+    ReactGA.initialize('UA-82312326-11');
+    ReactGA.pageview(window.location.pathname + window.location.search);
   }
 
   render() {
@@ -22,6 +21,9 @@ export default class MainLayout extends React.Component {
           <meta name="description" content="BotBattles.io is a free io multiplayer online battle royale arena game." />
           <link href="https://fonts.googleapis.com/css?family=Audiowide" rel="stylesheet" />
           <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
+
+          <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+          <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         </Head>
         <div>
           {children}
