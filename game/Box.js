@@ -16,7 +16,7 @@ export default class Box extends Obj {
     var material = new MeshBasicMaterial( {color: 0x6a6f73} );
     this.mesh = new Mesh( geometry, material );
     this.mesh.position.set(this.position.x, 0, this.position.y);
-    this.mesh.scale.set(scaleX, 1, scaleY);
+    this.mesh.scale.set(scaleX, 100, scaleY);
     this.manager.scene.add(this.mesh);
   }
 

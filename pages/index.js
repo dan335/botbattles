@@ -119,12 +119,12 @@ export default class Index extends React.Component {
 
 
 
-  componentDidUpdate(prevProps, prevState) {
-    // if we now have a server connect to it
-    if (prevState.server != this.state.server) {
-      this.connectToServer();
-    }
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   // if we now have a server connect to it
+  //   if (prevState.server != this.state.server) {
+  //     this.connectToServer();
+  //   }
+  // }
 
 
   connectToServer() {
@@ -182,6 +182,7 @@ export default class Index extends React.Component {
     Promise.race(promises).then((server) => {
       if (server) {
         this.setState({server:server});
+        this.connectToServer();
       }
     })
   }
@@ -206,13 +207,7 @@ export default class Index extends React.Component {
 
 
   renderPlayButton() {
-    if (!this.state.server) {
-      return (
-        <div>Finding a server...</div>
-      )
-    }
-
-    if (!this.state.isWsOpen) {
+    if (!this.state.isWsOpen || !this.state.server) {
       return (
         <div>
           <div>Connecting to server...</div>
@@ -268,14 +263,15 @@ export default class Index extends React.Component {
 
     if (server) {
       this.setState({server:server});
+      this.connectToServer();
     }
   }
 
 
 
   renderServerName(server) {
-    if (server && this.state.server) {
-      if (server.id == this.state.server._id) {
+    if (server) {
+      if (this.state.server && server.id == this.state.server._id && this.state.isWsOpen) {
         return (
           <span>
             {server.name}

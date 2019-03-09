@@ -174,7 +174,7 @@ export default class Ship extends Obj {
   }
 
 
-  destroy() {
+  destroy(killer) {
     this.shieldRechargeEnd();
     this.chargeEnd();
     this.stunnedEnd();
@@ -184,7 +184,7 @@ export default class Ship extends Obj {
     if (index != -1) {
       this.manager.ships.splice(index, 1);
     }
-    this.manager.ui.addToLog(this.name + '\'s bot was destroyed.');
+    this.manager.ui.addToLog(killer + ' destroyed ' + this.name + '\'s bot.');
     this.healthBars.destroy();
   }
 

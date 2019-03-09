@@ -96,43 +96,43 @@ export default class Player extends Ship {
         break;
 
       case 'mousedown':
-        let ability = null;
+        let abilities = [];
         for (let i = 0; i < this.abilityKeys.length; i++) {
           if (this.abilityKeys[i] == 'lmb' && event.which == 1) {
-            ability = i;
+            abilities.push(i);
           } else if (this.abilityKeys[i] == 'mmb' && event.which == 2) {
-            ability = i;
+            abilities.push(i);
           } else if (this.abilityKeys[i] == 'rmb' && event.which == 3) {
-            ability = i;
+            abilities.push(i);
           }
         }
 
-        if (ability != null) {
+        abilities.forEach((ability) => {
           if (!this.isAbilityDown[ability]) {
             this.manager.sendToServer({t:'abilityKeyDown', num:ability});
             this.isAbilityDown[ability] = true;
           }
-        }
+        })
         break;
 
       case 'mouseup':
-        ability = null;
+        abilities = [];
         for (let i = 0; i < this.abilityKeys.length; i++) {
           if (this.abilityKeys[i] == 'lmb' && event.which == 1) {
-            ability = i;
+            abilities.push(i);
           } else if (this.abilityKeys[i] == 'mmb' && event.which == 2) {
-            ability = i;
+            abilities.push(i);
           } else if (this.abilityKeys[i] == 'rmb' && event.which == 3) {
-            ability = i;
+            abilities.push(i);
           }
         }
 
-        if (ability != null) {
+        abilities.forEach((ability) => {
           if (this.isAbilityDown[ability]) {
             this.manager.sendToServer({t:'abilityKeyUp', num:ability});
             this.isAbilityDown[ability] = false;
           }
-        }
+        })
         break;
 
       case 'mousemove':
