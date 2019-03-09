@@ -20,37 +20,62 @@ export default class Obj extends Base {
     let to = null;
     let from = null;
     let lastNeededIndex;
+    let found = false;
 
-    // find syncPositions surrounding playbackServerTime
-    for (let n = 1; n < this.syncPositions.length; n++) {
-      if (this.syncPositions[n].t < playbackServerTime && this.syncPositions[n-1].t >= playbackServerTime) {
-        from = this.syncPositions[n];
-        to = this.syncPositions[n-1];
-        lastNeededIndex = n;
+    for (let n = 0; n < this.syncPositions.length; n++) {
+      if (!found) {
+        if (playbackServerTime - this.syncPositions[n].t < 400) {  // don't use old data
+          if (this.syncPositions[n].t < playbackServerTime) {
+            if (n == 0) {
+              this.setPosition(this.syncPositions[0].x, this.syncPositions[0].y);
+              this.setRotation(this.syncPositions[0].r);
+              return;
+            } else {
+              from = this.syncPositions[n];
+              to = this.syncPositions[n-1];
+              lastNeededIndex = n;
+              found = true;
+            }
+          }
+        }
       }
     }
 
     if (!to || !from) {
-      if (this.syncPositions.length >= 2) {
-        if (playbackServerTime - this.syncPositions[0].t < 400) {
-          from = this.syncPositions[1];
-          to = this.syncPositions[0];
-        } else {
-          this.syncPositions = [];
-          return;
-        }
-      } else if (this.syncPositions.length == 1) {
-        if (playbackServerTime - this.syncPositions[0].t < 400) {
-          this.setPosition(this.syncPositions[0].x, this.syncPositions[0].y);
-          this.setRotation(this.syncPositions[0].r);
-        } else {
-          this.syncPositions = [];
-        }
-        return;
-      } else {
-        return;
-      }
-    };
+      return;
+    }
+
+
+    // // find syncPositions surrounding playbackServerTime
+    // for (let n = 1; n < this.syncPositions.length; n++) {
+    //   if (this.syncPositions[n].t < playbackServerTime && this.syncPositions[n-1].t >= playbackServerTime) {
+    //     from = this.syncPositions[n];
+    //     to = this.syncPositions[n-1];
+    //     lastNeededIndex = n;
+    //   }
+    // }
+    //
+    // if (!to || !from) {
+    //   if (this.syncPositions.length >= 2) {
+    //     if (playbackServerTime - this.syncPositions[0].t < 400) {
+    //       from = this.syncPositions[1];
+    //       to = this.syncPositions[0];
+    //     } else {
+    //       this.syncPositions = [];
+    //       return;
+    //     }
+    //   } else if (this.syncPositions.length == 1) {
+    //     if (playbackServerTime - this.syncPositions[0].t < 400) {
+    //       this.setPosition(this.syncPositions[0].x, this.syncPositions[0].y);
+    //       this.setRotation(this.syncPositions[0].r);
+    //     } else {
+    //       this.syncPositions = [];
+    //     }
+    //     return;
+    //   } else {
+    //     return;
+    //   }
+    // };
 
     const percentage = (playbackServerTime - from.t) / (to.t - from.t);
 

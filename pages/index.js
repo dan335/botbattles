@@ -58,6 +58,7 @@ export default class Index extends React.Component {
     this.connectToServer = this.connectToServer.bind(this);
     this.saveName = this.saveName.bind(this);
     this.connectToServerId = this.connectToServerId.bind(this);
+    this.findServer = this.findServer.bind(this);
   }
 
 
@@ -273,27 +274,29 @@ export default class Index extends React.Component {
 
 
   renderServerName(server) {
-    if (server.id == this.state.server._id) {
-      return (
-        <span>
-          {server.name}
-          &nbsp;&nbsp;&nbsp;
-          <span className="status">Connected</span>
-          <style jsx>{`
-            .status {
-              color: #999;
-            }
-          `}</style>
-        </span>
-      )
-    } else {
-      return (
-        <span>
-          {server.name}
-          &nbsp;&nbsp;&nbsp;
-          <button onClick={() => {this.connectToServerId(server.id)}}>Connect</button>
-        </span>
-      )
+    if (server && this.state.server) {
+      if (server.id == this.state.server._id) {
+        return (
+          <span>
+            {server.name}
+            &nbsp;&nbsp;&nbsp;
+            <span className="status">Connected</span>
+            <style jsx>{`
+              .status {
+                color: #999;
+              }
+            `}</style>
+          </span>
+        )
+      } else {
+        return (
+          <span>
+            {server.name}
+            &nbsp;&nbsp;&nbsp;
+            <button onClick={() => {this.connectToServerId(server.id)}}>Connect</button>
+          </span>
+        )
+      }
     }
   }
 
