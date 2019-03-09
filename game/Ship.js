@@ -184,7 +184,11 @@ export default class Ship extends Obj {
     if (index != -1) {
       this.manager.ships.splice(index, 1);
     }
-    this.manager.ui.addToLog(killer + ' destroyed ' + this.name + '\'s bot.');
+    if (killer) {
+      this.manager.ui.addToLog(killer + ' destroyed ' + this.name + '\'s bot.');
+    } else {
+      this.manager.ui.addToLog(this.name + '\'s bot was destroyed.');
+    }
     this.healthBars.destroy();
   }
 

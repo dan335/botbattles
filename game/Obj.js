@@ -119,8 +119,11 @@ export default class Obj extends Base {
 
     if (Boolean(json.teleport)) {
       for (let i = 0; i < this.syncPositions.length; i++) {
-        this.syncPositions[i].x = Number(json.x);
-        this.syncPositions[i].y = Number(json.y);
+        if (now - this.syncPositions[i].recieved <= this.manager.renderDelay()) {
+          this.syncPositions[i].x = Number(json.x);
+          this.syncPositions[i].y = Number(json.y);
+          this.syncPositions[i].r = Number(json.rotation);
+        }
       }
     }
 
