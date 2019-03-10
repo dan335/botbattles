@@ -66,10 +66,18 @@ export default class Replay extends React.Component {
         <style jsx>{`
           div {
             position: fixed;
-            left: 10px;
-            bottom: 30px;
+            width: 300px;
+            height: 60px;
+            top: 50%;
+            left: 50%;
+            margin-top: -30px;
+            margin-left: -150px;
             color: #fff;
             display: true;
+            text-align: center;
+            padding: 20px;
+            background-color: hsl(203, 30%, 10%);
+            border-radius: 3px;
           }
         `}</style>
       </div>
@@ -77,20 +85,6 @@ export default class Replay extends React.Component {
   }
 
 
-
-
-  renderLog() {
-    return (
-      <div>
-        {this.renderLogs()}
-        <style jsx>{`
-          div {
-            line-height: 150%;
-          }
-        `}</style>
-      </div>
-    )
-  }
 
 
   renderLog() {
@@ -98,8 +92,13 @@ export default class Replay extends React.Component {
       <div>
         <div id="log"></div>
         <style jsx>{`
-          div {
+          #log {
             line-height: 150%;
+            border-radius: 3px;
+            background-color: hsl(203, 30%, 10%);
+            padding: 10px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 90%;
           }
         `}</style>
       </div>
@@ -117,10 +116,14 @@ export default class Replay extends React.Component {
           </div>
           <style jsx>{`
             #container {
-              margin-top: 40px;
+              margin-top: 5px;
+              background-color: hsl(203, 30%, 10%);
+              border-radius: 3px;
+              padding: 10px 20px;
+              font-family: 'Roboto', sans-serif;
             }
             #winner {
-              font-size: 200%;
+              font-size: 150%;
               margin-bottom: 20px;
             }
             img {
@@ -129,6 +132,7 @@ export default class Replay extends React.Component {
             }
             #discord {
               margin-top: 10px;
+              font-size: 85%;
             }
           `}</style>
         </div>
@@ -185,7 +189,8 @@ export default class Replay extends React.Component {
           #logContainer {
             position: absolute;
             left: 10px;
-            bottom: 40px;
+            bottom: 100px;
+            width: 300px;
           }
         `}</style>
       </div>

@@ -366,6 +366,7 @@ export default class Game extends React.Component {
             }
             #discord {
               margin-top: 10px;
+              font-size: 85%;
             }
           `}</style>
         </div>
