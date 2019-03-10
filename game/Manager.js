@@ -99,7 +99,8 @@ export default class Manager {
 
     this.sounds.charging = new Howl({
       src: ['/static/sounds/Charging_LOOP.wav'],
-      loop: true
+      loop: true,
+      volume: 0.5
     });
 
     this.sounds.countdown = new Howl({
