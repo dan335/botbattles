@@ -35,6 +35,8 @@ export default class Ship extends Obj {
 
     this.loadMesh();
     this.healthBars = new HealthBars(x, y, 0, 1, -45, manager.scene);
+
+    this.abilityObjects = [];
   }
 
 
@@ -107,6 +109,10 @@ export default class Ship extends Obj {
   tick() {
     super.tick();
 
+    this.abilityObjects.forEach((obj) => {
+      obj.tick();
+    });
+
     if (this.engineLeft) {
       if (this.engineLeftParticleCreated + this.particleCreateDelay < this.manager.tickStartTime) {
         new Particle(this.manager, {
@@ -175,6 +181,10 @@ export default class Ship extends Obj {
 
 
   destroy(killer) {
+    this.abilityObjects.forEach((obj) => {
+      obj.destroy();
+    });
+
     this.shieldRechargeEnd();
     this.chargeEnd();
     this.stunnedEnd();

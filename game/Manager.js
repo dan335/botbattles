@@ -75,6 +75,7 @@ export default class Manager {
     this.textures.bg = new TextureLoader().load('/static/textures/bg.jpg');
     this.textures.forceFieldAlpha = new TextureLoader().load('/static/textures/forceFieldAlpha.jpg');
     this.textures.blasterBulletAlpha = new TextureLoader().load('/static/textures/blasterBulletAlpha.jpg');
+    this.textures.mineAlpha = new TextureLoader().load('/static/textures/mineAlpha.jpg');
   }
 
 

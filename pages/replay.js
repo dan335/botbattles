@@ -49,7 +49,6 @@ export default class Replay extends React.Component {
 
   addToLog(text) {
     const elm = document.getElementById('log');
-    console.log(elm);
     if (elm) {
       let node = document.createElement('div');
       node.innerHTML = text;

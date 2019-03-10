@@ -9,11 +9,16 @@ import {
 
 
 export default class Grenade extends Obj {
-  constructor(manager, x, y, rotation, radius, id) {
+  constructor(manager, x, y, rotation, radius, id, color) {
     super(manager, x, y, rotation, radius, id);
+    this.color = color;
+    this.createMesh();
+  }
 
+
+  createMesh() {
     var geometry = new PlaneBufferGeometry( this.radius * 2, this.radius * 2 );
-    var material = new MeshBasicMaterial( {color: 0xffbb44} );
+    var material = new MeshBasicMaterial( {color: this.color} );
     this.mesh = new Mesh( geometry, material );
     this.mesh.position.set(this.position.x, -0.5, this.position.y);
     this.mesh.rotation.set(-Math.PI/2, 0, this.rotation * -1);

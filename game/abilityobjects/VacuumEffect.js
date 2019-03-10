@@ -8,6 +8,12 @@ export default class VacuumEffect extends Obj {
   constructor(manager, radius, id, ship, x, y) {
     super(manager, ship ? ship.position.x : x, ship ? ship.position.y : y, 0, radius, id);
     this.ship = ship;
+    if (this.ship) {
+      this.ship.abilityObjects.push(this);
+    } else {
+      this.manager.abilityObjects.push(this);
+    }
+
     this.particles = [];
     this.soundId = this.manager.sounds.vacuum.play();
   }
@@ -44,9 +50,18 @@ export default class VacuumEffect extends Obj {
     })
 
     super.destroy();
-    const index = this.manager.abilityObjects.indexOf(this);
-    if (index != -1) {
-      this.manager.abilityObjects.splice(index, 1);
+
+    if (this.ship) {
+      const index = this.ship.abilityObjects.indexOf(this);
+      if (index != -1) {
+        this.ship.abilityObjects.splice(index, 1);
+      }
+    } else {
+      const index = this.manager.abilityObjects.indexOf(this);
+      if (index != -1) {
+        this.manager.abilityObjects.splice(index, 1);
+      }
     }
+
   }
 }

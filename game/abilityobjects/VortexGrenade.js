@@ -33,8 +33,6 @@ export default class VortexGrenade extends Obj {
 
     this.vacuumEffect = new VacuumEffect(this.manager, radius, Math.random(), null, x, y);
 
-    this.manager.abilityObjects.push(this.vacuumEffect);
-
     super.destroy();
     const index = this.manager.abilityObjects.indexOf(this);
     if (index != -1) {
