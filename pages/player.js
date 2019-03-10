@@ -119,7 +119,7 @@ export default class Login extends React.Component {
               font-family: 'Roboto', sans-serif;
             }
             .block {
-              background-color: hsl(203, 20%, 10%);
+              background-color: hsl(203, 30%, 10%);
               padding: 20px;
               border-radius: 3px;
             }
@@ -331,7 +331,7 @@ export default class Login extends React.Component {
               margin-left: auto;
             }
             .block {
-              background-color: hsl(203, 20%, 10%);
+              background-color: hsl(203, 30%, 10%);
               padding: 20px;
               border-radius: 3px;
             }

@@ -32,14 +32,27 @@ export default class Map {
   updateUI() {
     var width = window.innerWidth, height = window.innerHeight;
     var widthHalf = width / 2, heightHalf = height / 2;
+
+    // right side
     var pos = new Vector3(this.size/2, 0, 0);
     pos.project(this.manager.camera);
     pos.x = ( pos.x * widthHalf ) + widthHalf;
-    pos.y = - ( pos.y * heightHalf ) + heightHalf;
+    //pos.y = - ( pos.y * heightHalf ) + heightHalf;
 
     const elm = document.getElementById('rightUI');
     if (elm) {
-      elm.style.right = (width - pos.x - 200 - 40) + 'px';
+      elm.style.right = (width - pos.x - 200 - 50) + 'px';
+    }
+
+    // left side
+    pos = new Vector3(-this.size/2, 0, 0);
+    pos.project(this.manager.camera);
+    pos.x = ( pos.x * widthHalf ) + widthHalf;
+    //pos.y = - ( pos.y * heightHalf ) + heightHalf;
+
+    const log = document.getElementById('logContainer');
+    if (log) {
+      log.style.left = (pos.x - 300 - 30) + 'px';
     }
   }
 

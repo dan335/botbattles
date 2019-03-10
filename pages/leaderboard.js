@@ -103,7 +103,7 @@ export default class Leaderboard extends React.Component {
             margin-left: auto;
           }
           .player {
-            background-color: hsl(203, 20%, 10%);
+            background-color: hsl(203, 30%, 10%);
             padding: 10px 20px;
             margin-bottom: 3px;
             border-radius: 3px;

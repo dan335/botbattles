@@ -155,10 +155,18 @@ export default class Game extends React.Component {
         <style jsx>{`
           div {
             position: fixed;
-            left: 10px;
-            bottom: 30px;
+            width: 300px;
+            height: 60px;
+            top: 50%;
+            left: 50%;
+            margin-top: -30px;
+            margin-left: -150px;
             color: #fff;
             display: true;
+            text-align: center;
+            padding: 20px;
+            background-color: hsl(203, 30%, 10%);
+            border-radius: 3px;
           }
         `}</style>
       </div>
@@ -172,8 +180,13 @@ export default class Game extends React.Component {
       <div>
         <div id="log"></div>
         <style jsx>{`
-          div {
+          #log {
             line-height: 150%;
+            border-radius: 3px;
+            background-color: hsl(203, 30%, 10%);
+            padding: 10px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 90%;
           }
         `}</style>
       </div>
@@ -224,7 +237,10 @@ export default class Game extends React.Component {
             position: relative;
             left: 0px;
             top: 0px;
-            width: 200px;
+            background-color: hsl(203, 30%, 10%);
+            padding: 10px;
+            border-radius: 3px;
+            margin-bottom: 5px;
           }
           .bg {
             background-color: hsl(0, 0%, 40%);
@@ -261,6 +277,11 @@ export default class Game extends React.Component {
           <div id="healthText" className="text"></div>
         </div>
         <style jsx>{`
+          #statsContainer {
+            background-color: hsl(203, 30%, 10%);
+            padding: 10px;
+            border-radius: 3px;
+          }
           .barContainer {
             background-color: hsl(0, 0%, 40%);
             width: 200px;
@@ -315,21 +336,28 @@ export default class Game extends React.Component {
 
   renderWinner() {
     if (this.state.winner) {
+      const url = '/party/' + this.props.server._id + '/' + this.props.partyId;
+
       return (
         <div id="container">
           <div id="winner">{this.state.winner} Wins!</div>
           <div>
             <button onClick={this.playButton}>Play Again</button>
+            {this.props.partyId ? (<a href={url}><button>Back to Party</button></a>) : null}
           </div>
           <div id="discord">
             <a href="https://discord.gg/6R3jYyH">Chat about this game on <img src="/static/Discord-Logo+Wordmark-White.png" /></a>
           </div>
           <style jsx>{`
             #container {
-              margin-top: 40px;
+              margin-top: 5px;
+              background-color: hsl(203, 30%, 10%);
+              border-radius: 3px;
+              padding: 10px 20px;
+              font-family: 'Roboto', sans-serif;
             }
             #winner {
-              font-size: 200%;
+              font-size: 150%;
               margin-bottom: 20px;
             }
             img {
@@ -408,7 +436,8 @@ export default class Game extends React.Component {
           #logContainer {
             position: absolute;
             left: 10px;
-            bottom: 40px;
+            bottom: 100px;
+            width: 300px;
           }
         `}</style>
       </div>

@@ -218,7 +218,7 @@ export default class Manager {
       antialias: true
     });
     this.renderer.setSize( window.innerWidth, window.innerHeight );
-    this.renderer.setClearColor( 0x1f282d, 1 );
+    this.renderer.setClearColor( 0x1b2932, 1 );
 
     this.camera.position.y = 100;
     this.camera.rotation.x = tMath.degToRad(-90);

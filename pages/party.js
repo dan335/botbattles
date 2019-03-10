@@ -293,7 +293,7 @@ export default class PrivacyPolicy extends React.Component {
               padding: 10px;
             }
             #chat {
-              background-color: hsl(203, 20%, 10%);
+              background-color: hsl(203, 30%, 10%);
               border-radius: 3px;
             }
             a {
@@ -307,7 +307,7 @@ export default class PrivacyPolicy extends React.Component {
               text-align: center;
             }
             .member {
-              background-color: hsl(203, 20%, 10%);
+              background-color: hsl(203, 30%, 10%);
               border-radius: 3px;
               padding: 10px;
               margin-bottom: 5px;
@@ -397,7 +397,7 @@ export default class PrivacyPolicy extends React.Component {
             color: #91df3e;
           }
           #mainContainer {
-            background-color: hsl(203, 20%, 20%);
+            background-color: hsl(203, 30%, 20%);
           }
 
           #content {

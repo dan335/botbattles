@@ -78,7 +78,7 @@ export default class GameBlock extends React.Component {
           }
           .gameInfo {
             margin-bottom: 15px;
-            background-color: hsl(203, 20%, 10%);
+            background-color: hsl(203, 30%, 10%);
             padding: 20px;
             border-radius: 3px;
           }

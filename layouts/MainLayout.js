@@ -35,7 +35,7 @@ export default class MainLayout extends React.Component {
           }
           body {
             font-family: 'Audiowide', sans-serif;
-            background-color: hsl(203, 20%, 15%);
+            background-color: hsl(203, 30%, 15%);
             color: hsl(203, 0%, 80%);
             -webkit-touch-callout: none;
             -webkit-user-select: none;

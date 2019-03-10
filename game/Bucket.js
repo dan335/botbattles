@@ -31,7 +31,9 @@ export default class Bucket {
 
 
   returnObject(obj) {
-    obj.visible = false;
-    this.objects.push(obj);
+    if (obj) {
+      obj.visible = false;
+      this.objects.push(obj);
+    }
   }
 }

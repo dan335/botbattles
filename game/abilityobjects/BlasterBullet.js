@@ -52,8 +52,11 @@ export default class BlasterBullet extends Obj {
 
 
   destroy() {
-    this.manager.blasterBulletBucket.returnObject(this.mesh);
-    this.mesh = undefined;
+    if (this.mesh) {
+      this.manager.blasterBulletBucket.returnObject(this.mesh);
+      this.mesh = undefined;
+    }
+    
     super.destroy();
     const index = this.manager.abilityObjects.indexOf(this);
     if (index != -1) {

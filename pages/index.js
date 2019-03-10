@@ -365,7 +365,7 @@ export default class Index extends React.Component {
           #serverInfo {
             font-family: 'Roboto', sans-serif;
             text-align: left;
-            background-color: hsl(203, 20%, 10%);
+            background-color: hsl(203, 30%, 10%);
             padding: 10px;
             border-radius: 3px;
             font-size: 90%;
@@ -390,7 +390,7 @@ export default class Index extends React.Component {
             grid-template-columns: auto auto;
           }
           #mainContainer {
-            background-color: hsl(203, 20%, 20%);
+            background-color: hsl(203, 30%, 20%);
           }
 
           #topBox {
@@ -431,7 +431,7 @@ export default class Index extends React.Component {
           #inputContainer {
             text-align: left;
             margin-bottom: 30px;
-            background-color: hsl(203, 20%, 10%);
+            background-color: hsl(203, 30%, 10%);
             padding: 20px;
             border-radius: 3px;
           }

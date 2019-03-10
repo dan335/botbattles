@@ -22,7 +22,7 @@ export default class BottomMenu extends React.Component {
             bottom: 0px;
             width: 100%;
             font-family: 'Roboto', sans-serif;
-            background-color: hsl(203, 20%, 10%);
+            background-color: hsl(203, 30%, 10%);
             display: grid;
             grid-template-columns: 40px auto auto 40px;
           }
@@ -35,7 +35,7 @@ export default class BottomMenu extends React.Component {
             display: inline-block;
           }
           a:hover {
-            background-color: hsl(203, 20%, 20%);
+            background-color: hsl(203, 30%, 20%);
             color: #eee;
           }
         `}</style>
