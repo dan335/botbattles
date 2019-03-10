@@ -36,7 +36,7 @@ export default class MainLayout extends React.Component {
           body {
             font-family: 'Audiowide', sans-serif;
             background-color: hsl(203, 30%, 15%);
-            color: hsl(203, 0%, 80%);
+            color: hsl(203, 0%, 90%);
             -webkit-touch-callout: none;
             -webkit-user-select: none;
             -khtml-user-select: none;
@@ -49,7 +49,7 @@ export default class MainLayout extends React.Component {
             text-decoration: none;
           }
           a:hover {
-            color: hsl(89, 65%, 65%);
+            color: hsl(89, 75%, 65%);
             text-decoration: none;
           }
           textarea:focus, input:focus, select:focus {
@@ -61,11 +61,11 @@ export default class MainLayout extends React.Component {
             border-radius: 2px;
             width: 100%;
             font-family: 'Roboto', sans-serif;
-            background-color: hsl(203, 0%, 80%);
+            background-color: hsl(203, 0%, 90%);
           }
           select {
             font-family: 'Roboto', sans-serif;
-            background-color: hsl(203, 0%, 80%);
+            background-color: hsl(203, 0%, 90%);
           }
           button,.btn {
             border: 0;
@@ -85,11 +85,11 @@ export default class MainLayout extends React.Component {
             cursor: pointer;
           }
           button.selected,.btn.selected {
-            background-color: hsl(89, 40%, 40%);
+            background-color: hsl(89, 55%, 40%);
           }
           button.selected.noHover:hover,.btn.selected.noHover:hover {
             cursor: default;
-            background-color: hsl(213, 0.6, 0.4) ;
+            background-color: hsl(213, 60%, 40%) ;
           }
           button.stackable {
             margin-bottom: 4px;
