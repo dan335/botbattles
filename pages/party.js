@@ -231,7 +231,7 @@ export default class PrivacyPolicy extends React.Component {
           <div>
             {this.state.members.map((member) => {
               return (
-                <div key={member.id} className="member">
+                <div key={member.id} className="member contentBox roboto">
                   <div className={member.id == this.state.memberId ? 'name self' : 'name'}>
                     {member.name}
                   </div>
@@ -243,7 +243,7 @@ export default class PrivacyPolicy extends React.Component {
             })}
           </div>
           <div></div>
-          <div id="chat">
+          <div id="chat" className="contentBox roboto">
             <div id="chatTitle">Chat</div>
             <div id="chatsContainer">
               {this.state.chat.map((chat) => {
@@ -265,6 +265,9 @@ export default class PrivacyPolicy extends React.Component {
             <Abilities />
           </div>
           <style jsx>{`
+            #chat {
+              padding: 10px;
+            }
             #chatTitle {
               padding: 10px;
             }
@@ -292,25 +295,19 @@ export default class PrivacyPolicy extends React.Component {
               grid-template-columns: auto 5px auto;
               padding: 10px;
             }
-            #chat {
-              background-color: hsl(203, 30%, 10%);
-              border-radius: 3px;
-            }
             a {
               cursor: pointer;
             }
             #instructions {
               grid-column: 1 / span 5;
               margin-bottom: 20px;
+              margin-top: 20px;
               border-radius: 3px;
               font-size: 120%;
               text-align: center;
             }
             .member {
-              background-color: hsl(203, 30%, 10%);
-              border-radius: 3px;
               padding: 10px;
-              margin-bottom: 5px;
               display: grid;
               grid-template-columns: auto auto;
             }
@@ -322,8 +319,7 @@ export default class PrivacyPolicy extends React.Component {
             }
             #midBox {
               display: grid;
-              grid-template-columns: 275px 5px 275px 5px auto;
-              padding: 20px 0;
+              grid-template-columns: auto 5px 350px 5px 450px;
             }
           `}</style>
         </div>
@@ -358,8 +354,9 @@ export default class PrivacyPolicy extends React.Component {
     return (
       <div>
         <MainLayout>
-          <TopMenu user={this.props.user} />
-          <div id="top">
+        <TopMenu user={this.props.user} />
+        <div className="contentContainer">
+          <div className="contentBox">
             <h1>Party: <span className="green">{this.props.partyId}</span></h1>
             <div id="url">
               <span id="urlText">{url}</span>
@@ -367,13 +364,8 @@ export default class PrivacyPolicy extends React.Component {
               <a id="copyLink" onClick={() => { const isCopied = copy(url); if (isCopied) {document.getElementById('copyLink').innerHTML='copied';} }}>copy</a>
             </div>
           </div>
-          <div id="mainContainer">
-            <div className="constrain">
-              <div id="content">
-                {this.renderMidBox()}
-              </div>
-            </div>
-          </div>
+          {this.renderMidBox()}
+        </div>
         </MainLayout>
         <style jsx>{`
           #top {
@@ -387,7 +379,6 @@ export default class PrivacyPolicy extends React.Component {
           }
           #url {
             text-align: center;
-            margin-bottom: 15px;
             font-family: 'Roboto', sans-serif;
           }
           #urlText {
@@ -404,9 +395,7 @@ export default class PrivacyPolicy extends React.Component {
             font-family: 'Audiowide', sans-serif;
             text-align: center;
           }
-          .green {
-            color: #91df3e;
-          }
+
           #mainContainer {
 
           }
@@ -417,11 +406,6 @@ export default class PrivacyPolicy extends React.Component {
             margin-top: 10px;
             padding: 20px;
             border-radius: 3px;
-          }
-          .constrain {
-            max-width: 1000px;
-            margin-right: auto;
-            margin-left: auto;
           }
         `}</style>
       </div>

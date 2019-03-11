@@ -141,59 +141,55 @@ export default class Abilities extends React.Component {
       <div>
         <MainLayout>
           <TopMenu user={this.props.user} />
-          <div>
-            <div className="constrain">
-              <div id="content">
-                <h1 className="audiowide">{this.props.abilities.length} Abilities</h1>
+          <div className="contentContainer">
+            <h1 className="audiowide">{this.props.abilities.length} Abilities</h1>
 
-                <div>
-                  Sort: &nbsp;&nbsp;
-                  {this.renderSorting()}
-                </div>
-                <br/>
-
-                <div>
-                  Categories: &nbsp;&nbsp;
-                  <a href={allCatUrl} key="all"><button className={!this.props.query.category ? 'selected': ''}>All</button></a>
-                  {this.renderCategories()}
-                </div>
-                <br/>
-
-                {this.props.abilities.map((ability) => {
-                  const winPercent = ability.wins / ability.uses;
-                  const info = _s.abilityTypes.find((t) => {
-                    return t.id == ability.abilityId;
-                  })
-
-                  return (
-                    <div className="ability" key={ability._id}>
-                      <div className="name audiowide">{ability.name}</div>
-                      <div className="description">{ability.description}</div>
-                      <div className="categories">
-                        Categories: &nbsp;&nbsp;
-                        {info.categories.map((cat) => {
-                          const catInfo = _s.abilityCategories.find((c) => {
-                            return c.id == cat;
-                          });
-                          return <span className="category" key={cat}>{catInfo.name}</span>
-                        })}
-                      </div>
-                      <div className="info">
-                        Uses: {ability.uses} ({Math.round(ability.uses / this.props.maxUses * 10000) / 100}%) &nbsp;&nbsp;&nbsp;
-                        Wins: {ability.wins} ({Math.round(ability.wins / this.props.maxUses * 10000) / 100}%) &nbsp;&nbsp;&nbsp;
-                        Win percentage when used: {winPercent ? Math.round(winPercent * 10000) / 100 : 0}%
-                      </div>
-                      <div className="usedWith">
-                        Most often used with:
-                        <ul>
-                          {this.renderUsedWith(ability)}
-                        </ul>
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
+            <div className="roboto">
+              Sort: &nbsp;&nbsp;
+              {this.renderSorting()}
             </div>
+            <br/>
+
+            <div className="roboto">
+              Categories: &nbsp;&nbsp;
+              <a href={allCatUrl} key="all"><button className={!this.props.query.category ? 'selected': ''}>All</button></a>
+              {this.renderCategories()}
+            </div>
+            <br/>
+
+            {this.props.abilities.map((ability) => {
+              const winPercent = ability.wins / ability.uses;
+              const info = _s.abilityTypes.find((t) => {
+                return t.id == ability.abilityId;
+              })
+
+              return (
+                <div className="contentBox roboto" key={ability._id}>
+                  <div className="name audiowide">{ability.name}</div>
+                  <div className="description">{ability.description}</div>
+                  <div className="categories">
+                    Categories: &nbsp;&nbsp;
+                    {info.categories.map((cat) => {
+                      const catInfo = _s.abilityCategories.find((c) => {
+                        return c.id == cat;
+                      });
+                      return <span className="category" key={cat}>{catInfo.name}</span>
+                    })}
+                  </div>
+                  <div className="info">
+                    Uses: {ability.uses} ({Math.round(ability.uses / this.props.maxUses * 10000) / 100}%) &nbsp;&nbsp;&nbsp;
+                    Wins: {ability.wins} ({Math.round(ability.wins / this.props.maxUses * 10000) / 100}%) &nbsp;&nbsp;&nbsp;
+                    Win percentage when used: {winPercent ? Math.round(winPercent * 10000) / 100 : 0}%
+                  </div>
+                  <div className="usedWith">
+                    Most often used with:
+                    <ul>
+                      {this.renderUsedWith(ability)}
+                    </ul>
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </MainLayout>
         <style jsx>{`
@@ -204,9 +200,7 @@ export default class Abilities extends React.Component {
             padding: 20px;
             border-radius: 3px;
           }
-          .audiowide {
-              font-family: 'Audiowide', sans-serif;
-          }
+
           .constrain {
             max-width: 900px;
             margin-right: auto;
@@ -228,17 +222,14 @@ export default class Abilities extends React.Component {
             margin-bottom: 10px;
           }
           .info {
-            color: #aaa;
           }
           .usedWith {
-            color: #aaa;
             margin-top: 10px;
           }
           ul {
             margin: 5px 0 0 0;
           }
           .categories {
-            color: #aaa;
             margin-bottom: 10px;
           }
           .category {

@@ -67,26 +67,24 @@ export default class Leaderboard extends React.Component {
       <div>
         <MainLayout>
           <TopMenu user={this.props.user} />
-          <div>
-            <div className="constrain">
-              <div id="content">
-                <h1 className="audiowide">Leaderboard</h1>
+          <div className="contentContainer">
+            <h1 className="audiowide">Leaderboard</h1>
 
-                {this.props.players.map((player, index) => {
-                  const playerUrl = '/player/' + player._id;
-                  return (
-                    <div key={player._id} className="player">
-                      {index * (page+1) +1}. <a href={playerUrl}>{player.username}</a> &nbsp;&nbsp; {Math.round(player.rating)}
-                    </div>
-                  )
-                })}
+            <div className="contentBox">
+              {this.props.players.map((player, index) => {
+                const playerUrl = '/player/' + player._id;
+                return (
+                  <div key={player._id} className="player">
+                    {index * (page+1) +1}. <a href={playerUrl}>{player.username}</a> &nbsp;&nbsp; {Math.round(player.rating)}
+                  </div>
+                )
+              })}
 
-                <br/><br/>
-                {showPrev ? (<a href={prevPageUrl}><button>Previous Page</button></a>) : ''}
-                <a href={nextPageUrl}><button>Next Page</button></a>
-
-              </div>
+              <br/><br/>
+              {showPrev ? (<a href={prevPageUrl}><button>Previous Page</button></a>) : ''}
+              <a href={nextPageUrl}><button>Next Page</button></a>
             </div>
+
           </div>
         </MainLayout>
         <style jsx>{`
@@ -96,9 +94,6 @@ export default class Leaderboard extends React.Component {
             margin-top: 20px;
             padding: 20px;
             border-radius: 3px;
-          }
-          .audiowide {
-              font-family: 'Audiowide', sans-serif;
           }
           .constrain {
             max-width: 900px;

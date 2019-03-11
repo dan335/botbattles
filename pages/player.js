@@ -218,102 +218,99 @@ export default class Login extends React.Component {
         <div>
           <MainLayout>
             <TopMenu user={this.props.user} />
-            <div>
-              <div className="constrain">
-                <div id="content">
-                  <h1>{this.props.player.username}</h1>
+            <div className="contentContainer">
+              <h1>{this.props.player.username}</h1>
+              <div className="contentBox">
+                {this.renderSettings()}
 
-                  {this.renderSettings()}
-
-                  <h2>Rating</h2>
-                  <div className="block" style={{textAlign:'center', fontSize:'300%'}}>
-                    Rating: {Math.round(this.props.player.rating)}<br/>
-                  </div>
-
-
-                  <div id="games">
-                    <div>
-                      <h2>{this.props.player.plays} Games</h2>
-                      <div className="block roboto">
-                        <table>
-                          <tbody>
-                            <tr>
-                              <td>Wins</td><td>{this.props.player.wins || 0}</td><td>{Math.round((this.props.player.wins || 0) / (this.props.player.plays || 0) * 10000)/100 + '%'}</td>
-                            </tr>
-                            <tr>
-                              <td>Kills</td><td>{this.props.player.kills || 0}</td><td>{Math.round((this.props.player.kills || 0) / (this.props.player.plays || 0) *100)/100} Per Game</td>
-                            </tr>
-                            <tr>
-                              <td>Damage</td><td>{Math.round((this.props.player.damage || 0))}</td><td>{Math.round(this.props.player.damage / (this.props.player.plays || 0))} Per Game</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-
-                    <div></div>
-
-                    <div>
-                      <h2>Last {num} Games</h2>
-                      <div className="block roboto">
-                        <table>
-                          <tbody>
-                            <tr>
-                              <td>Wins</td><td>{wins}</td><td>{Math.round(wins / (plays || 0) * 10000)/100 + '%'}</td>
-                            </tr>
-                            <tr>
-                              <td>Kills</td><td>{kills}</td><td>{Math.round(kills / (plays || 0) *100)/100} Per Game</td>
-                            </tr>
-                            <tr>
-                              <td>Damage</td><td>{Math.round(damage)}</td><td>{Math.round(damage / (plays || 0) )} Per Game</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-
-
-
-
-
-                  <h2>Abilities</h2>
-                  <div className="block roboto">
-                    <table>
-                      <thead>
-                        <tr>
-                          <td></td>
-                          <td>Uses</td>
-                          <td>Wins</td>
-                          <td>Kills</td>
-                          <td>Damage</td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {abilities.map((ability) => {
-                          return (
-                            <tr key={ability.id}>
-                              <td>{ability.name}</td>
-                              <td>{ability.uses}</td>
-                              <td>{ability.wins} &nbsp; ({Math.round(ability.wins / ability.uses * 100)}%)</td>
-                              <td>{ability.kills} &nbsp; ({Math.round(ability.kills / ability.uses * 100)/100} Per Use)</td>
-                              <td>{Math.round(ability.damage)} &nbsp; ({Math.round(ability.damage / ability.uses)} Per Use)</td>
-                            </tr>
-                          )
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-
-                  <h2>Recent Games</h2>
-                  {this.props.games.map((game) => {
-                    const replay = this.props.replays.find((r) => {
-                      return r.gameId == game._id;
-                    })
-
-                    return (<GameBlock game={game} replay={replay} key={game._id} />)
-                  })}
+                <h2>Rating</h2>
+                <div className="block" style={{textAlign:'center', fontSize:'300%'}}>
+                  Rating: {Math.round(this.props.player.rating)}<br/>
                 </div>
+
+
+                <div id="games">
+                  <div>
+                    <h2>{this.props.player.plays} Games</h2>
+                    <div className="block roboto">
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td>Wins</td><td>{this.props.player.wins || 0}</td><td>{Math.round((this.props.player.wins || 0) / (this.props.player.plays || 0) * 10000)/100 + '%'}</td>
+                          </tr>
+                          <tr>
+                            <td>Kills</td><td>{this.props.player.kills || 0}</td><td>{Math.round((this.props.player.kills || 0) / (this.props.player.plays || 0) *100)/100} Per Game</td>
+                          </tr>
+                          <tr>
+                            <td>Damage</td><td>{Math.round((this.props.player.damage || 0))}</td><td>{Math.round(this.props.player.damage / (this.props.player.plays || 0))} Per Game</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div></div>
+
+                  <div>
+                    <h2>Last {num} Games</h2>
+                    <div className="block roboto">
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td>Wins</td><td>{wins}</td><td>{Math.round(wins / (plays || 0) * 10000)/100 + '%'}</td>
+                          </tr>
+                          <tr>
+                            <td>Kills</td><td>{kills}</td><td>{Math.round(kills / (plays || 0) *100)/100} Per Game</td>
+                          </tr>
+                          <tr>
+                            <td>Damage</td><td>{Math.round(damage)}</td><td>{Math.round(damage / (plays || 0) )} Per Game</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+
+
+
+
+                <h2>Abilities</h2>
+                <div className="block roboto">
+                  <table>
+                    <thead>
+                      <tr>
+                        <td></td>
+                        <td>Uses</td>
+                        <td>Wins</td>
+                        <td>Kills</td>
+                        <td>Damage</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {abilities.map((ability) => {
+                        return (
+                          <tr key={ability.id}>
+                            <td>{ability.name}</td>
+                            <td>{ability.uses}</td>
+                            <td>{ability.wins} &nbsp; ({Math.round(ability.wins / ability.uses * 100)}%)</td>
+                            <td>{ability.kills} &nbsp; ({Math.round(ability.kills / ability.uses * 100)/100} Per Use)</td>
+                            <td>{Math.round(ability.damage)} &nbsp; ({Math.round(ability.damage / ability.uses)} Per Use)</td>
+                          </tr>
+                        )
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+
+                <h2>Recent Games</h2>
+                {this.props.games.map((game) => {
+                  const replay = this.props.replays.find((r) => {
+                    return r.gameId == game._id;
+                  })
+
+                  return (<GameBlock game={game} replay={replay} key={game._id} />)
+                })}
               </div>
             </div>
           </MainLayout>
@@ -342,6 +339,7 @@ export default class Login extends React.Component {
               color: #91df3e;
               font-size: 300%;
               margin-bottom: 20px;
+              text-align: center;
             }
             h2 {
               margin-bottom: 10px;

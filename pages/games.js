@@ -74,9 +74,9 @@ export default class Games extends React.Component {
       <div>
         <MainLayout>
           <TopMenu user={this.props.user} />
-          <div className="constrain">
-            <div id="content">
-              <h1>Game History</h1>
+          <div className="contentContainer">
+            <h1>Game History</h1>
+            <div className="contentBox">
               {this.props.games.map((game) => {
                 const replay = this.props.replays.find((r) => {
                   return r.gameId == game._id;
@@ -89,20 +89,6 @@ export default class Games extends React.Component {
             </div>
           </div>
         </MainLayout>
-        <style jsx>{`
-          #content {
-            background-color: hsl(203, 30%, 15%);
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 3px;
-          }
-          .constrain {
-            max-width: 900px;
-            margin-right: auto;
-            margin-left: auto;
-          }
-
-        `}</style>
       </div>
     )
   }

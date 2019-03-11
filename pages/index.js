@@ -305,9 +305,8 @@ export default class Index extends React.Component {
         <MainLayout bgColor="red">
           <TopMenu user={this.props.user} />
 
-          <div id="topBox">
-
-            <div id="logoContainer">
+          <div className="contentContainer">
+            <div id="logoContainer" className="contentBox">
               <h1 id="logo">
                 Bot Battles
                 {/*<img alt="Bot Battles" style={{verticalAlign:"text-bottom"}} src="/static/botbattlesLogo.png" />*/}
@@ -318,11 +317,40 @@ export default class Index extends React.Component {
               </h2>
             </div>
 
-
-
             <div id="midBox">
+
+
+
+
+              <div id="serverInfo" className="contentBox">
+                {this.state.serverInfo.map((server) => {
+                  return (
+                    <div key={server.name} className="serverContainer">
+                      <div className="serverTitle">
+                        <div className="serverName">{this.renderServerName(server)}</div>
+                        <div className="alignRight">{server.numPlayers} Players, {server.numSpectators} Spectators in {server.numGames} Games</div>
+                      </div>
+                      {server.games.map((game) => {
+                        return (
+                          <div key={game.id} className="gameInfo">
+                            <div>{game.numPlayers} Players, {game.numSpectators} Spectators</div>
+                            <div className="alignRight">
+                              {game.isStarted ? (<a href={'/game/'+server.id+'/'+game.id}>Spectate</a>) : (<a href={'/game/'+server.id+'/'+game.id}>Join</a>)}
+                              {game.isEnded ? ' Ended' : ''}
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  )
+                })}
+              </div>
+
+
+              <div></div>
+
               <div id="leftBox">
-                <div id="inputContainer">
+                <div id="inputContainer" className="contentBox">
                   <label>Name</label>
                   <input type="text" defaultValue={name} id="nameInput" onChange={this.saveName}></input>
                 </div>
@@ -331,30 +359,6 @@ export default class Index extends React.Component {
                   {this.renderPlayButton()}
                   {this.renderPartyButton()}
                 </div>
-
-                <div id="serverInfo">
-                  {this.state.serverInfo.map((server) => {
-                    return (
-                      <div key={server.name} className="serverContainer">
-                        <div className="serverTitle">
-                          <div className="serverName">{this.renderServerName(server)}</div>
-                          <div className="alignRight">{server.numPlayers} Players, {server.numSpectators} Spectators in {server.numGames} Games</div>
-                        </div>
-                        {server.games.map((game) => {
-                          return (
-                            <div key={game.id} className="gameInfo">
-                              <div>{game.numPlayers} Players, {game.numSpectators} Spectators</div>
-                              <div className="alignRight">
-                                {game.isStarted ? (<a href={'/game/'+server.id+'/'+game.id}>Spectate</a>) : (<a href={'/game/'+server.id+'/'+game.id}>Join</a>)}
-                                {game.isEnded ? ' Ended' : ''}
-                              </div>
-                            </div>
-                          )
-                        })}
-                      </div>
-                    )
-                  })}
-                </div>
               </div>
 
               <div></div>
@@ -362,23 +366,18 @@ export default class Index extends React.Component {
               <div>
                 <Abilities />
               </div>
-            </div>
 
+            </div>
           </div>
           <BottomMenu />
         </MainLayout>
         <style jsx>{`
           #logoContainer {
-            background-color: hsl(203, 30%, 10%);
-            margin-left: auto;
-            margin-right: auto;
-
-            border-radius: 3px;
-            padding: 25px 0 15px 0;
-            margin-bottom: 5px;
+            padding: 22px 0 18px 0;
+            text-align: center;
           }
           #playButtonContainer {
-            background-color: hsl(203, 30%, 10%);
+            background-color: hsl(203, 30%, 20%);
             border-radius: 3px;
             padding: 20px;
             margin-bottom: 5px;
@@ -386,9 +385,6 @@ export default class Index extends React.Component {
           #serverInfo {
             font-family: 'Roboto', sans-serif;
             text-align: left;
-            background-color: hsl(203, 30%, 10%);
-            padding: 20px;
-            border-radius: 3px;
             font-size: 90%;
             max-height: 300px;
             overflow-y: auto;
@@ -413,27 +409,9 @@ export default class Index extends React.Component {
           #mainContainer {
             background-color: hsl(203, 30%, 20%);
           }
-
-          #topBox {
-            text-align: center;
-            // background-image: url("/static/botbattlesPainting.jpg");
-            // background-size: cover;
-            // background-repeat: no-repeat;
-            // background-size: 100%;
-            // background-color: #160305;
-            width: 1000px;
-            margin-left: auto;
-            margin-right: auto;
-            background-color: hsl(203, 30%, 15%);
-            padding: 10px;
-            border-radius: 3px;
-            margin-top: 40px;
-          }
-
           #midBox {
             display: grid;
-            grid-template-columns: 420px 10px auto;
-            //background-color: hsla(203, 30%, 10%, 85%);
+            grid-template-columns: 425px 5px auto 5px 425px;
             border-radius: 6px;
           }
 
@@ -458,10 +436,6 @@ export default class Index extends React.Component {
           }
           #inputContainer {
             text-align: left;
-            margin-bottom: 5px;
-            background-color: hsl(203, 30%, 10%);
-            padding: 20px;
-            border-radius: 3px;
           }
         `}</style>
       </div>

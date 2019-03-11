@@ -80,41 +80,30 @@ export default class Login extends React.Component {
       <div>
         <MainLayout>
           <TopMenu user={this.props.user} />
-          <div>
+          <div className="contentContainer">
+            <div className="contentBox roboto">
+              <h1>Login</h1>
 
-            <div className="constrain">
-              <div id="content">
-                <h1>Login</h1>
+              {this.showErrorMsg()}
 
-                {this.showErrorMsg()}
+              <label>Email</label>
+              <input type="text" id="emailInput"></input>
 
-                <label>Email</label>
-                <input type="text" id="emailInput"></input>
+              <label>Password</label>
+              <input type="password" id="passwordInput" onKeyPress={(e) => {(e.key === 'Enter' ? this.submitButton() : null)}}></input>
 
-                <label>Password</label>
-                <input type="password" id="passwordInput" onKeyPress={(e) => {(e.key === 'Enter' ? this.submitButton() : null)}}></input>
+              <button id="submitButton" onClick={this.submitButton}>Submit</button>
 
-                <button id="submitButton" onClick={this.submitButton}>Submit</button>
-
-                <br/><br/>
-                <p>
-                  Don't have an account? <a href="/register">Register here.</a>
-                </p>
-              </div>
+              <br/><br/>
+              <p>
+                Don't have an account? <a href="/register">Register here.</a>
+              </p>
             </div>
           </div>
         </MainLayout>
         <style jsx>{`
-          #content {
-            background-color: hsl(203, 30%, 10%);
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 3px;
-          }
-          .constrain {
-            max-width: 600px;
-            margin-right: auto;
-            margin-left: auto;
+          .contentContainer {
+            width: 600px;
           }
           h1 {
             padding: 10px;

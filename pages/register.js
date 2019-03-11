@@ -72,49 +72,38 @@ export default class Register extends React.Component {
       <div>
         <MainLayout>
           <TopMenu user={this.props.user} />
-          <div>
 
-            <div className="constrain">
-              <div id="content">
-                <h1>Create an Account</h1>
+          <div className="contentContainer">
+            <div className="contentBox roboto">
+              <h1>Create an Account</h1>
 
-                {this.showErrorMsg()}
+              {this.showErrorMsg()}
 
-                <label>Username</label>
-                <input type="text" id="usernameInput"></input>
+              <label>Username</label>
+              <input type="text" id="usernameInput"></input>
 
-                <label>Email</label>
-                <input type="text" id="emailInput"></input>
+              <label>Email</label>
+              <input type="text" id="emailInput"></input>
 
-                <label>Password</label>
-                <input type="password" id="passwordInput1"></input>
+              <label>Password</label>
+              <input type="password" id="passwordInput1"></input>
 
-                <label>Type Password Again</label>
-                <input type="password" id="passwordInput2"></input>
+              <label>Type Password Again</label>
+              <input type="password" id="passwordInput2"></input>
 
-                <button id="submitButton" onClick={this.submitButton}>Submit</button>
+              <button id="submitButton" onClick={this.submitButton}>Submit</button>
 
-                <br/><br/>
-                <p>
-                  Already have an account? <a href="/login">Login here.</a>
-                </p>
-              </div>
-
+              <br/><br/>
+              <p>
+                Already have an account? <a href="/login">Login here.</a>
+              </p>
             </div>
 
           </div>
         </MainLayout>
         <style jsx>{`
-          #content {
-            background-color: hsl(203, 30%, 10%);
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 3px;
-          }
-          .constrain {
-            max-width: 600px;
-            margin-right: auto;
-            margin-left: auto;
+          .contentContainer {
+            width: 600px;
           }
           h1 {
             padding: 10px;

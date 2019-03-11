@@ -51,6 +51,30 @@ export default class MainLayout extends React.Component {
         </div>
         {/* <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> */}
         <style jsx global>{`
+          .contentContainer {
+            width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: hsla(203, 30%, 10%, 95%);
+            padding: 12px;
+            border-radius: 3px;
+            margin-top: 40px;
+          }
+          .contentBox {
+            background-color: hsl(203, 30%, 20%);
+            border-radius: 3px;
+            padding: 20px;
+            margin-bottom: 5px;
+          }
+          .roboto {
+            font-family: 'Roboto', sans-serif;
+          }
+          .audiowide {
+              font-family: 'Audiowide', sans-serif;
+          }
+          .green {
+            color: #91df3e;
+          }
           * {
             box-sizing: border-box;
           }

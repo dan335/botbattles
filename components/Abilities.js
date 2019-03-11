@@ -165,7 +165,7 @@ export default class Abilities extends React.Component {
           {this.renderAbilityDescription(i)}
           <style jsx>{`
             .ability {
-              background-color: hsl(203, 30%, 10%);
+              background-color: hsl(203, 30%, 20%);
               padding: 20px;
               margin-bottom: 5px;
               border-radius: 3px;
