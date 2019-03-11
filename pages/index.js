@@ -322,7 +322,7 @@ export default class Index extends React.Component {
 
 
 
-              <div id="serverInfo" className="contentBox">
+              <div id="serverInfo">
                 {this.state.serverInfo.map((server) => {
                   return (
                     <div key={server.name} className="serverContainer">
@@ -375,6 +375,7 @@ export default class Index extends React.Component {
           #logoContainer {
             padding: 22px 0 18px 0;
             text-align: center;
+            background-color: hsl(203, 30%, 20%);
           }
           #playButtonContainer {
             background-color: hsl(203, 30%, 20%);
@@ -386,7 +387,7 @@ export default class Index extends React.Component {
             font-family: 'Roboto', sans-serif;
             text-align: left;
             font-size: 90%;
-            max-height: 300px;
+            max-height: 500px;
             overflow-y: auto;
           }
           .serverContainer {
@@ -395,7 +396,10 @@ export default class Index extends React.Component {
           .serverTitle {
             display: grid;
             grid-template-columns: auto auto;
-            margin-bottom: 10px;
+            background-color: hsl(203, 30%, 5%);
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 3px;
           }
           .serverName {
           }
@@ -405,6 +409,10 @@ export default class Index extends React.Component {
           .gameInfo {
             display: grid;
             grid-template-columns: auto auto;
+            background-color: hsl(203, 30%, 20%);
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 3px;
           }
           #mainContainer {
             background-color: hsl(203, 30%, 20%);
