@@ -127,8 +127,8 @@ export default class Obj extends Base {
       }
     }
 
-    this.syncPositions.sort(function(a, b) {
-      return b.t - a.t;
-    });
+    // this.syncPositions.sort(function(a, b) {
+    //   return b.t - a.t;
+    // });
   }
 }

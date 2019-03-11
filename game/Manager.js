@@ -368,8 +368,6 @@ export default class Manager {
 
     this.tickStartTime = performance.now();
 
-    if (this.map) this.map.tick();
-
     for (let i = 0; i < this.ships.length; i++) {
       this.ships[i].tick();
     }

@@ -22,7 +22,7 @@ export default class BottomMenu extends React.Component {
             bottom: 0px;
             width: 100%;
             font-family: 'Roboto', sans-serif;
-            background-color: hsl(203, 30%, 10%);
+            background-color: hsla(203, 30%, 10%, 75%);
             display: grid;
             grid-template-columns: 40px auto auto 40px;
           }

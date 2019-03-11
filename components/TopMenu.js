@@ -43,7 +43,7 @@ export default class TopMenu extends React.Component {
         <style jsx>{`
           #topMenu {
             font-family: 'Roboto', sans-serif;
-            background-color: hsl(203, 30%, 10%);
+            background-color: hsla(203, 30%, 10%, 75%);
             display: grid;
             grid-template-columns: 40px auto auto 40px;
           }

@@ -91,8 +91,11 @@ export default class Leaderboard extends React.Component {
         </MainLayout>
         <style jsx>{`
           #content {
-            padding: 10px;
             font-family: 'Roboto', sans-serif;
+            background-color: hsl(203, 30%, 15%);
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 3px;
           }
           .audiowide {
               font-family: 'Audiowide', sans-serif;

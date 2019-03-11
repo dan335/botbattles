@@ -235,8 +235,11 @@ export default class PrivacyPolicy extends React.Component {
         </MainLayout>
         <style jsx>{`
           #content {
-            padding: 10px;
             font-family: 'Roboto', sans-serif;
+            background-color: hsl(203, 30%, 10%);
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 3px;
           }
           .constrain {
             max-width: 900px;

@@ -142,6 +142,7 @@ export default class Abilities extends React.Component {
         <style jsx>{`
           div {
             font-family: 'Roboto', sans-serif;
+            font-size: 85%;
           }
         `}</style>
       </div>
@@ -168,6 +169,7 @@ export default class Abilities extends React.Component {
               padding: 20px;
               margin-bottom: 5px;
               border-radius: 3px;
+              text-align: left;
             }
             label {
               display: block;

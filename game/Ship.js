@@ -54,10 +54,13 @@ export default class Ship extends Obj {
     const h = Number(json.health);
     const s = Number(json.shield);
 
-    if (h != this.health || s != this.shield) {
+    if (h != this.health) {
       this.health = h;
-      this.shield = s;
       this.healthBars.updateHealth(h);
+    }
+
+    if (s != this.shield) {
+      this.shield = s;
       this.healthBars.updateShields(s);
     }
 

@@ -244,11 +244,6 @@ export default class Index extends React.Component {
       return (
         <div id="partyLink">
           <a href={partyLink} onClick={this.saveName}>Create a party.</a>
-          <style jsx>{`
-            #partyLink {
-              margin-bottom: 10px;
-            }
-          `}</style>
         </div>
       )
     }
@@ -307,15 +302,23 @@ export default class Index extends React.Component {
 
     return (
       <div>
-        <MainLayout>
+        <MainLayout bgColor="red">
           <TopMenu user={this.props.user} />
 
           <div id="topBox">
-            <h1 id="logo">Bot Battles</h1>
-            <h2 id="tagline">MULTIPLAYER ONLINE ROBOTIC COMBAT ARENA</h2>
-          </div>
 
-          <div id="mainContainer">
+            <div id="logoContainer">
+              <h1 id="logo">
+                Bot Battles
+                {/*<img alt="Bot Battles" style={{verticalAlign:"text-bottom"}} src="/static/botbattlesLogo.png" />*/}
+              </h1>
+              <h2 id="tagline">
+                MULTIPLAYER ONLINE ROBOTIC COMBAT ARENA
+                {/*<img alt="MULTIPLAYER ONLINE ROBOTIC COMBAT ARENA" src="/static/botbattlesDesc.png" />*/}
+              </h2>
+            </div>
+
+
 
             <div id="midBox">
               <div id="leftBox">
@@ -323,8 +326,11 @@ export default class Index extends React.Component {
                   <label>Name</label>
                   <input type="text" defaultValue={name} id="nameInput" onChange={this.saveName}></input>
                 </div>
-                {this.renderPlayButton()}
-                {this.renderPartyButton()}
+
+                <div id="playButtonContainer">
+                  {this.renderPlayButton()}
+                  {this.renderPartyButton()}
+                </div>
 
                 <div id="serverInfo">
                   {this.state.serverInfo.map((server) => {
@@ -362,11 +368,26 @@ export default class Index extends React.Component {
           <BottomMenu />
         </MainLayout>
         <style jsx>{`
+          #logoContainer {
+            background-color: hsl(203, 30%, 10%);
+            margin-left: auto;
+            margin-right: auto;
+
+            border-radius: 3px;
+            padding: 25px 0 15px 0;
+            margin-bottom: 5px;
+          }
+          #playButtonContainer {
+            background-color: hsl(203, 30%, 10%);
+            border-radius: 3px;
+            padding: 20px;
+            margin-bottom: 5px;
+          }
           #serverInfo {
             font-family: 'Roboto', sans-serif;
             text-align: left;
             background-color: hsl(203, 30%, 10%);
-            padding: 10px;
+            padding: 20px;
             border-radius: 3px;
             font-size: 90%;
             max-height: 300px;
@@ -395,17 +416,25 @@ export default class Index extends React.Component {
 
           #topBox {
             text-align: center;
-            width: 100%;
-            margin-bottom: 20px;
+            // background-image: url("/static/botbattlesPainting.jpg");
+            // background-size: cover;
+            // background-repeat: no-repeat;
+            // background-size: 100%;
+            // background-color: #160305;
+            width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: hsl(203, 30%, 15%);
+            padding: 10px;
+            border-radius: 3px;
+            margin-top: 40px;
           }
 
           #midBox {
             display: grid;
             grid-template-columns: 420px 10px auto;
-            width: 1000px;
-            margin-left: auto;
-            margin-right: auto;
-            padding: 20px;
+            //background-color: hsla(203, 30%, 10%, 85%);
+            border-radius: 6px;
           }
 
           #leftBox {
@@ -413,15 +442,14 @@ export default class Index extends React.Component {
           }
 
           #logo {
+            margin: 0;
+            margin-bottom: 0px;
             color: #91df3e;
             font-size: 400%;
-            margin-bottom: 5px;
-            margin-top: 20px;
           }
           #tagline {
+            margin: 0;
             font-size: 100%;
-            margin-top: 0;
-            margin-bottom: 10px;
           }
           label {
             display: block;
@@ -430,7 +458,7 @@ export default class Index extends React.Component {
           }
           #inputContainer {
             text-align: left;
-            margin-bottom: 30px;
+            margin-bottom: 5px;
             background-color: hsl(203, 30%, 10%);
             padding: 20px;
             border-radius: 3px;

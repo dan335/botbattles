@@ -11,6 +11,26 @@ export default class MainLayout extends React.Component {
     ReactGA.pageview(window.location.pathname + window.location.search);
   }
 
+  redBg() {
+    return (
+      <style jsx global>{`
+        body {
+          background-color: #160305;
+        }
+      `}</style>
+    )
+  }
+
+  blueBg() {
+    return (
+      <style jsx global>{`
+        body {
+          background-color: hsl(203, 30%, 15%);
+        }
+      `}</style>
+    )
+  }
+
   render() {
     const {headerData, children} = this.props;
 
@@ -25,6 +45,7 @@ export default class MainLayout extends React.Component {
           <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
           <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         </Head>
+        {this.props.bgColor == 'red' ? this.redBg() : this.blueBg()}
         <div>
           {children}
         </div>
@@ -35,7 +56,6 @@ export default class MainLayout extends React.Component {
           }
           body {
             font-family: 'Audiowide', sans-serif;
-            background-color: hsl(203, 30%, 15%);
             color: hsl(203, 0%, 90%);
             -webkit-touch-callout: none;
             -webkit-user-select: none;
@@ -43,6 +63,11 @@ export default class MainLayout extends React.Component {
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
+            background: url("/static/botbattlesPainting.jpg") no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
           }
           a {
             color: hsl(203, 75%, 60%);

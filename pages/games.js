@@ -91,7 +91,10 @@ export default class Games extends React.Component {
         </MainLayout>
         <style jsx>{`
           #content {
-            padding: 10px;
+            background-color: hsl(203, 30%, 15%);
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 3px;
           }
           .constrain {
             max-width: 900px;
