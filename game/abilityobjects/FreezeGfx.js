@@ -41,7 +41,7 @@ export default class FreezeGfx extends Obj {
   }
 
 
-  tick() {
+  tick(now) {
     if (this.mesh) {
       this.mesh.position.set(this.ship.position.x, 0, this.ship.position.y);
 

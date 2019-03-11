@@ -1,3 +1,10 @@
+import {
+  MeshBasicMaterial,
+  PlaneBufferGeometry,
+  Mesh
+} from 'three';
+
+
 export default class Bucket {
   constructor(manager, numObjects) {
     this.manager = manager;
@@ -16,7 +23,11 @@ export default class Bucket {
 
 
   createObject() {
+  }
 
+
+  geometry() {
+    return new PlaneBufferGeometry( 1,1 );
   }
 
 
@@ -28,7 +39,7 @@ export default class Bucket {
       obj.visible = true;
       return obj;
   }
-
+  
 
   returnObject(obj) {
     if (obj) {

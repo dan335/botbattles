@@ -24,7 +24,7 @@ export default class SilencerGfx extends Obj {
   }
 
 
-  tick() {
+  tick(now) {
     let scale = this.mesh.scale.x;
     scale += this.radius / 5;
     if (scale <= this.radius) {

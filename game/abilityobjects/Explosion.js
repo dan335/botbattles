@@ -50,7 +50,7 @@ export default class Explosion extends Obj {
   }
 
 
-  tick() {
+  tick(now) {
     let scale = this.mesh.scale.x;
     scale += this.radius * 6 / 5;
     if (scale <= this.radius * 6) { // * 6 is to account for texture and radius

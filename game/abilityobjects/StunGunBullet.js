@@ -11,8 +11,8 @@ export default class StunGunBullet extends BlasterBullet {
   }
 
 
-  tick() {
-    super.tick();
+  tick(now) {
+    super.tick(now);
 
     new Particle(this.manager, {
       x: this.position.x,

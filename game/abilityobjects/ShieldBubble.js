@@ -29,7 +29,7 @@ export default class ShieldBubble extends Obj {
   }
 
 
-  tick() {
+  tick(now) {
     this.mesh.position.set(this.ship.position.x, 0, this.ship.position.y);
   }
 

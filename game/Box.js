@@ -21,8 +21,8 @@ export default class Box extends Obj {
   }
 
 
-  tick() {
-    super.tick();
+  tick(now) {
+    super.tick(now);
   }
 
 

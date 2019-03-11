@@ -14,8 +14,8 @@ export default class DashEffect extends Obj {
   }
 
 
-  tick() {
-    super.tick();
+  tick(now) {
+    super.tick(now);
 
     new Particle(this.manager, {
       x: this.ship.position.x + Math.random() * 20 - 10,

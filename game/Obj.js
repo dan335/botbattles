@@ -13,9 +13,8 @@ export default class Obj extends Base {
   }
 
 
-  tick() {
+  tick(now) {
     const interpolationMs = Math.max(100, this.manager.ping / 2 + 50);
-    const now = Date.now();
     const playbackServerTime = now - interpolationMs - this.manager.serverTimeOffset;
     let to = null;
     let from = null;
@@ -44,38 +43,6 @@ export default class Obj extends Base {
     if (!to || !from) {
       return;
     }
-
-
-    // // find syncPositions surrounding playbackServerTime
-    // for (let n = 1; n < this.syncPositions.length; n++) {
-    //   if (this.syncPositions[n].t < playbackServerTime && this.syncPositions[n-1].t >= playbackServerTime) {
-    //     from = this.syncPositions[n];
-    //     to = this.syncPositions[n-1];
-    //     lastNeededIndex = n;
-    //   }
-    // }
-    //
-    // if (!to || !from) {
-    //   if (this.syncPositions.length >= 2) {
-    //     if (playbackServerTime - this.syncPositions[0].t < 400) {
-    //       from = this.syncPositions[1];
-    //       to = this.syncPositions[0];
-    //     } else {
-    //       this.syncPositions = [];
-    //       return;
-    //     }
-    //   } else if (this.syncPositions.length == 1) {
-    //     if (playbackServerTime - this.syncPositions[0].t < 400) {
-    //       this.setPosition(this.syncPositions[0].x, this.syncPositions[0].y);
-    //       this.setRotation(this.syncPositions[0].r);
-    //     } else {
-    //       this.syncPositions = [];
-    //     }
-    //     return;
-    //   } else {
-    //     return;
-    //   }
-    // };
 
     const percentage = (playbackServerTime - from.t) / (to.t - from.t);
 

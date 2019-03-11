@@ -12,14 +12,13 @@ export default class BucketExplosions extends Bucket {
 
 
   createObject() {
-    var geometry = new PlaneBufferGeometry(1, 1);
     var material = new MeshBasicMaterial({
       color: 0xffffff,
       alphaMap: this.manager.textures.particleAlpha,
       transparent: true,
       alphaTest: 0.1
     });
-    let mesh = new Mesh( geometry, material );
+    let mesh = new Mesh( this.geometry(), material );
     mesh.rotation.set(-Math.PI/2, 0, 0);
     mesh.visible = false;
     this.manager.scene.add( mesh );

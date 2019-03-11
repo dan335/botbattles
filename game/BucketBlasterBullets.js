@@ -10,16 +10,14 @@ export default class BucketBlasterBullets extends Bucket {
     super(manager, numObjects);
   }
 
-
   createObject() {
-    const geometry = new PlaneBufferGeometry( 1,1 );
     const material = new MeshBasicMaterial({
       color: 0xffffff,
       alphaMap: this.manager.textures.blasterBulletAlpha,
       transparent: true,
       alphaTest: 0.1
     });
-    let mesh = new Mesh( geometry, material );
+    let mesh = new Mesh( this.geometry(), material );
     mesh.visible = false;
     this.manager.scene.add( mesh );
 

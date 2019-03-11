@@ -8,7 +8,12 @@ import {
   TextureLoader,
   MeshBasicMaterial,
   Sprite,
-  Color
+  Color,
+  ShapeBufferGeometry,
+  ExtrudeBufferGeometry,
+  Mesh,
+  Vector3,
+  Shape
 } from 'three';
 
 import * as Cookies from 'js-cookie';
@@ -55,6 +60,8 @@ export default class Manager {
 
     this.loadTextures();
     this.loadSounds();
+    this.createSlicerSpikesGeometry();
+    this.createSmasherSpikesGeometry();
     this.setup();
     this.particleBucket = new BucketParticles(this, 200);
     this.blasterBulletBucket = new BucketBlasterBullets(this, 100);
@@ -192,10 +199,9 @@ export default class Manager {
   }
 
 
-  checkPing() {
+  checkPing(now) {
     if (this.replay) return;
 
-    const now = Date.now();
     if (!this.lastPingCheck || now - this.lastPingCheck > 1000 * 5) {
       if (this.ui.ws && this.ui.ws.readyState == 1) {
         this.pingStart = now;
@@ -360,32 +366,34 @@ export default class Manager {
   tick() {
     setTimeout(() => {
       this.tick();
-    },16.666);
+    }, 16.666);
 
-    this.checkPing();
+    const now = Date.now();
+
+    this.checkPing(now);
 
     this.deltaTime = performance.now() - this.tickStartTime;
 
     this.tickStartTime = performance.now();
 
     for (let i = 0; i < this.ships.length; i++) {
-      this.ships[i].tick();
+      this.ships[i].tick(now);
     }
 
     for (let i = 0; i < this.obstacles.length; i++) {
-      this.obstacles[i].tick();
+      this.obstacles[i].tick(now);
     }
 
     for (let i = 0; i < this.boxes.length; i++) {
-      this.boxes[i].tick();
+      this.boxes[i].tick(now);
     }
 
     for (let i = 0; i < this.abilityObjects.length; i++) {
-      this.abilityObjects[i].tick();
+      this.abilityObjects[i].tick(now);
     }
 
     for (let i = 0; i < this.particles.length; i++) {
-      this.particles[i].tick();
+      this.particles[i].tick(now);
     }
 
     this.clientTickSum += performance.now() - this.tickStartTime;
@@ -441,5 +449,89 @@ export default class Manager {
     if (this.map) {
       this.map.updateUI();
     }
+  }
+
+
+  createSmasherSpikesGeometry() {
+    var radius = 1;
+    var shape = new Shape();
+    var num = 20;
+    var angle = Math.PI * 2 / num;
+    var inside = false
+    var a = angle * 0;
+    var first = true;
+
+    for (let i = 0; i < num; i++) {
+      a = angle * i;
+      if (inside) {
+        shape.lineTo(
+          Math.cos(a) * radius * 0.5,
+          Math.sin(a) * radius * 0.5
+        );
+      } else {
+        if (first) {
+          shape.moveTo(
+            Math.cos(a) * radius,
+            Math.sin(a) * radius
+          );
+        } else {
+          shape.lineTo(
+            Math.cos(a) * radius,
+            Math.sin(a) * radius
+          );
+        }
+      }
+      inside = !inside;
+    }
+
+    var extrudeSettings = {
+    	steps: 1,
+    	depth: 0.1,
+    	bevelEnabled: false
+    };
+
+    this.smasherSpikesGeometry = new ExtrudeBufferGeometry( shape, extrudeSettings );
+  }
+
+
+  createSlicerSpikesGeometry() {
+    var radius = 1;
+    var shape = new Shape();
+    var num = 14;
+    var angle = Math.PI * 2 / num;
+    var inside = false
+    var a = angle * 0;
+    var first = true;
+
+    for (let i = 0; i < num; i++) {
+      a = angle * i;
+      if (inside) {
+        shape.lineTo(
+          Math.cos(a) * radius * 0.5,
+          Math.sin(a) * radius * 0.5
+        );
+      } else {
+        if (first) {
+          shape.moveTo(
+            Math.cos(a) * radius,
+            Math.sin(a) * radius
+          );
+        } else {
+          shape.lineTo(
+            Math.cos(a) * radius,
+            Math.sin(a) * radius
+          );
+        }
+      }
+      inside = !inside;
+    }
+
+    var extrudeSettings = {
+    	steps: 1,
+    	depth: 0.1,
+    	bevelEnabled: false
+    };
+
+    this.slicerSpikesGeometry = new ExtrudeBufferGeometry( shape, extrudeSettings );
   }
 }

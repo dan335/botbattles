@@ -26,7 +26,7 @@ export default class Base {
   }
 
 
-  tick() {
+  tick(now) {
   }
 
 

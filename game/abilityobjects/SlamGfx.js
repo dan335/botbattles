@@ -31,7 +31,7 @@ export default class SlamGfx extends Obj {
   }
 
 
-  tick() {
+  tick(now) {
     //this.mesh.position.set(this.ship.position.x, 0, this.ship.position.y);
 
     let scale = this.mesh.scale.x;

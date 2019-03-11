@@ -26,7 +26,7 @@ export default class Emp extends Obj {
   }
 
 
-  tick() {
+  tick(now) {
     if (this.mesh) {
       let scale = this.mesh.scale.x;
       scale += this.radius / 5;

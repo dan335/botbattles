@@ -19,7 +19,7 @@ export default class VacuumEffect extends Obj {
   }
 
 
-  tick() {
+  tick(now) {
 
     for (let i = 0; i < 5; i++) {
       const rotation = Math.random() * Math.PI*2;

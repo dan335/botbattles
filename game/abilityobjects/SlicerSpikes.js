@@ -16,55 +16,19 @@ export default class SlicerSpikes extends Obj {
     super(manager, ship.position.x, ship.position.y, ship.rotation, radius, id);
     this.ship = ship;
 
-    var shape = new Shape();
-    var num = 14;
-    var angle = Math.PI * 2 / num;
-    var inside = false
-    var a = angle * 0;
-    var first = true;
-
-    for (let i = 0; i < num; i++) {
-      a = angle * i;
-      if (inside) {
-        shape.lineTo(
-          Math.cos(a) * radius * 0.5,
-          Math.sin(a) * radius * 0.5
-        );
-      } else {
-        if (first) {
-          shape.moveTo(
-            Math.cos(a) * radius,
-            Math.sin(a) * radius
-          );
-        } else {
-          shape.lineTo(
-            Math.cos(a) * radius,
-            Math.sin(a) * radius
-          );
-        }
-      }
-      inside = !inside;
-    }
-
-    var extrudeSettings = {
-    	steps: 1,
-    	depth: 0.1,
-    	bevelEnabled: false
-    };
-
-    var geometry = new ExtrudeBufferGeometry( shape, extrudeSettings );
     var material = new MeshBasicMaterial( {color: 0xbbbbbb} );
 
-    this.mesh = new Mesh( geometry, material );
+    this.mesh = new Mesh( this.manager.slicerSpikesGeometry, material );
     this.mesh.position.set(this.position.x, 0, this.position.y);
     this.mesh.rotation.set(Math.PI/2, 0, 0);
+    this.mesh.scale.set(radius, radius, radius); 
     this.manager.scene.add(this.mesh);
 
     this.manager.sounds.smasher.play();
   }
 
 
-  tick() {
+  tick(now) {
     this.mesh.position.set(this.ship.position.x, 0, this.ship.position.y);
     this.mesh.rotation.set(Math.PI/2, 0, this.mesh.rotation.z + 0.08);
   }

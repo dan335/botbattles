@@ -109,11 +109,11 @@ export default class Ship extends Obj {
   }
 
 
-  tick() {
-    super.tick();
+  tick(now) {
+    super.tick(now);
 
     this.abilityObjects.forEach((obj) => {
-      obj.tick();
+      obj.tick(now);
     });
 
     if (this.engineLeft) {

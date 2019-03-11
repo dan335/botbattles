@@ -40,7 +40,7 @@ export default class Particle {
   }
 
 
-  tick() {
+  tick(now) {
     if (this.createdAt + this.lifespan <= this.manager.tickStartTime) {
       this.destroy();
       return;
