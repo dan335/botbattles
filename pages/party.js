@@ -359,11 +359,13 @@ export default class PrivacyPolicy extends React.Component {
       <div>
         <MainLayout>
           <TopMenu user={this.props.user} />
-          <h1>Party: <span className="green">{this.props.partyId}</span></h1>
-          <div id="url">
-            <span id="urlText">{url}</span>
-            &nbsp;&nbsp;&nbsp;
-            <a id="copyLink" onClick={() => { const isCopied = copy(url); if (isCopied) {document.getElementById('copyLink').innerHTML='copied';} }}>copy</a>
+          <div id="top">
+            <h1>Party: <span className="green">{this.props.partyId}</span></h1>
+            <div id="url">
+              <span id="urlText">{url}</span>
+              &nbsp;&nbsp;&nbsp;
+              <a id="copyLink" onClick={() => { const isCopied = copy(url); if (isCopied) {document.getElementById('copyLink').innerHTML='copied';} }}>copy</a>
+            </div>
           </div>
           <div id="mainContainer">
             <div className="constrain">
@@ -374,6 +376,15 @@ export default class PrivacyPolicy extends React.Component {
           </div>
         </MainLayout>
         <style jsx>{`
+          #top {
+            background-color: hsl(203, 30%, 15%);
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 3px;
+            max-width: 1000px;
+            margin-right: auto;
+            margin-left: auto;
+          }
           #url {
             text-align: center;
             margin-bottom: 15px;
@@ -397,11 +408,15 @@ export default class PrivacyPolicy extends React.Component {
             color: #91df3e;
           }
           #mainContainer {
-            background-color: hsl(203, 30%, 20%);
+
           }
 
           #content {
             font-family: 'Roboto', sans-serif;
+            background-color: hsl(203, 30%, 15%);
+            margin-top: 10px;
+            padding: 20px;
+            border-radius: 3px;
           }
           .constrain {
             max-width: 1000px;

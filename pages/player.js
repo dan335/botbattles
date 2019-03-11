@@ -323,7 +323,10 @@ export default class Login extends React.Component {
               grid-template-columns: 1fr 20px 1fr;
             }
             #content {
-              padding: 10px;
+              background-color: hsl(203, 30%, 15%);
+              margin-top: 20px;
+              padding: 20px;
+              border-radius: 3px;
             }
             .constrain {
               max-width: 900px;
