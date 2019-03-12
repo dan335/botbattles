@@ -19,7 +19,7 @@ export default class BottomMenu extends React.Component {
         </div>
         <style jsx>{`
           #bottomMenu {
-            position: absolute;
+            position: fixed;
             bottom: 0px;
             width: 100%;
             font-family: 'Roboto', sans-serif;

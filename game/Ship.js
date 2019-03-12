@@ -219,6 +219,7 @@ export default class Ship extends Obj {
 
 
   chargeStart() {
+    this.chargeEnd();
     this.chargeSoundId = this.manager.sounds.charging.play();
   }
 
@@ -231,6 +232,7 @@ export default class Ship extends Obj {
   }
 
   shieldRechargeStart() {
+    this.shieldRechargeEnd();
     this.shieldRechargeSoundId = this.manager.sounds.shieldRecharge.play();
   }
 
@@ -243,6 +245,7 @@ export default class Ship extends Obj {
 
 
   stunnedStart() {
+    this.stunnedEnd();
     this.stunnedSoundId = this.manager.sounds.stunned.play();
   }
 

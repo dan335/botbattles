@@ -51,7 +51,8 @@ export default class Index extends React.Component {
     this.state = {
       isWsOpen: false,
       server: null,
-      serverInfo: []
+      serverInfo: [],
+      namenumber: Math.round(Math.random()*1000)
     }
 
     this.playButton = this.playButton.bind(this);
@@ -198,7 +199,8 @@ export default class Index extends React.Component {
   saveName() {
     // name
     let name = document.getElementById('nameInput').value;
-    if (!name) {
+    name = name.replace(/[^0-9a-zA-Z_\s]/g, '').trim();
+    if (!name || !name.length) {
       name = 'Noname_' + Math.round(Math.random()*1000);
     }
     name = name.substring(0, 24);
@@ -293,7 +295,7 @@ export default class Index extends React.Component {
 
 
   render() {
-    let name = 'Noname_' + Math.round(Math.random()*1000);
+    let name = 'Noname_' + this.state.namenumber;
     if (this.props.user) {
       name = this.props.user.username;
     } else if (Cookies.get('name')) {
@@ -318,10 +320,6 @@ export default class Index extends React.Component {
             </div>
 
             <div id="midBox">
-
-
-
-
               <div id="serverInfo">
                 {this.state.serverInfo.map((server) => {
                   return (
@@ -421,6 +419,12 @@ export default class Index extends React.Component {
             display: grid;
             grid-template-columns: 425px 5px auto 5px 425px;
             border-radius: 6px;
+          }
+
+          @media only screen and (max-width:1200px) {
+            #midBox {
+              display: block;
+            }
           }
 
           #leftBox {

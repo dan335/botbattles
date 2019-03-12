@@ -395,18 +395,6 @@ export default class PrivacyPolicy extends React.Component {
             font-family: 'Audiowide', sans-serif;
             text-align: center;
           }
-
-          #mainContainer {
-
-          }
-
-          #content {
-            font-family: 'Roboto', sans-serif;
-            background-color: hsl(203, 30%, 15%);
-            margin-top: 10px;
-            padding: 20px;
-            border-radius: 3px;
-          }
         `}</style>
       </div>
     )

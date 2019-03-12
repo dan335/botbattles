@@ -313,15 +313,22 @@ export default class Manager {
   sendJoinGameMessage() {
 
     // name
-    let name = Cookies.get('name');
-    if (!name) {
-      if (this.user) {
-        name = this.user.username;
-      } else {
-        name = 'Noname_' + Math.round(Math.random()*1000);
-      }
+    let name;
+
+    if (this.user) {
+      name = this.user.username;
     }
 
+    if (!name || !name.length) {
+      name = Cookies.get('name');
+    }
+
+    name = name.replace(/[^0-9a-zA-Z_\s]/g, '').trim();
+
+    if (!name || !name.length) {
+      name = 'Noname_' + Math.round(Math.random()*1000);
+    }
+    
     let uiState = [];
 
     var a = [];

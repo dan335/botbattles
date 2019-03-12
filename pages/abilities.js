@@ -193,19 +193,6 @@ export default class Abilities extends React.Component {
           </div>
         </MainLayout>
         <style jsx>{`
-          #content {
-            font-family: 'Roboto', sans-serif;
-            background-color: hsl(203, 30%, 15%);
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 3px;
-          }
-
-          .constrain {
-            max-width: 900px;
-            margin-right: auto;
-            margin-left: auto;
-          }
           .ability {
             margin-bottom: 15px;
             background-color: hsl(203, 30%, 10%);

@@ -116,39 +116,25 @@ export default class Contact extends React.Component {
       <div>
         <MainLayout>
           <TopMenu user={this.props.user} />
-          <div>
+          <div className="contentContainer">
+            <div className="contentBox roboto">
+              <h1>Send BotBattles.io an Email</h1>
 
-            <div className="constrain">
-              <div id="content">
-                <h1>Send BotBattles.io an Email</h1>
+              {this.showErrorMsg()}
+              {this.showSuccessMsg()}
 
-                {this.showErrorMsg()}
-                {this.showSuccessMsg()}
+              <label>Your Email Address</label>
+              <input type="text" id="emailInput"></input>
 
-                <label>Your Email Address</label>
-                <input type="text" id="emailInput"></input>
+              <label>Message</label>
+              <textarea id="messageInput"></textarea>
 
-                <label>Message</label>
-                <textarea id="messageInput"></textarea>
-
-                <br/><br/>
-                <button onClick={this.sendButton}>Send Email</button>
-              </div>
+              <br/><br/>
+              <button onClick={this.sendButton}>Send Email</button>
             </div>
           </div>
         </MainLayout>
         <style jsx>{`
-          #content {
-            background-color: hsl(203, 30%, 10%);
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 3px;
-          }
-          .constrain {
-            max-width: 900px;
-            margin-right: auto;
-            margin-left: auto;
-          }
           h1 {
             padding: 10px;
             margin: 0;

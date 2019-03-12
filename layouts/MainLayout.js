@@ -41,6 +41,7 @@ export default class MainLayout extends React.Component {
           <meta name="description" content="BotBattles.io is a free io multiplayer online robotic combat battle royale unblocked arena game." />
           <link href="https://fonts.googleapis.com/css?family=Audiowide" rel="stylesheet" />
           <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
+          <meta name="viewport" content="width=device-width, initial-scale=0.6" />
 
           <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
           <link rel="icon" href="/favicon.ico" type="image/x-icon" />
@@ -60,6 +61,13 @@ export default class MainLayout extends React.Component {
             border-radius: 3px;
             margin-top: 40px;
           }
+
+          @media only screen and (max-width:1200px) {
+            .contentContainer {
+              width: 100%;
+            }
+          }
+
           .contentBox {
             background-color: hsl(203, 30%, 20%);
             border-radius: 3px;

@@ -88,18 +88,6 @@ export default class Leaderboard extends React.Component {
           </div>
         </MainLayout>
         <style jsx>{`
-          #content {
-            font-family: 'Roboto', sans-serif;
-            background-color: hsl(203, 30%, 15%);
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 3px;
-          }
-          .constrain {
-            max-width: 900px;
-            margin-right: auto;
-            margin-left: auto;
-          }
           .player {
             background-color: hsl(203, 30%, 10%);
             padding: 10px 20px;
