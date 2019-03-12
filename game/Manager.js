@@ -84,6 +84,7 @@ export default class Manager {
     this.textures.blasterBulletAlpha = new TextureLoader().load('/static/textures/blasterBulletAlpha.jpg');
     this.textures.mineAlpha = new TextureLoader().load('/static/textures/mineAlpha.jpg');
     this.textures.shipGunColor = new TextureLoader().load('/static/textures/shipGunColor.png');
+    this.textures.groundColor = new TextureLoader().load('/static/textures/groundColor.jpg');
   }
 
 

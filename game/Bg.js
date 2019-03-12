@@ -11,7 +11,8 @@ export default class Bg {
   constructor(manager, scale) {
     this.manager = manager;
     var geometry = new BoxBufferGeometry( 1, 1, 1 );
-    var material = new MeshBasicMaterial( {color: 0x181c1f, map:this.manager.textures.bg} );
+    //var material = new MeshBasicMaterial( {color: 0x181c1f, map:this.manager.textures.bg} );
+    var material = new MeshBasicMaterial( {map:this.manager.textures.groundColor} );
     this.mesh = new Mesh( geometry, material );
     this.mesh.position.set(0, -50, 0);
     this.mesh.scale.set(scale, 1, scale);
