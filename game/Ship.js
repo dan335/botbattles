@@ -6,7 +6,8 @@ import {
   Vector3,
   TextureLoader,
   Euler,
-  Matrix4
+  Matrix4,
+  PlaneBufferGeometry
 } from 'three';
 import HealthBars from './HealthBars.js';
 const _s = require('../lib/settings.js');
@@ -46,6 +47,16 @@ export default class Ship extends Obj {
     this.mesh = new Mesh( geometry, this.material );
     this.mesh.position.set(this.position.x, 0, this.position.y);
     this.manager.scene.add(this.mesh);
+
+    geometry = new PlaneBufferGeometry(this.radius*2.5, this.radius*2.5);
+    var material = new MeshBasicMaterial( {
+     map: this.manager.textures.shipGunColor,
+     transparent: true
+   });
+   this.gunMesh = new Mesh(geometry, material);
+   this.gunMesh.position.set(this.position.x, 20, this.position.y);
+   this.gunMesh.rotation.set(-Math.PI/2, 0, 0);
+   this.manager.scene.add(this.gunMesh);
   }
 
 
@@ -73,31 +84,50 @@ export default class Ship extends Obj {
 
   setPosition(x, y) {
     super.setPosition(x, y);
+    this.gunMesh.position.set(x, 20, y);
     this.healthBars.updatePosition(x, y);
   }
 
 
   setRotation(r) {
     this.rotation = r;
+    const gunOffset = 5;
 
     if (this.mesh) {
       let rotateX = 0;
       let rotateZ = 0;
-      if (this.engineLeft) rotateZ += Math.PI/10;
-      if (this.engineRight) rotateZ -= Math.PI/10;
-      if (this.engineUp) rotateX -= Math.PI/10;
-      if (this.engineDown) rotateX += Math.PI/10;
+      let transGunX = 0;
+      let transGunZ = 0;
+      if (this.engineLeft) {
+        rotateZ += Math.PI/10;
+        transGunX -= gunOffset;
+      }
+      if (this.engineRight) {
+        rotateZ -= Math.PI/10;
+        transGunX += gunOffset;
+      }
+      if (this.engineUp) {
+        rotateX -= Math.PI/10;
+        transGunZ -= gunOffset;
+      }
+      if (this.engineDown) {
+        rotateX += Math.PI/10;
+        transGunZ += gunOffset;
+      }
 
       //this.mesh.rotation.set(0, r * -1, 0);   // why -1?
 
       let x = new Matrix4().makeRotationX(rotateX);
-      let y = new Matrix4().makeRotationY(r * -1);
+      //let y = new Matrix4().makeRotationY(r * -1);
       let z = new Matrix4().makeRotationZ(rotateZ);
 
-      x.multiply(z).multiply(y);
+      x.multiply(z);//.multiply(y);
 
       this.mesh.matrix = x;
       this.mesh.setRotationFromMatrix(x);
+
+      this.gunMesh.position.set(this.mesh.position.x + transGunX, 20, this.mesh.position.z + transGunZ);
+      this.gunMesh.rotation.set(-Math.PI/2, 0, r * -1);
     }
   }
 
@@ -184,6 +214,13 @@ export default class Ship extends Obj {
 
 
   destroy(killer) {
+    if (this.gunMesh) {
+      this.manager.scene.remove(this.gunMesh);
+      this.gunMesh.geometry.dispose();
+      this.gunMesh.material.dispose();
+      this.gunMesh = undefined;
+    }
+
     this.abilityObjects.forEach((obj) => {
       obj.destroy();
     });

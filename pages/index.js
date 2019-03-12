@@ -203,7 +203,7 @@ export default class Index extends React.Component {
     if (!name || !name.length) {
       name = 'Noname_' + Math.round(Math.random()*1000);
     }
-    name = name.substring(0, 24);
+    name = name.substring(0, 32);
     Cookies.set('name', name);
   }
 

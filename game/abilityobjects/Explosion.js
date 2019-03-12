@@ -1,13 +1,8 @@
 import Obj from '../Obj.js';
+import Particle from '../fx/Particle.js';
 import {
-  PlaneBufferGeometry,
-  MeshBasicMaterial,
-  Mesh,
-  Vector3,
-  TextureLoader,
   Color
 } from 'three';
-import Particle from '../fx/Particle.js';
 
 
 

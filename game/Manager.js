@@ -83,6 +83,7 @@ export default class Manager {
     this.textures.forceFieldAlpha = new TextureLoader().load('/static/textures/forceFieldAlpha.jpg');
     this.textures.blasterBulletAlpha = new TextureLoader().load('/static/textures/blasterBulletAlpha.jpg');
     this.textures.mineAlpha = new TextureLoader().load('/static/textures/mineAlpha.jpg');
+    this.textures.shipGunColor = new TextureLoader().load('/static/textures/shipGunColor.png');
   }
 
 
@@ -328,7 +329,7 @@ export default class Manager {
     if (!name || !name.length) {
       name = 'Noname_' + Math.round(Math.random()*1000);
     }
-    
+
     let uiState = [];
 
     var a = [];
