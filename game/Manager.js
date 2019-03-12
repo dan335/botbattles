@@ -324,7 +324,9 @@ export default class Manager {
       name = Cookies.get('name');
     }
 
-    name = name.replace(/[^0-9a-zA-Z_\s]/g, '').trim();
+    if (name) {
+      name = name.replace(/[^0-9a-zA-Z_\s]/g, '').trim();
+    }
 
     if (!name || !name.length) {
       name = 'Noname_' + Math.round(Math.random()*1000);

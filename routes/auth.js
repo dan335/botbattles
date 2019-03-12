@@ -38,11 +38,11 @@ module.exports = function(app) {
 
   app.post('/auth/register', (req, res) => {
 
-    let name = req.body.username.replace(/[^0-9a-zA-Z_\s]/g, '').trim();
-
     if (!name || !name.length) {
       return res.status(500).send('Name required.');
     }
+
+    let name = req.body.username.replace(/[^0-9a-zA-Z_\s]/g, '').trim();
 
     if (!req.body.email || !req.body.email.length) {
       return res.status(500).send('Email address required.');
