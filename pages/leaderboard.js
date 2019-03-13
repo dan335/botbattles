@@ -63,6 +63,8 @@ export default class Leaderboard extends React.Component {
       showPrev = false;
     }
 
+    let maxIndex = 0;
+
     return (
       <div>
         <MainLayout>
@@ -78,16 +80,20 @@ export default class Leaderboard extends React.Component {
                     {index * (page+1) +1}. <a href={playerUrl}>{player.username}</a> &nbsp;&nbsp; {Math.round(player.rating)}
                   </div>
                 )
+                maxIndex = index;
               })}
 
               <br/><br/>
               {showPrev ? (<a href={prevPageUrl}><button>Previous Page</button></a>) : ''}
-              <a href={nextPageUrl}><button>Next Page</button></a>
+              {maxIndex+1 >= (page+1) * _s.numPlayersPerLeaderboardPage ? <a href={nextPageUrl}><button>Next Page</button></a> : ''}
             </div>
 
           </div>
         </MainLayout>
         <style jsx>{`
+          h1 {
+            text-align: center;
+          }
           .player {
             background-color: hsl(203, 30%, 10%);
             padding: 10px 20px;

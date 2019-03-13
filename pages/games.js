@@ -89,6 +89,11 @@ export default class Games extends React.Component {
             </div>
           </div>
         </MainLayout>
+        <style jsx>{`
+          h1 {
+            text-align: center;
+          }
+        `}</style>
       </div>
     )
   }

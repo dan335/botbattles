@@ -1,4 +1,8 @@
 const AbilityUpdater = require('../lib/AbilityUpdater.js');
+const Replays = require('../models/Replays.js');
+const ReplayData = require('../models/ReplayData.js');
+const Games = require('../models/Games.js');
+var moment = require('moment');
 
 const express = require('express');
 const next = require('next');
@@ -98,4 +102,13 @@ nextApp.prepare().then(() => {
   setInterval(() => {
     AbilityUpdater.Update();
   }, 1000 * 60 * 30);
+
+  setInterval(() => {
+    let cutoff = moment().subtract(7, 'days').toDate();
+    Replays.remove({createdAt: {$lt:cutoff}}).exec();
+    ReplayData.remove({createdAt: {$lt:cutoff}}).exec();
+
+    cutoff = moment().subtract(90, 'days').toDate();
+    Games.remove({createdAt: {$lt:cutoff}}).exec();
+  }, 1000 * 60 * 60);
 })
