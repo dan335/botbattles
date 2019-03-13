@@ -6,6 +6,7 @@ export default class BottomMenu extends React.Component {
         <div id="bottomMenu">
           <div></div>
           <div>
+            <a href="http://iogames.space/">More IO Games</a>
             <a href="http://io-games.zone">IO Games</a>
             <a href="http://bongo.games">Bongo io Games</a>
             <a href="http://titotu.io">Titotu io Games</a>
