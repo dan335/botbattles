@@ -53,18 +53,25 @@ export default class MainLayout extends React.Component {
         {/* <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> */}
         <style jsx global>{`
           .contentContainer {
-            width: 1200px;
+            width: 100%;
             margin-left: auto;
             margin-right: auto;
             background-color: hsla(203, 30%, 10%, 95%);
             padding: 12px;
             border-radius: 3px;
             margin-top: 40px;
+            margin-bottom: 100px;
           }
 
-          @media only screen and (max-width:1200px) {
+          @media only screen and (max-width:900px) {
             .contentContainer {
-              width: 100%;
+              width: auto;
+            }
+          }
+
+          @media only screen and (min-width: 1200px) {
+            .contentContainer {
+              width: 1200px;
             }
           }
 

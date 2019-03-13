@@ -36,8 +36,12 @@ export default class Login extends React.Component {
             <div className="contentBox roboto">
               <h1>Partners</h1>
               <br/>
+              <a href="https://www.crazygames.com/c/io">CrazyGames IO Games</a><br/>
               <a href="http://iogames.fun" target="_blank" title="More IO Games">Play IO Games</a><br/>
               <a href="https://iogames.army/r/68">More io Games</a><br/>
+              <a href="https://www.silvergames.com/en/t/multiplayer">Silvergames Multiplayer</a><br/>
+              <a href="http://io-games.zone">IO Games</a><br/>
+              <a href="http://bongo.games">Bongo io Games</a><br/>
             </div>
           </div>
         </MainLayout>

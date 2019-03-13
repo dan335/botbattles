@@ -1,16 +1,62 @@
 export default class BottomMenu extends React.Component {
 
+  renderPartners() {
+    if (this.props.host && this.props.host.includes('crazygames')) {
+      return (
+        <div>
+          <a href="https://www.crazygames.com/c/io">CrazyGames IO Games</a>&nbsp;
+          <a href="/partners">Partners</a>
+          <style jsx>{`
+            div {
+              font-family: 'Roboto', sans-serif;
+            }
+            a {
+              padding: 10px;
+              color: #eee;
+              display: inline-block;
+            }
+            a:hover {
+              background-color: hsl(203, 30%, 20%);
+              color: #eee;
+            }
+          `}</style>
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <a href="http://iogames.space/">More IO Games</a>
+          <a href="http://io-games.zone">IO Games</a>
+          <a href="http://bongo.games">Bongo io Games</a>
+          <a href="http://titotu.io">Titotu io Games</a>
+          <a href="/partners">Partners</a>
+          <style jsx>{`
+            div {
+              font-family: 'Roboto', sans-serif;
+            }
+            a {
+              padding: 10px;
+              color: #eee;
+              display: inline-block;
+            }
+            a:hover {
+              background-color: hsl(203, 30%, 20%);
+              color: #eee;
+            }
+          `}</style>
+        </div>
+      )
+    }
+  }
+
+
   render() {
     return (
       <div>
         <div id="bottomMenu">
           <div></div>
           <div>
-            <a href="http://iogames.space/">More IO Games</a>
-            <a href="http://io-games.zone">IO Games</a>
-            <a href="http://bongo.games">Bongo io Games</a>
-            <a href="http://titotu.io">Titotu io Games</a>
-            <a href="/partners">Partners</a>
+            {this.renderPartners()}
           </div>
           <div style={{textAlign:'right'}}>
             <a href="https://discord.gg/6R3jYyH">Discord</a>

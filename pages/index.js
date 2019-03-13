@@ -35,9 +35,9 @@ export default class Index extends React.Component {
 
     if (serverResult.status == 200) {
       const servers = await serverResult.json();
-      return {servers:servers, userId:userId, user:user};
+      return {servers:servers, userId:userId, user:user, host:req.get('host')};
     } else {
-      return {servers:[], userId:userId, user:user};
+      return {servers:[], userId:userId, user:user, host:req.get('host')};
     }
   }
 
@@ -328,7 +328,7 @@ export default class Index extends React.Component {
                     <div key={server.name} className="serverContainer">
                       <div className="serverTitle">
                         <div className="serverName">{this.renderServerName(server)}</div>
-                        <div className="alignRight">{server.numPlayers} Players, {server.numSpectators} Spectators in {server.numGames} Games</div>
+                        <div className="alignRight">{server.numPlayers} Players in {server.numGames} Games</div>
                       </div>
                       {server.games.map((game) => {
                         return (
@@ -369,7 +369,7 @@ export default class Index extends React.Component {
 
             </div>
           </div>
-          <BottomMenu />
+          <BottomMenu host={this.props.host} />
         </MainLayout>
         <style jsx>{`
           #logoContainer {
@@ -419,11 +419,11 @@ export default class Index extends React.Component {
           }
           #midBox {
             display: grid;
-            grid-template-columns: 425px 5px auto 5px 425px;
+            grid-template-columns: 1fr 5px 220px 5px 1fr;
             border-radius: 6px;
           }
 
-          @media only screen and (max-width:1200px) {
+          @media only screen and (max-width:900px) {
             #midBox {
               display: block;
             }

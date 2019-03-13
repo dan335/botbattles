@@ -7,7 +7,7 @@ module.exports = function(app) {
 
   app.post('/api/replay', (req, res) => {
     Replays.findOne({_id:req.body.replayId}).exec((error, replay) => {
-      if (error || !replay) {
+      if (error) {
         res.status(500).end();
       } else {
         res.json(replay).end();

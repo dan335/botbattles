@@ -321,7 +321,7 @@ export default class PrivacyPolicy extends React.Component {
               display: grid;
               grid-template-columns: auto 5px 350px 5px 450px;
             }
-            @media only screen and (max-width:1200px) {
+            @media only screen and (max-width:900px) {
               #midBox {
                 display: block;
               }

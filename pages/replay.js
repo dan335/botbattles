@@ -162,37 +162,61 @@ export default class Replay extends React.Component {
 
 
   render() {
-    return (
-      <div>
-        <MainLayout>
-          <div id="game"></div>
-          {this.renderLoading()}
-          <div id="logContainer">
-            {this.renderLog()}
-            {this.renderWinner()}
-            {this.renderStats()}
-          </div>
-          <div id="backButton"><a href="/">&lt; Back Home</a></div>
-        </MainLayout>
-        <style jsx global>{`
-          #game {
-          }
-          #game canvas {
-            position: fixed;
-          }
-          #backButton {
-            position: fixed;
-            top: 20px;
-            left: 10px;
-          }
-          #logContainer {
-            position: absolute;
-            left: 10px;
-            bottom: 100px;
-            width: 300px;
-          }
-        `}</style>
-      </div>
-    )
+    if (this.props.replay) {
+      return (
+        <div>
+          <MainLayout>
+            <div id="game"></div>
+            {this.renderLoading()}
+            <div id="logContainer">
+              {this.renderLog()}
+              {this.renderWinner()}
+              {this.renderStats()}
+            </div>
+            <div id="backButton"><a href="/">&lt; Back Home</a></div>
+          </MainLayout>
+          <style jsx global>{`
+            #game {
+            }
+            #game canvas {
+              position: fixed;
+            }
+            #backButton {
+              position: fixed;
+              top: 20px;
+              left: 10px;
+            }
+            #logContainer {
+              position: absolute;
+              left: 10px;
+              bottom: 100px;
+              width: 300px;
+            }
+          `}</style>
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <MainLayout>
+            <div>Replay not found.</div>
+            <div id="backButton"><a href="/">&lt; Back Home</a></div>
+          </MainLayout>
+          <style jsx global>{`
+            #game {
+            }
+            #game canvas {
+              position: fixed;
+            }
+            #backButton {
+              position: fixed;
+              top: 20px;
+              left: 10px;
+            }
+          `}</style>
+        </div>
+      )
+    }
+
   }
 }
