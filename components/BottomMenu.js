@@ -9,6 +9,7 @@ export default class BottomMenu extends React.Component {
             <a href="http://io-games.zone">IO Games</a>
             <a href="http://bongo.games">Bongo io Games</a>
             <a href="http://titotu.io">Titotu io Games</a>
+            <a href="/partners">Partners</a>
           </div>
           <div style={{textAlign:'right'}}>
             <a href="https://discord.gg/6R3jYyH">Discord</a>
