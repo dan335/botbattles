@@ -50,13 +50,13 @@ export default class Ship extends Obj {
 
     geometry = new PlaneBufferGeometry(this.radius*2.5, this.radius*2.5);
     var material = new MeshBasicMaterial( {
-     map: this.manager.textures.shipGunColor,
-     transparent: true
-   });
-   this.gunMesh = new Mesh(geometry, material);
-   this.gunMesh.position.set(this.position.x, 20, this.position.y);
-   this.gunMesh.rotation.set(-Math.PI/2, 0, 0);
-   this.manager.scene.add(this.gunMesh);
+      map: this.manager.textures.shipGunColor,
+      transparent: true
+    });
+    this.gunMesh = new Mesh(geometry, material);
+    this.gunMesh.position.set(this.position.x, 20, this.position.y);
+    this.gunMesh.rotation.set(-Math.PI/2, 0, 0);
+    this.manager.scene.add(this.gunMesh);
   }
 
 

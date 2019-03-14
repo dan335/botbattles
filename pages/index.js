@@ -35,9 +35,9 @@ export default class Index extends React.Component {
 
     if (serverResult.status == 200) {
       const servers = await serverResult.json();
-      return {servers:servers, userId:userId, user:user, host:req.get('host')};
+      return {servers:servers, userId:userId, user:user};
     } else {
-      return {servers:[], userId:userId, user:user, host:req.get('host')};
+      return {servers:[], userId:userId, user:user};
     }
   }
 
@@ -346,7 +346,6 @@ export default class Index extends React.Component {
                 })}
               </div>
 
-
               <div></div>
 
               <div id="leftBox">
@@ -369,7 +368,7 @@ export default class Index extends React.Component {
 
             </div>
           </div>
-          <BottomMenu host={this.props.host} />
+          <BottomMenu />
         </MainLayout>
         <style jsx>{`
           #logoContainer {
@@ -426,6 +425,10 @@ export default class Index extends React.Component {
           @media only screen and (max-width:900px) {
             #midBox {
               display: block;
+            }
+
+            #serverInfo {
+              display: none;
             }
           }
 

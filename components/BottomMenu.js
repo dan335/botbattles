@@ -1,13 +1,21 @@
 export default class BottomMenu extends React.Component {
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isCrazyGames: false
+    }
+  }
+
   componentDidMount() {
-    console.log('document.referrer', document.referrer)
+    if (document.referrer && document.referrer.includes('crazygames')) {
+      this.setState({isCrazyGames:true});
+    }
   }
 
   renderPartners() {
-    console.log('props host', this.props.host);
-
-    if (this.props.host && this.props.host.includes('crazygames')) {
+    if (this.state.isCrazyGames) {
       return (
         <div>
           <a href="https://www.crazygames.com/c/io">CrazyGames IO Games</a>&nbsp;
@@ -31,10 +39,10 @@ export default class BottomMenu extends React.Component {
     } else {
       return (
         <div>
-          <a href="http://iogames.space/">More IO Games</a>
           <a href="http://io-games.zone">IO Games</a>
           <a href="http://bongo.games">Bongo io Games</a>
           <a href="http://titotu.io">Titotu io Games</a>
+          <a href="http://iogames.space/">More IO Games</a>
           <a href="/partners">Partners</a>
           <style jsx>{`
             div {
@@ -67,6 +75,7 @@ export default class BottomMenu extends React.Component {
           <div style={{textAlign:'right'}}>
             <a href="https://discord.gg/6R3jYyH">Discord</a>
             <a href="/contact">Contact</a>
+            <a href="/press">Press</a>
             <a href="/privacypolicy">Privacy Policy</a>
           </div>
           <div></div>

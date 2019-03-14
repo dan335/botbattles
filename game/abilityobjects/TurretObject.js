@@ -1,6 +1,7 @@
 import Obj from '../Obj.js';
 import {
   CylinderBufferGeometry,
+  PlaneBufferGeometry,
   MeshBasicMaterial,
   Mesh,
   Vector3
@@ -24,6 +25,16 @@ export default class TurretObject extends Obj {
     this.mesh.setRotationFromAxisAngle(new Vector3(0, 1, 0), this.rotation * -1);
     this.manager.scene.add(this.mesh);
 
+    var geo = new PlaneBufferGeometry(this.radius*2.5, this.radius*2.5);
+    var mat = new MeshBasicMaterial( {
+      map: this.manager.textures.shipGunColor,
+      transparent: true
+    });
+    this.gunMesh = new Mesh(geo, mat);
+    this.gunMesh.position.set(this.position.x, 20, this.position.y);
+    this.gunMesh.rotation.set(-Math.PI/2, 0, 0);
+    this.manager.scene.add(this.gunMesh);
+
     this.offsetX = 0;
     this.offsetY = 0;
     this.offsetZ = -35;
@@ -44,10 +55,25 @@ export default class TurretObject extends Obj {
   setPosition(x, y) {
     super.setPosition(x, y);
     this.healthBar.updatePosition(x+this.offsetX, y+this.offsetZ);
+    this.gunMesh.position.set(x, 20, y);
   }
 
+  setRotation(r) {
+    this.rotation = r;
+
+    if (this.gunMesh) {
+      this.gunMesh.rotation.set(-Math.PI/2, 0, r * -1);
+    }
+  }
 
   destroy() {
+    if (this.gunMesh) {
+      this.manager.scene.remove(this.gunMesh);
+      this.gunMesh.geometry.dispose();
+      this.gunMesh.material.dispose();
+      this.gunMesh = undefined;
+    }
+
     this.healthBar.destroy();
     super.destroy();
     const index = this.manager.abilityObjects.indexOf(this);
