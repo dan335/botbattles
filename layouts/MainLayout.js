@@ -43,6 +43,8 @@ export default class MainLayout extends React.Component {
           <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
           <meta name="viewport" content="width=device-width, initial-scale=0.6" />
 
+          <meta property="og:image" content="https://botbattles.io/static/botbattlesThumb.jpg" />
+
           <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
           <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         </Head>

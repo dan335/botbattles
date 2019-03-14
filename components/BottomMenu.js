@@ -1,6 +1,12 @@
 export default class BottomMenu extends React.Component {
 
+  componentDidMount() {
+    console.log('document.referrer', document.referrer)
+  }
+
   renderPartners() {
+    console.log('props host', this.props.host);
+
     if (this.props.host && this.props.host.includes('crazygames')) {
       return (
         <div>
