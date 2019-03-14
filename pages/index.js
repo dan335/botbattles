@@ -418,7 +418,7 @@ export default class Index extends React.Component {
           }
           #midBox {
             display: grid;
-            grid-template-columns: 1fr 5px 220px 5px 1fr;
+            grid-template-columns: 1fr 5px 250px 5px 1fr;
             border-radius: 6px;
           }
 
