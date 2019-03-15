@@ -1,22 +1,18 @@
+import * as Cookies from 'js-cookie';
+
+
 export default class BottomMenu extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      isCrazyGames: false
-    }
   }
 
   componentDidMount() {
-    console.log('document referrer', document.referrer);
-    if (document.referrer && document.referrer.includes('crazygames')) {
-      this.setState({isCrazyGames:true});
-    }
   }
 
   renderPartners() {
-    if (this.state.isCrazyGames) {
+    var isCrazyGames = Cookies.get('isCrazyGames');
+    if (isCrazyGames) {
       return (
         <div>
           <a href="https://www.crazygames.com/c/io" target="_blank">CrazyGames IO Games</a>

@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import '../node_modules/normalize.css/normalize.css';
 import ReactGA from 'react-ga';
+import * as Cookies from 'js-cookie';
 
 
 
@@ -9,6 +10,10 @@ export default class MainLayout extends React.Component {
   componentDidMount() {
     ReactGA.initialize('UA-82312326-11');
     ReactGA.pageview(window.location.pathname + window.location.search);
+
+    if (document.referrer && document.referrer.includes('crazygames')) {
+      Cookies.set('isCrazyGames', true);
+    }
   }
 
   redBg() {
@@ -49,11 +54,13 @@ export default class MainLayout extends React.Component {
           <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
           <script>
-          	var aiptag = aiptag || {};
-          	aiptag.cmd = aiptag.cmd || [];
-          	aiptag.cmd.display = aiptag.cmd.display || [];
-          	// Show GDPR consent tool
-          	aiptag.gdprShowConsentTool = true;
+        	var aiptag = aiptag || {};
+        	aiptag.cmd = aiptag.cmd || [];
+        	aiptag.cmd.display = aiptag.cmd.display || [];
+        	// Show GDPR consent tool
+        	aiptag.gdprShowConsentTool = true;
+        	// If you use your own GDPR consent tool please set aiptag.gdprConsent = false; if an EU user has declined or not yet accepted marketing cookies, for users outside the EU or for users that accepted the GDPR please use aiptag.gdprConsent = true;
+
         	</script>
         	<script async src="//api.adinplay.com/libs/aiptag/pub/IGZ/botbattles.io/tag.min.js"></script>
         </Head>
