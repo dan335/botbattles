@@ -74,6 +74,8 @@ export default class Index extends React.Component {
     setInterval(() => {
       this.getServerStats();
     }, 1000 * 5);
+
+    aiptag.cmd.display.push(function() { aipDisplayTag.display('botbattles-io_970x90'); });
   }
 
 
@@ -100,6 +102,12 @@ export default class Index extends React.Component {
     });
 
     Promise.all(promises).then(() => {
+      if (serverInfo.games) {
+        serverInfo.games.sort((a, b) => {
+          return b.createdAt - a.createdAt;
+        });
+      }
+
       this.setState({serverInfo:serverInfo});
     })
   }
@@ -368,9 +376,18 @@ export default class Index extends React.Component {
 
             </div>
           </div>
+          <div id="adContainer">
+            <div id='botbattles-io_970x90'></div>
+          </div>
           <BottomMenu />
         </MainLayout>
         <style jsx>{`
+          .contentContainer {
+            margin-bottom: 20px;
+          }
+          #adContainer {
+            text-align: center;
+          }
           #logoContainer {
             padding: 22px 0 18px 0;
             text-align: center;
@@ -428,6 +445,12 @@ export default class Index extends React.Component {
             }
 
             #serverInfo {
+              display: none;
+            }
+          }
+
+          @media only screen and (max-width:980px) {
+            #adContainer {
               display: none;
             }
           }

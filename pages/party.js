@@ -371,8 +371,17 @@ export default class PrivacyPolicy extends React.Component {
           </div>
           {this.renderMidBox()}
         </div>
+        <div id="adContainer">
+          <div id='botbattles-io_970x90_2'></div>
+        </div>
         </MainLayout>
         <style jsx>{`
+          .contentContainer {
+            margin-bottom: 20px;
+          }
+          #adContainer {
+            text-align: center;
+          }
           #top {
             background-color: hsl(203, 30%, 15%);
             margin-top: 20px;
@@ -399,6 +408,11 @@ export default class PrivacyPolicy extends React.Component {
           h1 {
             font-family: 'Audiowide', sans-serif;
             text-align: center;
+          }
+          @media only screen and (max-width:980px) {
+            #adContainer {
+              display: none;
+            }
           }
         `}</style>
       </div>

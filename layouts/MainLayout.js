@@ -47,6 +47,15 @@ export default class MainLayout extends React.Component {
 
           <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
           <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+          <script>
+          	var aiptag = aiptag || {};
+          	aiptag.cmd = aiptag.cmd || [];
+          	aiptag.cmd.display = aiptag.cmd.display || [];
+          	// Show GDPR consent tool
+          	aiptag.gdprShowConsentTool = true;
+        	</script>
+        	<script async src="//api.adinplay.com/libs/aiptag/pub/IGZ/botbattles.io/tag.min.js"></script>
         </Head>
         {this.props.bgColor == 'red' ? this.redBg() : this.blueBg()}
         <div>
@@ -61,7 +70,7 @@ export default class MainLayout extends React.Component {
             background-color: hsla(203, 30%, 10%, 95%);
             padding: 12px;
             border-radius: 3px;
-            margin-top: 40px;
+            margin-top: 30px;
             margin-bottom: 100px;
           }
 

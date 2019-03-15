@@ -9,6 +9,7 @@ export default class BottomMenu extends React.Component {
   }
 
   componentDidMount() {
+    console.log('document', document);
     if (document.referrer && document.referrer.includes('crazygames')) {
       this.setState({isCrazyGames:true});
     }
@@ -18,7 +19,7 @@ export default class BottomMenu extends React.Component {
     if (this.state.isCrazyGames) {
       return (
         <div>
-          <a href="https://www.crazygames.com/c/io">CrazyGames IO Games</a>&nbsp;
+          <a href="https://www.crazygames.com/c/io" target="_blank">CrazyGames IO Games</a>
           <a href="/partners">Partners</a>
           <style jsx>{`
             div {
@@ -39,10 +40,10 @@ export default class BottomMenu extends React.Component {
     } else {
       return (
         <div>
-          <a href="http://io-games.zone">IO Games</a>
-          <a href="http://bongo.games">Bongo io Games</a>
-          <a href="http://titotu.io">Titotu io Games</a>
-          <a href="http://iogames.space/">More IO Games</a>
+          <a href="http://io-games.zone" target="_blank">IO Games</a>
+          <a href="http://bongo.games" target="_blank">Bongo io Games</a>
+          <a href="http://titotu.io" target="_blank">Titotu io Games</a>
+          <a href="http://iogames.space/" target="_blank">More IO Games</a>
           <a href="/partners">Partners</a>
           <style jsx>{`
             div {
