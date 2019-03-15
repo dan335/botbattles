@@ -10,29 +10,33 @@ export default class BottomMenu extends React.Component {
   componentDidMount() {
   }
 
+  renderCrazyGamesLinks() {
+    return (
+      <div>
+        <a href="https://www.crazygames.com/c/io" target="_blank" key="crazyGames">CrazyGames IO Games</a>
+        <a href="/partners" key="partners">Partners</a>
+        <style jsx>{`
+          div {
+            font-family: 'Roboto', sans-serif;
+          }
+          a {
+            padding: 10px;
+            color: #eee;
+            display: inline-block;
+          }
+          a:hover {
+            background-color: hsl(203, 30%, 20%);
+            color: #eee;
+          }
+        `}</style>
+      </div>
+    )
+  }
+
   renderPartners() {
     var isCrazyGames = Cookies.get('isCrazyGames');
     if (isCrazyGames) {
-      return (
-        <div>
-          <a href="https://www.crazygames.com/c/io" target="_blank">CrazyGames IO Games</a>
-          <a href="/partners">Partners</a>
-          <style jsx>{`
-            div {
-              font-family: 'Roboto', sans-serif;
-            }
-            a {
-              padding: 10px;
-              color: #eee;
-              display: inline-block;
-            }
-            a:hover {
-              background-color: hsl(203, 30%, 20%);
-              color: #eee;
-            }
-          `}</style>
-        </div>
-      )
+      this.renderCrazyGamesLinks();
     } else {
       return (
         <div>

@@ -387,6 +387,7 @@ export default class Index extends React.Component {
           }
           #adContainer {
             text-align: center;
+            margin-bottom: 80px;
           }
           #logoContainer {
             padding: 22px 0 18px 0;

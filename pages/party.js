@@ -383,6 +383,7 @@ export default class PrivacyPolicy extends React.Component {
           }
           #adContainer {
             text-align: center;
+            margin-bottom: 80px;
           }
           #top {
             background-color: hsl(203, 30%, 15%);
