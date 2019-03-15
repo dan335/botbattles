@@ -9,7 +9,10 @@ export default class BottomMenu extends React.Component {
   }
 
   componentDidMount() {
-    console.log('document', document);
+    console.log('document referrer', document.referrer);
+    console.log('location', document.location.href);
+    console.log('location2', document.location);
+    console.log('window parent location', window.parent.location, window.parent.location.href);
     if (document.referrer && document.referrer.includes('crazygames')) {
       this.setState({isCrazyGames:true});
     }
