@@ -54,7 +54,7 @@ export default class MainLayout extends React.Component {
           <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
           <script>
-        	var aiptag = aiptag || {};
+        	var aiptag = aiptag || new Object();
         	aiptag.cmd = aiptag.cmd || [];
         	aiptag.cmd.display = aiptag.cmd.display || [];
         	// Show GDPR consent tool
