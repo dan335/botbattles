@@ -57,7 +57,6 @@ export default class PrivacyPolicy extends React.Component {
     this.connectToServer = this.connectToServer.bind(this);
     this.setReady = this.setReady.bind(this);
     this.submitChat = this.submitChat.bind(this);
-    this.requestPlayersFromDiscord = this.requestPlayersFromDiscord.bind(this);
   }
 
 
@@ -80,15 +79,6 @@ export default class PrivacyPolicy extends React.Component {
     if (this.ws) {
       this.ws.close();
     }
-  }
-
-
-  requestPlayersFromDiscord() {
-    fetch('/api/requestPlayersFromDiscord', {
-      method: 'post',
-      headers: {'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json'},
-      body: JSON.stringify({url:'https://botbattles.io/party/' + this.props.server._id + '/' + this.props.partyId})
-    })
   }
 
 
@@ -253,9 +243,6 @@ export default class PrivacyPolicy extends React.Component {
                 </div>
               )
             })}
-            <div id="partyRequest">
-              <button onClick={this.requestPlayersFromDiscord}>Request Players From Discord</button>
-            </div>
           </div>
           <div></div>
           <div id="chat" className="contentBox roboto">
@@ -280,12 +267,6 @@ export default class PrivacyPolicy extends React.Component {
             <Abilities />
           </div>
           <style jsx>{`
-            #partyRequest {
-              text-align: center;
-              padding: 10px;
-              background-color: hsl(203, 30%, 15%);
-              border-radius: 3px;
-            }
             #chat {
               padding: 10px;
             }

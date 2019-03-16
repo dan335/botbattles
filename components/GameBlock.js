@@ -28,8 +28,8 @@ export default class GameBlock extends React.Component {
 
 
   renderReplay(game) {
-    if (this.props.replay) {
-      const url = '/replay/' + this.props.replay._id;
+    if (this.props.game.replayId) {
+      const url = '/replay/' + this.props.game.replayId;
 
       return (
         <a href={url}>View Replay</a>
@@ -44,7 +44,12 @@ export default class GameBlock extends React.Component {
     return (
       <div key={this.props.game._id} className="gameInfo">
         <div className="gameInfoTop">
-          <span className="name">Game {this.props.game._id.substring(this.props.game._id.length - 6)}</span>
+          <div>
+            <span className="name">Game {this.props.game._id.substring(this.props.game._id.length - 6)}</span>
+          </div>
+          <div id="quality">
+            Replay Score: {Math.round(this.props.game.quality)}
+          </div>
         </div>
         <div className="gameInfoBottom">
           <div className="info">
@@ -75,6 +80,9 @@ export default class GameBlock extends React.Component {
           </ul>
         </div>
         <style jsx>{`
+          #quality {
+            text-align: right;
+          }
           .name {
             font-size: 175%;
             color: #91df3e;
@@ -88,6 +96,8 @@ export default class GameBlock extends React.Component {
             border-top-left-radius: 3px;
             border-top-right-radius: 3px;
             color: #aaa;
+            display: grid;
+            grid-template-columns: auto auto;
           }
           .gameInfoBottom {
             background-color: hsl(203, 30%, 10%);

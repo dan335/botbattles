@@ -42,7 +42,20 @@ nextApp.prepare().then(() => {
   require('../routes/auth.js')(expressApp);
   require('../routes/user.js')(expressApp);
   require('../routes/abilities.js')(expressApp);
+  require('../routes/combos.js')(expressApp);
   require('../routes/contact.js')(expressApp);
+
+  expressApp.get('/games/sort/:sort/options/:options', (req, res) => {
+    nextApp.render(req, res, '/games', {sort:req.params.sort, options:req.params.options});
+  })
+
+  expressApp.get('/games/options/:options', (req, res) => {
+    nextApp.render(req, res, '/games', {options:req.params.options});
+  })
+
+  expressApp.get('/games/sort/:sort', (req, res) => {
+    nextApp.render(req, res, '/games', {sort:req.params.sort});
+  })
 
   expressApp.get('/replay/:replayId', (req, res) => {
     nextApp.render(req, res, '/replay', { replayId: req.params.replayId })
@@ -80,12 +93,28 @@ nextApp.prepare().then(() => {
     nextApp.render(req, res, '/abilities', { sort: req.params.sort, category: req.params.category })
   })
 
+  expressApp.get('/combos/sort/:sort', (req, res) => {
+    nextApp.render(req, res, '/combos', { sort: req.params.sort })
+  })
+
+  expressApp.get('/combos/category/:category', (req, res) => {
+    nextApp.render(req, res, '/combos', { category: req.params.category })
+  })
+
+  expressApp.get('/combos/sort/:sort/category/:category', (req, res) => {
+    nextApp.render(req, res, '/combos', { sort: req.params.sort, category: req.params.category })
+  })
+
   expressApp.get('/leaderboard/:page', (req, res) => {
     nextApp.render(req, res, '/leaderboard', { page: req.params.page });
   })
 
   expressApp.get('/favicon.ico', (req, res) => (
     res.status(200).sendFile('favicon2.ico', {root: (__dirname + '/static/').replace('\\server', '').replace('/server', '')})
+  ));
+
+  expressApp.get('/ads.txt', (req, res) => (
+    res.status(200).sendFile('ads.txt', {root: (__dirname + '/static/').replace('\\server', '').replace('/server', '')})
   ));
 
   expressApp.get('*', (req,res) => {

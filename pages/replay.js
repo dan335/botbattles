@@ -10,13 +10,13 @@ import TopMenu from '../components/TopMenu.js';
 export default class Replay extends React.Component {
 
   static async getInitialProps({req, query}) {
-    const serverResult = await fetch(process.env.API_URL + '/api/replay', {
-      method: 'post',
-      headers: { 'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json' },
-      body: JSON.stringify({replayId:query.replayId})
-    });
-
-    const replay = await serverResult.json();
+    // const serverResult = await fetch(process.env.API_URL + '/api/gameFromReplay', {
+    //   method: 'post',
+    //   headers: { 'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({replayId:query.replayId})
+    // });
+    //
+    // const game = await serverResult.json();
 
     const dataResult = await fetch(process.env.API_URL + '/api/replaydata', {
       method: 'post',
@@ -26,7 +26,7 @@ export default class Replay extends React.Component {
 
     const replaydata = await dataResult.json();
 
-    return {replay:replay, replaydata:replaydata};
+    return {replaydata:replaydata};
   }
 
 
@@ -41,7 +41,7 @@ export default class Replay extends React.Component {
 
 
   componentDidMount() {
-    if (!this.props.replay) return;
+    if (!this.props.replaydata) return;
 
     this.manager = new Manager(this.props.gameId, this, this.props.replaydata, null);
   }
@@ -162,7 +162,7 @@ export default class Replay extends React.Component {
 
 
   render() {
-    if (this.props.replay) {
+    if (this.props.replaydata) {
       return (
         <div>
           <MainLayout>

@@ -22,6 +22,7 @@ export default class TopMenu extends React.Component {
           <div>
             <a href="/">Home</a>
             <a href="/abilities">Abilities</a>
+            <a href="/combos">Combos</a>
             <a href="/leaderboard">Leaderboard</a>
             <a href="/games">History</a>
           </div>
