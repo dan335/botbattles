@@ -1,4 +1,5 @@
 const Games = require('../models/Games.js');
+var request = require('request');
 
 
 
@@ -22,6 +23,23 @@ module.exports = function(app) {
       } else {
         res.json(games).end();
       }
+    })
+  })
+
+
+  app.post('/api/requestPlayersFromDiscord', (req, res) => {
+    request({
+      url: process.env.PARTY_HOOK,
+      body: JSON.stringify({
+        username: 'Party Bot',
+        content: 'Bot Battles party in need of players.  ['+req.body.url+']('+req.body.url+')'
+      }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }, function(error, response) {
+      console.log(error, response)
     })
   })
 

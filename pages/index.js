@@ -102,11 +102,11 @@ export default class Index extends React.Component {
     });
 
     Promise.all(promises).then(() => {
-      if (serverInfo.games) {
-        serverInfo.games.sort((a, b) => {
+      serverInfo.forEach((server) => {
+        server.games.sort((a, b) => {
           return b.createdAt - a.createdAt;
         });
-      }
+      })
 
       this.setState({serverInfo:serverInfo});
     })
@@ -235,16 +235,18 @@ export default class Index extends React.Component {
     }
 
     return (
-      <button onClick={this.playButton}>
-        Play
-        <style jsx>{`
-          button {
-            font-size: 200%;
-            padding: 10px 20px;
-            margin-bottom: 30px;
-          }
-        `}</style>
-      </button>
+      <div>
+        <button onClick={this.playButton}>
+          Play
+          <style jsx>{`
+            button {
+              font-size: 200%;
+              padding: 10px 20px;
+              margin-bottom: 20px;
+            }
+          `}</style>
+        </button>
+      </div>
     )
   }
 
@@ -255,6 +257,7 @@ export default class Index extends React.Component {
 
       return (
         <div id="partyLink">
+          or<br/>
           <a href={partyLink} onClick={this.saveName}>Create a party.</a>
         </div>
       )
