@@ -95,7 +95,7 @@ export default class Combos extends React.Component {
         <MainLayout>
           <TopMenu user={this.props.user} />
           <div className="contentContainer">
-            <h1 className="audiowide">{this.props.combos.length} Ability Combinations</h1>
+            <h1 className="audiowide">Ability Combinations</h1>
 
             <div id="sortContainer">
               <div className="roboto">
