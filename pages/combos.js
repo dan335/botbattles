@@ -54,7 +54,7 @@ export default class Combos extends React.Component {
     const data = [
       {name:'Uses', id:'uses'},
       {name:'Wins', id:'wins'},
-      {name:'Win Percentage When Used', id:'winPercent'},
+      {name:'Win Percentage', id:'winPercent'},
     ]
 
     return data.map((d) => {
@@ -70,7 +70,7 @@ export default class Combos extends React.Component {
         selected = true;
       }
 
-      if (d.id == 'alphabetical' && !this.props.query.sort) {
+      if (d.id == 'winPercent' && !this.props.query.sort) {
         selected = true;
       }
 

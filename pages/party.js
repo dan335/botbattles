@@ -66,7 +66,9 @@ export default class PrivacyPolicy extends React.Component {
     this.sendPings();
     this.scrollToBottomOfChat();
 
-    aiptag.cmd.display.push(function() { aipDisplayTag.display('botbattles-io_970x90_2'); });
+    if (!window.isDesktopApp) {
+      aiptag.cmd.display.push(function() { aipDisplayTag.display('botbattles-io_970x90_2'); });
+    }
   }
 
 

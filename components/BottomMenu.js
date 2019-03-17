@@ -9,32 +9,33 @@ export default class BottomMenu extends React.Component {
 
 
   renderPartners() {
-    var isCrazyGames = Cookies.get('isCrazyGames');
-    if (!isCrazyGames) {
-      return (
-        <div>
-          <a href="http://io-games.zone" target="_blank">IO Games</a>
-          <a href="http://bongo.games" target="_blank">Bongo io Games</a>
-          <a href="http://titotu.io" target="_blank">Titotu io Games</a>
-          <a href="http://iogames.space/" target="_blank">More IO Games</a>
-          <a href="/partners">Partners</a>
-          <style jsx>{`
-            div {
-              font-family: 'Roboto', sans-serif;
-            }
-            a {
-              padding: 10px;
-              color: #eee;
-              display: inline-block;
-            }
-            a:hover {
-              background-color: hsl(203, 30%, 20%);
-              color: #eee;
-            }
-          `}</style>
-        </div>
-      )
-    }
+    if (window && window.isDesktopApp) return;
+
+    if (Cookies.get('isCrazyGames')) return;
+
+    return (
+      <div>
+        <a href="http://io-games.zone" target="_blank">IO Games</a>
+        <a href="http://bongo.games" target="_blank">Bongo io Games</a>
+        <a href="http://titotu.io" target="_blank">Titotu io Games</a>
+        <a href="http://iogames.space/" target="_blank">More IO Games</a>
+        <a href="/partners">Partners</a>
+        <style jsx>{`
+          div {
+            font-family: 'Roboto', sans-serif;
+          }
+          a {
+            padding: 10px;
+            color: #eee;
+            display: inline-block;
+          }
+          a:hover {
+            background-color: hsl(203, 30%, 20%);
+            color: #eee;
+          }
+        `}</style>
+      </div>
+    )
   }
 
 

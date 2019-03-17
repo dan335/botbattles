@@ -8,9 +8,6 @@ module.exports = function(app) {
     let sort = {};
 
     switch (req.body.sort) {
-      case 'alphabetical':
-        sort['name'] = 1;
-        break;
       case 'uses':
         sort['uses'] = -1;
         break;
@@ -21,7 +18,7 @@ module.exports = function(app) {
         sort['winPercent'] = -1
         break;
       default:
-        sort['name'] = 1;
+        sort['winPercent'] = 1;
         break;
     }
 
@@ -32,7 +29,6 @@ module.exports = function(app) {
     }
 
     Combos.find(find).sort(sort).exec((error, abilities) => {
-      console.log(error, abilities)
       if (error) {
         res.status(500).end();
       } else {

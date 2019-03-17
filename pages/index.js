@@ -75,7 +75,9 @@ export default class Index extends React.Component {
       this.getServerStats();
     }, 1000 * 5);
 
-    aiptag.cmd.display.push(function() { aipDisplayTag.display('botbattles-io_970x90'); });
+    if (!window.isDesktopApp) {
+      aiptag.cmd.display.push(function() { aipDisplayTag.display('botbattles-io_970x90'); });
+    }
   }
 
 
