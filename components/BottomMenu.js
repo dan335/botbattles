@@ -9,7 +9,7 @@ export default class BottomMenu extends React.Component {
 
 
   renderPartners() {
-    if (window && window.isDesktopApp) return;
+    if (typeof window !== 'undefined' && window.isDesktopApp) return;
 
     if (Cookies.get('isCrazyGames')) return;
 
