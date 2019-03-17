@@ -18,7 +18,7 @@ module.exports = function(app) {
         sort['winPercent'] = -1
         break;
       default:
-        sort['winPercent'] = 1;
+        sort['winPercent'] = -1;
         break;
     }
 
