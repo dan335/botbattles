@@ -43,6 +43,8 @@ export default class Login extends React.Component {
               <a href="http://io-games.zone" target="_blank">IO Games</a><br/>
               <a href="http://bongo.games" target="_blank">Bongo io Games</a><br/>
               <a href="http://www.obfog.com/games-tags/iogames" target="_blank">io Games OBFOG</a><br/>
+              <a href="http://titotu.io" target="_blank">Titotu io Games</a>
+              <a href="http://iogames.space/" target="_blank">More IO Games</a>
             </div>
           </div>
         </MainLayout>
