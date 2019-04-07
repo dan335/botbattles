@@ -1,5 +1,8 @@
 import Particle from '../fx/Particle.js';
-
+import {
+  MeshBasicMaterial,
+  Mesh
+} from 'three';
 import Obj from '../Obj.js';
 
 
