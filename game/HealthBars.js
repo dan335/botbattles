@@ -20,6 +20,10 @@ export default class HealthBars {
     this.shieldBar.updateValue(value);
   }
 
+  updateMaxShields(value) {
+    this.shieldBar.updateMax(value);
+  }
+
   updatePosition(x, z) {
     this.healthBar.updatePosition(x + this.offsetX, z + this.offsetZ);
     this.shieldBar.updatePosition(x + this.offsetX, z + this.offsetZ + this.healthBarOffsetZ);

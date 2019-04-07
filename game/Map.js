@@ -41,7 +41,7 @@ export default class Map {
 
     const elm = document.getElementById('rightUI');
     if (elm) {
-      elm.style.right = (width - right - 200 - 50) + 'px';
+      elm.style.right = (width - right - 280 - 50) + 'px';
     }
 
     const log = document.getElementById('logContainer');

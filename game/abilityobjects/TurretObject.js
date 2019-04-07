@@ -25,7 +25,7 @@ export default class TurretObject extends Obj {
     this.mesh.setRotationFromAxisAngle(new Vector3(0, 1, 0), this.rotation * -1);
     this.manager.scene.add(this.mesh);
 
-    var geo = new PlaneBufferGeometry(this.radius*2.5, this.radius*2.5);
+    var geo = this.manager.planeBufferGeometry.clone();
     var mat = new MeshBasicMaterial( {
       map: this.manager.textures.shipGunColor,
       transparent: true
@@ -33,6 +33,7 @@ export default class TurretObject extends Obj {
     this.gunMesh = new Mesh(geo, mat);
     this.gunMesh.position.set(this.position.x, 20, this.position.y);
     this.gunMesh.rotation.set(-Math.PI/2, 0, 0);
+    this.gunMesh.scale.set(this.radius*2.5, this.radius*2.5, this.radius*2.5);
     this.manager.scene.add(this.gunMesh);
 
     this.offsetX = 0;

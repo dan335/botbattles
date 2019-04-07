@@ -56,7 +56,7 @@ module.exports = function(app) {
 
   app.get('/api/servers', (req, res) => {
     Server.find({}).exec((error, servers) => {
-      if (error || !servers) {
+      if (error) {
         res.status(500).end();
       } else {
         res.json(servers).end();

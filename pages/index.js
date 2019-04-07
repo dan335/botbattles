@@ -7,6 +7,7 @@ import BottomMenu from '../components/BottomMenu.js';
 import functions from '../lib/functions.js';
 import Abilities from '../components/Abilities.js';
 var hri = require('human-readable-ids').hri;
+var moment = require('moment');
 
 
 
@@ -15,10 +16,15 @@ export default class Index extends React.Component {
   static async getInitialProps({req, query}) {
     const userId = req && req.session ? req.session.userId : null;
 
+    let servers = [];
     const serverResult = await fetch(process.env.API_URL + '/api/servers', {
       method: 'get',
       headers: { 'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json' }
     });
+
+    if (serverResult.status == 200) {
+      servers = await serverResult.json();
+    }
 
     let user = null;
     if (userId) {
@@ -33,12 +39,17 @@ export default class Index extends React.Component {
       }
     }
 
-    if (serverResult.status == 200) {
-      const servers = await serverResult.json();
-      return {servers:servers, userId:userId, user:user};
-    } else {
-      return {servers:[], userId:userId, user:user};
+    let chats = [];
+    const chatResult = await fetch(process.env.API_URL + '/api/chats', {
+      method: 'get',
+      headers: { 'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json' }
+    });
+
+    if (chatResult.status == 200) {
+      chats = await chatResult.json();
     }
+
+    return {servers:servers, userId:userId, user:user, chats:chats};
   }
 
 
@@ -52,7 +63,8 @@ export default class Index extends React.Component {
       isWsOpen: false,
       server: null,
       serverInfo: [],
-      namenumber: Math.round(Math.random()*1000)
+      namenumber: Math.round(Math.random()*1000),
+      chats: props.chats
     }
 
     this.playButton = this.playButton.bind(this);
@@ -78,6 +90,20 @@ export default class Index extends React.Component {
     if (!window.isDesktopApp) {
       aiptag.cmd.display.push(function() { aipDisplayTag.display('botbattles-io_970x90'); });
     }
+
+    window.addEventListener( 'keydown', this, false );
+  }
+
+
+  componentDidUpdate(prevProps) {
+    this.scrollChatToBottom();
+  }
+
+
+  componentWillUnmount() {
+    this.ws.send(JSON.stringify({t:'leaveChat', roomId:'frontpage'}));
+    this.ws.close();
+    window.removeEventListener( 'keydown', this, false );
   }
 
 
@@ -86,6 +112,8 @@ export default class Index extends React.Component {
     let serverInfo = [];
     let promises = [];
 
+    // promise.all can not handle rejections
+    // so resolve if error
     this.props.servers.forEach((server) => {
       promises.push(new Promise((resolve, reject) => {
         var xmlHttp = new XMLHttpRequest();
@@ -96,14 +124,26 @@ export default class Index extends React.Component {
             serverInfo.push(Object.assign({name:server.name, id:server._id}, this.response));
             resolve();
           } else {
-            reject();
+            resolve();
+          }
+        }
+        xmlHttp.onerror = function() {
+          resolve();
+        }
+        xmlHttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status != 200) {
+            resolve();
           }
         }
         xmlHttp.send();
       }));
     });
 
-    Promise.all(promises).then(() => {
+    Promise.all(promises)
+    .catch((error) => {
+
+    })
+    .then((result) => {
       serverInfo.forEach((server) => {
         server.games.sort((a, b) => {
           return b.createdAt - a.createdAt;
@@ -144,12 +184,21 @@ export default class Index extends React.Component {
 
       this.ws.onopen = (event) => {
         this.setState({isWsOpen: true});
+        this.ws.send(JSON.stringify({t:'joinChat', roomId:'frontpage'}));
       }
 
       this.ws.onmessage = (event) => {
         const json = JSON.parse(event.data);
-        if (json && json.t == 'gameId') {
-          window.location.href = '/game/' + this.state.server._id + '/' + json.gameId;
+        if (json) {
+          if (json.t == 'gameId') {
+            window.location.href = '/game/' + this.state.server._id + '/' + json.gameId;
+          } else if (json.t == 'chat') {
+            this.setState({chats: [...this.state.chats, {
+              msg: json.msg,
+              name: json.name,
+              time: Number(json.time)
+            }]})
+          }
         }
       };
 
@@ -309,6 +358,63 @@ export default class Index extends React.Component {
   }
 
 
+  scrollChatToBottom() {
+    var elm = document.getElementById('chatTop');
+    if (elm) {
+      elm.scrollTop = elm.scrollHeight;
+    }
+  }
+
+
+  handleEvent(event) {
+    switch (event.type) {
+      case 'keydown':
+        if (event.keyCode == 13) {
+          // enter
+          const elm = document.getElementById('chatInput');
+          if (elm) {
+            if (elm == document.activeElement) {
+              this.sendChat(elm.value);
+              elm.value = '';
+            } else {
+              elm.focus();
+            }
+          }
+        }
+        break;
+    }
+  }
+
+
+  sendChat(msg) {
+    this.ws.send(JSON.stringify({
+      t:'chat',
+      msg: msg,
+      roomId: 'frontpage',
+      userId: this.props.userId
+    }));
+  }
+
+
+  renderChatInput() {
+    if (this.state.isWsOpen) {
+      if (this.props.userId) {
+        return (
+          <input type="text" id="chatInput" placeholder="Press enter to chat." />
+        )
+      } else {
+        return (
+          <div>
+            <a href="/login">Login</a> to chat.
+          </div>
+        )
+      }
+    } else {
+
+    }
+  }
+
+
   render() {
     let name = 'Noname_' + this.state.namenumber;
     if (this.props.user) {
@@ -335,28 +441,51 @@ export default class Index extends React.Component {
             </div>
 
             <div id="midBox">
-              <div id="serverInfo">
-                {this.state.serverInfo.map((server) => {
-                  return (
-                    <div key={server.name} className="serverContainer">
-                      <div className="serverTitle">
-                        <div className="serverName">{this.renderServerName(server)}</div>
-                        <div className="alignRight">{server.numPlayers} Players in {server.numGames} Games</div>
-                      </div>
-                      {server.games.map((game) => {
-                        return (
-                          <div key={game.id} className="gameInfo">
-                            <div>{game.numPlayers} Players, {game.numSpectators} Spectators</div>
-                            <div className="alignRight">
-                              {game.isStarted ? (<a href={'/game/'+server.id+'/'+game.id}>Spectate</a>) : (<a href={'/game/'+server.id+'/'+game.id}>Join</a>)}
-                              {game.isEnded ? ' Ended' : ''}
+              <div>
+                <div id="serverInfo">
+                  {this.state.serverInfo.map((server) => {
+                    return (
+                      <div key={server.name} className="serverContainer">
+                        <div className="serverTitle">
+                          <div className="serverName">{this.renderServerName(server)}</div>
+                          <div className="alignRight">{server.numPlayers} Players in {server.numGames} Games</div>
+                        </div>
+                        {server.games.map((game) => {
+                          return (
+                            <div key={game.id} className="gameInfo">
+                              <div>{game.numPlayers} Players, {game.numSpectators} Spectators</div>
+                              <div className="alignRight">
+                                {game.isStarted ? (<a href={'/game/'+server.id+'/'+game.id}>Spectate</a>) : (<a href={'/game/'+server.id+'/'+game.id}>Join</a>)}
+                                {game.isEnded ? ' Ended' : ''}
+                              </div>
                             </div>
+                          )
+                        })}
+                      </div>
+                    )
+                  })}
+                </div>
+
+                <div id="chatContainer" className="contentBox">
+                  <div id="chatSplitter">
+                    <div id="chatTop">
+                      {this.state.chats.map((chat) => {
+                        return (
+                          <div key={Math.random()} className="chatMsg">
+                            <span className="green">{chat.name}</span>:
+                            &nbsp;
+                            {chat.msg}
+                            &nbsp;&nbsp;
+                            <span className="chatTime">{moment(chat.time).format('LTS')}</span>
                           </div>
                         )
                       })}
                     </div>
-                  )
-                })}
+                    <div id="chatBottom">
+                      {this.renderChatInput()}
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <div></div>
@@ -409,8 +538,9 @@ export default class Index extends React.Component {
             font-family: 'Roboto', sans-serif;
             text-align: left;
             font-size: 90%;
-            max-height: 500px;
+            max-height: 225px;
             overflow-y: auto;
+            margin-bottom: 10px;
           }
           .serverContainer {
             margin-bottom: 20px;
@@ -469,11 +599,11 @@ export default class Index extends React.Component {
             margin: 0;
             margin-bottom: 0px;
             color: #91df3e;
-            font-size: 400%;
+            font-size: 300%;
           }
           #tagline {
             margin: 0;
-            font-size: 100%;
+            font-size: 90%;
           }
           label {
             display: block;
@@ -482,6 +612,33 @@ export default class Index extends React.Component {
           }
           #inputContainer {
             text-align: left;
+          }
+
+          #chatContainer {
+            padding: 10px;
+            border-radius: 3px;
+            margin-bottom: 5px;
+            font-family: 'Roboto', sans-serif;
+          }
+          #chatSplitter {
+            display: grid;
+            grid-template-rows: auto 31px;
+            grid-row-gap: 5px;
+          }
+          #chatTop {
+            overflow-y: auto;
+            max-height: 225px;
+            word-break: break-all;
+            font-size: 90%;
+          }
+          #chatBottom {
+            line-height: 31px;
+          }
+          .chatMsg {
+            margin-bottom: 3px;
+          }
+          .chatTime {
+            color: #777;
           }
         `}</style>
       </div>

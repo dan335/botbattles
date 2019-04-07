@@ -44,6 +44,7 @@ nextApp.prepare().then(() => {
   require('../routes/abilities.js')(expressApp);
   require('../routes/combos.js')(expressApp);
   require('../routes/contact.js')(expressApp);
+  require('../routes/chat.js')(expressApp);
 
   expressApp.get('/games/sort/:sort/options/:options', (req, res) => {
     nextApp.render(req, res, '/games', {sort:req.params.sort, options:req.params.options});

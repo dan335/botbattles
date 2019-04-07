@@ -1,6 +1,5 @@
 import Obj from '../Obj.js';
 import {
-  PlaneBufferGeometry,
   MeshBasicMaterial,
   Mesh,
   Vector3,
@@ -15,7 +14,7 @@ export default class SlamGfx extends Obj {
     super(manager, x, y, ship.rotation, radius, id);
     this.ship = ship;
 
-    var geometry = new PlaneBufferGeometry( 1, 1 );
+    var geometry = this.manager.planeBufferGeometry.clone();
     var material = new MeshBasicMaterial({
       color: new Color(0x888888),
       alphaMap: this.manager.textures.forceFieldAlpha,

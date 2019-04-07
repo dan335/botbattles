@@ -77,7 +77,7 @@ export default class MainLayout extends React.Component {
             background-color: hsla(203, 30%, 10%, 95%);
             padding: 12px;
             border-radius: 3px;
-            margin-top: 30px;
+            margin-top: 20px;
             margin-bottom: 100px;
           }
 

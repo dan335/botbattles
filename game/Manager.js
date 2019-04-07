@@ -13,7 +13,8 @@ import {
   ExtrudeBufferGeometry,
   Mesh,
   Vector3,
-  Shape
+  Shape,
+  PlaneBufferGeometry
 } from 'three';
 
 import * as Cookies from 'js-cookie';
@@ -46,7 +47,6 @@ export default class Manager {
     this.serverTimeOffset = 0;
     this.renderDelays = [0];   // delay from when message is recieved from client to rendering
     this.lastPingCheck = null;
-    this.timeBetweenSyncs = 0;
     this.clientTickSum = 0;
     this.clientTickNum = 0;
     this.renderTickSum = 0;
@@ -62,6 +62,7 @@ export default class Manager {
     this.loadSounds();
     this.createSlicerSpikesGeometry();
     this.createSmasherSpikesGeometry();
+    this.createPlaneGeometry();
     this.setup();
     this.particleBucket = new BucketParticles(this, 200);
     this.blasterBulletBucket = new BucketBlasterBullets(this, 100);
@@ -95,7 +96,8 @@ export default class Manager {
     });
 
     this.sounds.boost = new Howl({
-      src: ['/static/sounds/Boost.wav']
+      src: ['/static/sounds/Boost.wav'],
+      volume: 0.5
     });
 
     this.sounds.bulletTime = new Howl({
@@ -544,5 +546,10 @@ export default class Manager {
     };
 
     this.slicerSpikesGeometry = new ExtrudeBufferGeometry( shape, extrudeSettings );
+  }
+
+
+  createPlaneGeometry() {
+    this.planeBufferGeometry = new PlaneBufferGeometry( 1, 1 );
   }
 }

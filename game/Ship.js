@@ -12,6 +12,7 @@ import {
 import HealthBars from './HealthBars.js';
 const _s = require('../lib/settings.js');
 import Particle from './fx/Particle.js';
+import ShipName from './ShipName.js';
 
 
 
@@ -23,6 +24,7 @@ export default class Ship extends Obj {
     this.manager.ui.addToLog(name + ' joined the game.');
     this.health = _s.maxHealth;
     this.shield = _s.maxShield;
+    this.maxShield = _s.maxShield;
 
     this.engineDown = false;
     this.engineUp = false;
@@ -36,8 +38,18 @@ export default class Ship extends Obj {
 
     this.loadMesh();
     this.healthBars = new HealthBars(x, y, 0, 1, -45, manager.scene);
+    this.shipName = new ShipName(manager, this);
 
     this.abilityObjects = [];
+  }
+
+
+  updateMaxShield(newMax) {
+    const increasedBy = newMax - this.maxShield;
+    this.maxShield = newMax;
+    this.healthBars.updateMaxShields(newMax);
+    this.updateUiBars();
+    this.manager.ui.addToLog(this.name + " got a kill.  Max shield increased by " + increasedBy + '.');
   }
 
 
@@ -48,7 +60,7 @@ export default class Ship extends Obj {
     this.mesh.position.set(this.position.x, 0, this.position.y);
     this.manager.scene.add(this.mesh);
 
-    geometry = new PlaneBufferGeometry(this.radius*2.5, this.radius*2.5);
+    geometry = this.manager.planeBufferGeometry.clone();
     var material = new MeshBasicMaterial( {
       map: this.manager.textures.shipGunColor,
       transparent: true
@@ -56,6 +68,7 @@ export default class Ship extends Obj {
     this.gunMesh = new Mesh(geometry, material);
     this.gunMesh.position.set(this.position.x, 20, this.position.y);
     this.gunMesh.rotation.set(-Math.PI/2, 0, 0);
+    this.gunMesh.scale.set(this.radius*2.5, this.radius*2.5, this.radius*2.5);
     this.manager.scene.add(this.gunMesh);
   }
 
@@ -86,6 +99,7 @@ export default class Ship extends Obj {
     super.setPosition(x, y);
     this.gunMesh.position.set(x, 20, y);
     this.healthBars.updatePosition(x, y);
+    this.shipName.updatePosition();
   }
 
 
@@ -214,6 +228,8 @@ export default class Ship extends Obj {
 
 
   destroy(killer) {
+    this.shipName.destroy();
+
     if (this.gunMesh) {
       this.manager.scene.remove(this.gunMesh);
       this.gunMesh.geometry.dispose();

@@ -17,11 +17,12 @@ export default class Grenade extends Obj {
 
 
   createMesh() {
-    var geometry = new PlaneBufferGeometry( this.radius * 2, this.radius * 2 );
+    var geometry = this.manager.planeBufferGeometry.clone();
     var material = new MeshBasicMaterial( {color: this.color} );
     this.mesh = new Mesh( geometry, material );
     this.mesh.position.set(this.position.x, -0.5, this.position.y);
     this.mesh.rotation.set(-Math.PI/2, 0, this.rotation * -1);
+    this.mesh.scale.set(this.radius*2, this.radius*2, this.radius*2);
     this.manager.scene.add(this.mesh);
   }
 

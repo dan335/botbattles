@@ -31,6 +31,11 @@ export default class ProgressBar {
     this.scene.add(this.bar);
   }
 
+  updateMax(value) {
+    this.max = value;
+    this.updateValue(this.value);
+  }
+
   updateValue(value) {
     const width = value / this.max * this.width;
     this.bar.scale.set(width || 0.0001, 1, this.height);  // three.js bug, don't se scale to 0

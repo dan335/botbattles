@@ -5,6 +5,7 @@ import MainLayout from '../layouts/MainLayout.js';
 const Functions = require('../lib/functions.js');
 import cloneDeep from 'lodash/cloneDeep';
 const _s = require('../lib/settings.js');
+var moment = require('moment');
 
 
 
@@ -51,7 +52,8 @@ export default class Game extends React.Component {
       cooldowns: [],
       cooldownWidths: ['100%', '100%', '100%', '100%'],
       clientTickTime: null,
-      winner: null
+      winner: null,
+      chats: []
     };
 
     this.cooldownData = [];
@@ -61,6 +63,8 @@ export default class Game extends React.Component {
     }
 
     this.playButton = this.playButton.bind(this);
+
+
   }
 
 
@@ -73,6 +77,7 @@ export default class Game extends React.Component {
     this.ws.onopen = (event) => {
       onopen(event, this.manager, this.ws, this);
       this.manager = new Manager(this.props.gameId, this, null, this.props.userId, this.props.user);
+      this.ws.send(JSON.stringify({t:'joinChat', roomId:this.props.gameId}));
     }
 
     this.ws.onmessage = (event) => {
@@ -90,6 +95,13 @@ export default class Game extends React.Component {
     this.updateCooldownsTimerHandle = setInterval(() => {
       this.updateCooldowns();
     }, 90);
+
+    window.addEventListener( 'keydown', this, false );
+  }
+
+
+  componentDidUpdate(prevProps) {
+    this.scrollChatToBottom();
   }
 
 
@@ -104,7 +116,9 @@ export default class Game extends React.Component {
 
 
   componentWillUnmount() {
+    this.ws.send(JSON.stringify({t:'leaveChat', roomId:this.props.gameId}));
     this.ws.close();
+    window.removeEventListener( 'keydown', this, false );
   }
 
 
@@ -284,7 +298,7 @@ export default class Game extends React.Component {
           }
           .barContainer {
             background-color: hsl(0, 0%, 40%);
-            width: 200px;
+            width: 280px;
             height: 30px;
             position: relative;
             border-radius: 3px;
@@ -303,7 +317,7 @@ export default class Game extends React.Component {
             border-radius: 3px;
           }
           .text {
-            width: 200px;
+            width: 280px;
             position: relative;
             top: -23px;
             text-align: center;
@@ -398,6 +412,98 @@ export default class Game extends React.Component {
   }
 
 
+  handleEvent(event) {
+    switch (event.type) {
+      case 'keydown':
+        if (event.keyCode == 13) {
+          // enter
+          const elm = document.getElementById('chatInput');
+          if (elm) {
+            if (elm == document.activeElement) {
+              this.sendChat(elm.value);
+              elm.value = '';
+            } else {
+              elm.focus();
+            }
+          }
+        }
+        break;
+    }
+  }
+
+
+  scrollChatToBottom() {
+    var elm = document.getElementById('chatTop');
+    if (elm) {
+      elm.scrollTop = elm.scrollHeight;
+    }
+  }
+
+
+  sendChat(msg) {
+    this.ws.send(JSON.stringify({
+      t:'chat',
+      msg: msg,
+      roomId: this.props.gameId
+    }));
+  }
+
+
+  renderChat() {
+    return (
+      <div id="chatContainer">
+        <div id="chatSplitter">
+          <div id="chatTop">
+            {this.state.chats.map((chat) => {
+              return (
+                <div key={Math.random()} className="chatMsg">
+                  <span className="green">{chat.name}</span>:
+                  &nbsp;
+                  {chat.msg}
+                  &nbsp;&nbsp;
+                  <span className="chatTime">{moment(chat.time).format('LTS')}</span>
+                </div>
+              )
+            })}
+          </div>
+          <div id="chatBottom">
+            <input type="text" id="chatInput" placeholder="Press enter to chat." />
+          </div>
+        </div>
+        <style jsx>{`
+          #chatContainer {
+            background-color: hsl(203, 30%, 10%);
+            padding: 10px;
+            border-radius: 3px;
+            margin-bottom: 5px;
+            font-family: 'Roboto', sans-serif;
+          }
+          #chatSplitter {
+            display: grid;
+            grid-template-rows: auto 31px;
+            grid-row-gap: 5px;
+          }
+          #chatTop {
+            overflow-y: auto;
+            height: 300px;
+            word-break: break-all;
+            font-size: 90%;
+          }
+          #chatBottom {
+            line-height: 31px;
+          }
+          .chatMsg {
+            margin-bottom: 3px;
+          }
+          .chatTime {
+            color: #777;
+          }
+        `}</style>
+      </div>
+    )
+  }
+
+
   render() {
     return (
       <div>
@@ -411,6 +517,7 @@ export default class Game extends React.Component {
             {this.renderWinner()}
           </div>
           <div id="rightUI">
+            {this.renderChat()}
             {this.renderCooldowns()}
             {this.renderHealthBars()}
           </div>

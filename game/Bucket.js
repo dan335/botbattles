@@ -27,7 +27,7 @@ export default class Bucket {
 
 
   geometry() {
-    return new PlaneBufferGeometry( 1,1 );
+    return this.manager.planeBufferGeometry.clone();
   }
 
 
@@ -39,7 +39,7 @@ export default class Bucket {
       obj.visible = true;
       return obj;
   }
-  
+
 
   returnObject(obj) {
     if (obj) {
