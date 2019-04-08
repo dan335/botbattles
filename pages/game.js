@@ -486,6 +486,7 @@ export default class Game extends React.Component {
           #chatTop {
             overflow-y: auto;
             height: 300px;
+            width: 280px;
             word-break: break-all;
             font-size: 90%;
           }
