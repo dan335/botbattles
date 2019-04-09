@@ -9,8 +9,14 @@ import Obj from '../Obj.js';
 
 
 export default class TeleportEffect extends Obj {
-  constructor(manager, x, y, radius) {
+  constructor(manager, x, y, radius, timeout) {
     super(manager, x, y, 0, radius, Math.random());
+
+    if (!timeout) {
+      timeout = 300;
+    }
+
+    this.timeout = timeout;
 
     var geometry = this.manager.planeBufferGeometry.clone();
     var material = new MeshBasicMaterial({
@@ -29,7 +35,7 @@ export default class TeleportEffect extends Obj {
 
     setTimeout(() => {
       this.destroy();
-    }, 300);
+    }, this.timeout);
   }
 
 

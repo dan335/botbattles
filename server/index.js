@@ -24,7 +24,7 @@ mongoose.connect(process.env.MONGO_URL, (error) => {
 const sessionParser = session({
   secret: 'work hard',
   resave: true,
-  saveUninitialized: false,
+  saveUninitialized: true,
   store: new MongoStore({ mongooseConnection: mongoose.connection })
 });
 
@@ -32,9 +32,9 @@ nextApp.prepare().then(() => {
 
   const expressApp = express();
 
+  expressApp.use(sessionParser);
   expressApp.use(bodyParser.json({limit: '20mb', extended: true}));
   expressApp.use(bodyParser.urlencoded({limit: '20mb', extended: true}));
-  expressApp.use(sessionParser);
 
   require('../routes/servers.js')(expressApp);
   require('../routes/replays.js')(expressApp);

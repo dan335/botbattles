@@ -16,7 +16,7 @@ export default class VortexGrenade extends Obj {
 
     setTimeout(() => {
       var geometry = new BoxBufferGeometry( this.radius * 2, 0.1, this.radius * 2 );
-      var material = new MeshBasicMaterial( {color: 0xffbb44} );
+      var material = new MeshBasicMaterial( {color: 0x356ab5} );
       this.mesh = new Mesh( geometry, material );
       this.mesh.position.set(this.position.x, -0.5, this.position.y);
       this.mesh.setRotationFromAxisAngle(new Vector3(0, 1, 0), this.rotation * -1);
@@ -29,7 +29,7 @@ export default class VortexGrenade extends Obj {
 
   destroy(radius, x, y) {
 
-    new Explosion(this.manager, x, y, 0, 50, Math.random(), 0xffbb44);
+    new Explosion(this.manager, x, y, 0, 50, Math.random(), 0x356ab5);
 
     this.vacuumEffect = new VacuumEffect(this.manager, radius, Math.random(), null, x, y);
 

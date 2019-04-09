@@ -10,7 +10,6 @@ var hri = require('human-readable-ids').hri;
 var moment = require('moment');
 
 
-
 export default class Index extends React.Component {
 
   static async getInitialProps({req, query}) {
@@ -95,8 +94,10 @@ export default class Index extends React.Component {
   }
 
 
-  componentDidUpdate(prevProps) {
-    this.scrollChatToBottom();
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.chats.length != prevState.chats.length) {
+      this.scrollChatToBottom();
+    }
   }
 
 
@@ -400,7 +401,7 @@ export default class Index extends React.Component {
     if (this.state.isWsOpen) {
       if (this.props.userId) {
         return (
-          <input type="text" id="chatInput" placeholder="Press enter to chat." />
+          <input autoComplete="off" type="text" id="chatInput" placeholder="Press enter to chat." />
         )
       } else {
         return (
@@ -411,6 +412,31 @@ export default class Index extends React.Component {
       }
     } else {
 
+    }
+  }
+
+
+  deleteChatMessage(chatId) {
+    fetch('/api/deleteChat', {
+      method: 'post',
+      headers: { 'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json' },
+      body: JSON.stringify({chatId:chatId})
+    }).then((result) => {
+      if (result.status == 200) {
+          window.location.href = '/';
+        }
+    })
+  }
+
+
+  renderModChatButton(chat) {
+    if (this.props.user && this.props.user.isMod) {
+      return (
+        <span>
+          &nbsp;&nbsp;
+          <a onClick={() => {this.deleteChatMessage(chat._id)}}>x</a>
+        </span>
+      )
     }
   }
 
@@ -477,6 +503,7 @@ export default class Index extends React.Component {
                             {chat.msg}
                             &nbsp;&nbsp;
                             <span className="chatTime">{moment(chat.time).format('LTS')}</span>
+                            {this.renderModChatButton(chat)}
                           </div>
                         )
                       })}

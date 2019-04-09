@@ -100,8 +100,10 @@ export default class Game extends React.Component {
   }
 
 
-  componentDidUpdate(prevProps) {
-    this.scrollChatToBottom();
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.chats.length != prevState.chats.length) {
+      this.scrollChatToBottom();
+    }
   }
 
 
@@ -422,6 +424,7 @@ export default class Game extends React.Component {
             if (elm == document.activeElement) {
               this.sendChat(elm.value);
               elm.value = '';
+              elm.blur();
             } else {
               elm.focus();
             }
@@ -467,7 +470,7 @@ export default class Game extends React.Component {
             })}
           </div>
           <div id="chatBottom">
-            <input type="text" id="chatInput" placeholder="Press enter to chat." />
+            <input autoComplete="off" type="text" id="chatInput" placeholder="Press enter to chat." />
           </div>
         </div>
         <style jsx>{`

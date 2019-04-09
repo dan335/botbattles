@@ -96,6 +96,7 @@ module.exports = function(app) {
                   updatedAt: new Date(),
                   password: hash,
                   isAdmin: false,
+                  isMod: false,
                   token: token
                 });
 

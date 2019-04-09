@@ -24,6 +24,7 @@ const UserSchema = new Schema({
   createdAt: Date,
   updatedAt: Date,
   isAdmin: {type:Boolean, required:true},
+  isMod: {type:Boolean},
 
   plays: {type:Number},
   wins: {type:Number},
