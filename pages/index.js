@@ -95,9 +95,7 @@ export default class Index extends React.Component {
 
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.chats.length != prevState.chats.length) {
-      this.scrollChatToBottom();
-    }
+    this.scrollChatToBottom();
   }
 
 
