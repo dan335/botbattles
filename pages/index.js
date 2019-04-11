@@ -466,6 +466,29 @@ export default class Index extends React.Component {
 
             <div id="midBox">
               <div>
+
+                <div id="chatContainer" className="contentBox">
+                  <div id="chatSplitter">
+                    <div id="chatTop">
+                      {this.state.chats.map((chat) => {
+                        return (
+                          <div key={Math.random()} className="chatMsg">
+                            <span className="green">{chat.name}</span>:
+                            &nbsp;
+                            {chat.msg}
+                            &nbsp;&nbsp;
+                            <span className="chatTime">{moment(chat.time).format('LTS')}</span>
+                            {this.renderModChatButton(chat)}
+                          </div>
+                        )
+                      })}
+                    </div>
+                    <div id="chatBottom">
+                      {this.renderChatInput()}
+                    </div>
+                  </div>
+                </div>
+
                 <div id="serverInfo">
                   {this.state.serverInfo.map((server) => {
                     return (
@@ -490,27 +513,6 @@ export default class Index extends React.Component {
                   })}
                 </div>
 
-                <div id="chatContainer" className="contentBox">
-                  <div id="chatSplitter">
-                    <div id="chatTop">
-                      {this.state.chats.map((chat) => {
-                        return (
-                          <div key={Math.random()} className="chatMsg">
-                            <span className="green">{chat.name}</span>:
-                            &nbsp;
-                            {chat.msg}
-                            &nbsp;&nbsp;
-                            <span className="chatTime">{moment(chat.time).format('LTS')}</span>
-                            {this.renderModChatButton(chat)}
-                          </div>
-                        )
-                      })}
-                    </div>
-                    <div id="chatBottom">
-                      {this.renderChatInput()}
-                    </div>
-                  </div>
-                </div>
               </div>
 
               <div></div>

@@ -279,7 +279,7 @@ export default class Game extends React.Component {
 
   renderHealthBars() {
     return (
-      <div id="statsContainer">
+      <div id="barsContainer">
         <label>Shield</label>
         <div id="shieldContainer" className="barContainer">
           <div id="shield" className="bar" style={{width:'100%'}}></div>
@@ -291,7 +291,7 @@ export default class Game extends React.Component {
           <div id="healthText" className="text"></div>
         </div>
         <style jsx>{`
-          #statsContainer {
+          #barsContainer {
             background-color: hsl(203, 30%, 10%);
             padding: 10px;
             border-radius: 3px;
