@@ -44,6 +44,10 @@ export default class Ship extends Obj {
   }
 
 
+  updateUiBars() {
+  }
+
+
   updateMaxShield(newMax) {
     const increasedBy = newMax - this.maxShield;
     this.maxShield = newMax;
