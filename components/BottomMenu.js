@@ -17,6 +17,7 @@ export default class BottomMenu extends React.Component {
       <div>
         <a href="http://io-games.zone" target="_blank">IO Games</a>
         <a href="http://bongo.games" target="_blank">Bongo io Games</a>
+        <a href="https://gamedevjobs.io" target="_blank">Game Developer Jobs</a>
         <a href="/partners">Partners</a>
         <style jsx>{`
           div {
