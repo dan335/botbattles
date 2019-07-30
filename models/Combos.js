@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Combos = new Schema({
-  abilityIds: {type:Array, unique: true, index: true},
+  abilityIds: {type:String, unique: true, index: true},
   uses: {type:Number, index: true},
   wins: {type:Number, index: true},
   winPercent: {type:Number, index: true}
