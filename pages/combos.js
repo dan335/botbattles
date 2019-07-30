@@ -108,9 +108,8 @@ export default class Combos extends React.Component {
               {this.props.combos.map((combo) => {
 
                 let name = '';
-                const ids = combo.abilityIds.split(',')
 
-                ids.forEach((id) => {
+                combo.abilityIds.forEach((id) => {
                   const info = _s.abilityTypes.find((t) => {
                     return t.id == id;
                   })
