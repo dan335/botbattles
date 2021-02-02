@@ -15,9 +15,10 @@ export default class BottomMenu extends React.Component {
 
     return (
       <div>
-        <a href="http://io-games.zone" target="_blank">IO Games</a>
-        <a href="http://bongo.games" target="_blank">Bongo io Games</a>
-        <a href="/partners">Partners</a>
+        <a href="https://store.steampowered.com/app/1347540/Sky_Fleet/">Sky Fleet</a>
+        <a href="http://io-games.zone">IO Games</a>
+        <a href="https://sigmally.com">Sigmally</a>
+        {/* <a href="/partners">Partners</a> */}
         <style jsx>{`
           div {
             font-family: 'Roboto', sans-serif;
